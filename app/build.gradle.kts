@@ -24,6 +24,20 @@ android {
     release {
       isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+      val clientId = System.getenv("TWINE_PROD_CLIENT_ID")
+      val clientSecret = System.getenv("TWINE_PROD_CLIENT_SECRET")
+
+      buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
+      buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
+    }
+
+    debug {
+      val clientId = System.getenv("TWINE_DEV_CLIENT_ID")
+      val clientSecret = System.getenv("TWINE_DEV_CLIENT_SECRET")
+
+      buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
+      buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
     }
   }
   compileOptions {
