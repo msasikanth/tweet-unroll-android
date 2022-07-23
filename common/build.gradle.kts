@@ -35,4 +35,5 @@ dependencies {
   implementation(libs.androidx.core)
   implementation(libs.hilt)
   kapt(libs.hilt.compiler)
+  api(libs.kotlinx.coroutines)
 }
