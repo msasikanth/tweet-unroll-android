@@ -33,6 +33,8 @@ javax-inject = "javax.inject:javax.inject:1"
 
 appauth = "net.openid:appauth:0.9.1"
 
+kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
 androidx-test-junit = "androidx.test.ext:junit:1.1.3"
 androidx-test-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui" }
