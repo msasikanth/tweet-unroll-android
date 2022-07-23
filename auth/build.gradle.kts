@@ -38,4 +38,5 @@ dependencies {
   api(libs.appauth)
   implementation(libs.kotlinx.coroutines)
   implementation(libs.retrofit)
+  implementation(libs.androidx.datastore.pref)
 }
