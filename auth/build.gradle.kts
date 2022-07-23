@@ -2,6 +2,7 @@ plugins {
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
   kotlin("kapt")
+  id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -29,6 +30,10 @@ android {
   kotlinOptions {
     jvmTarget = "1.8"
   }
+}
+
+kapt {
+  correctErrorTypes = true
 }
 
 dependencies {
