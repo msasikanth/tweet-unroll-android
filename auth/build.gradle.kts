@@ -37,4 +37,5 @@ dependencies {
   kapt(libs.hilt.compiler)
   api(libs.appauth)
   implementation(libs.kotlinx.coroutines)
+  implementation(libs.retrofit)
 }
