@@ -15,7 +15,7 @@ android {
     versionCode = 1
     versionName = "1.0.0"
 
-    testInstrumentationRunner = "dev.sasikanth.twine.di.TwineTestRunner"
+    testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     vectorDrawables {
       useSupportLibrary = true
     }
@@ -88,4 +88,6 @@ dependencies {
 
   androidTestImplementation(libs.hilt.test)
   kaptAndroidTest(libs.hilt.compiler)
+
+  androidTestImplementation(projects.commonTesting)
 }

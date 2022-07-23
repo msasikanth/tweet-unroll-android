@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.di
+package dev.sasikanth.twine.common.testing.di
 
 import android.app.Application
 import android.content.Context

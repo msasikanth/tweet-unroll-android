@@ -13,7 +13,7 @@ android {
     minSdk = libs.versions.sdk.min.get().toInt()
     targetSdk = libs.versions.sdk.target.get().toInt()
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
 
