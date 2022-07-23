@@ -67,6 +67,7 @@ kapt {
 
 dependencies {
   implementation(projects.auth)
+  implementation(projects.common)
 
   implementation(libs.androidx.activity)
   implementation(libs.androidx.core)

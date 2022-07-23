@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-  namespace = "dev.sasikanth.twine.auth"
+  namespace = "dev.sasikanth.twine.common"
   compileSdk = libs.versions.sdk.compile.get().toInt()
 
   defaultConfig {
@@ -32,13 +32,7 @@ android {
 }
 
 dependencies {
-  implementation(projects.common)
-
   implementation(libs.androidx.core)
   implementation(libs.hilt)
   kapt(libs.hilt.compiler)
-  api(libs.appauth)
-  implementation(libs.kotlinx.coroutines)
-  implementation(libs.retrofit)
-  implementation(libs.androidx.datastore.pref)
 }
