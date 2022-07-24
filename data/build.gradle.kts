@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
@@ -16,6 +18,9 @@ android {
 
     testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     consumerProguardFiles("consumer-rules.pro")
+
+    val testTwineBearerToken = System.getenv("TWINE_DEV_BEARER_TOKEN")
+    buildConfigField("String", "TEST_TWINE_BEARER_TOKEN", "\"$testTwineBearerToken\"")
   }
 
   buildTypes {
@@ -25,12 +30,18 @@ android {
     }
   }
   compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
   }
   kotlinOptions {
     jvmTarget = "1.8"
   }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+  kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
 }
 
 kapt {
@@ -49,4 +60,8 @@ dependencies {
   ksp(libs.moshi.codegen)
 
   androidTestImplementation(projects.commonTesting)
+  kaptAndroidTest(libs.hilt.compiler)
+  androidTestImplementation(libs.truth)
+
+  coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
