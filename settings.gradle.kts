@@ -19,4 +19,4 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Twine"
 
-include(":app", ":auth", ":common", ":common-testing")
+include(":app", ":auth", ":common", ":common-testing", ":data")
