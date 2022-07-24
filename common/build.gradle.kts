@@ -43,6 +43,7 @@ dependencies {
   implementation(libs.hilt)
   kapt(libs.hilt.compiler)
   api(libs.kotlinx.coroutines)
+  implementation(libs.moshi)
 
   coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
