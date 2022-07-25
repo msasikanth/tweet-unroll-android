@@ -10,13 +10,13 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class TwitterApiIntegrationTest {
+class TwitterRemoteSourceIntegrationTest {
 
   @get:Rule
   val hiltRule = HiltAndroidRule(this)
 
   @Inject
-  lateinit var twitterApi: TwitterApi
+  lateinit var twitterRemoteSource: TwitterRemoteSource
 
   @Before
   fun setup() {
@@ -26,7 +26,7 @@ class TwitterApiIntegrationTest {
   @Test
   fun fetching_a_text_only_tweet_should_work_correctly() = runTest {
     // when
-    val tweetLookupPayload = twitterApi.tweetLookup(id = "1550874190793674753")
+    val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1550874190793674753")
 
     // then
     assertThat(tweetLookupPayload?.data).isNotNull()
@@ -36,7 +36,7 @@ class TwitterApiIntegrationTest {
   @Test
   fun fetching_a_tweet_with_media_should_work_correctly() = runTest {
     // when
-    val tweetLookupPayload = twitterApi.tweetLookup(id = "1257031096249679872")
+    val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1257031096249679872")
 
     // then
     assertThat(tweetLookupPayload?.data).isNotNull()
@@ -46,7 +46,7 @@ class TwitterApiIntegrationTest {
   @Test
   fun fetching_a_tweet_with_poll_should_work_correctly() = runTest {
     // when
-    val tweetLookupPayload = twitterApi.tweetLookup(id = "1551053769932419072")
+    val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1551053769932419072")
 
     // then
     assertThat(tweetLookupPayload?.data).isNotNull()
@@ -56,7 +56,7 @@ class TwitterApiIntegrationTest {
   @Test
   fun fetching_a_tweet_referencing_another_tweet_should_work_correctly() = runTest {
     // when
-    val tweetLookupPayload = twitterApi.tweetLookup(id = "1550400941673050112")
+    val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1550400941673050112")
 
     // then
     assertThat(tweetLookupPayload?.data).isNotNull()
@@ -69,11 +69,11 @@ class TwitterApiIntegrationTest {
    */
   @Test
   fun conversation_lookup_api_should_work_correctly() = runTest {
-    // given
-    val query = "conversation_id:1550867609368686593 from:17424947 to:17424947"
-
     // when
-    val conversationLookupPayload = twitterApi.conversationsLookup(query = query)
+    val conversationLookupPayload = twitterRemoteSource.conversationsLookup(
+      conversationId = "1550867609368686593",
+      authorId = "17424947"
+    )
 
     // then
     assertThat(conversationLookupPayload).isNotNull()

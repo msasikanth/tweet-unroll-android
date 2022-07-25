@@ -24,11 +24,11 @@ interface TwitterApi {
   @GET("tweets/{id}")
   suspend fun tweetLookup(
     @Path("id") id: String,
-    @Query("tweet.fields") tweetFields: String = "created_at,author_id,public_metrics,attachments,conversation_id,entities",
-    @Query("media.fields") mediaFields: String = "alt_text,url,preview_image_url,media_key",
-    @Query("poll.fields") pollFields: String = "id,options",
-    @Query("user.fields") userFields: String = "public_metrics,profile_image_url,url,username,verified,description",
-    @Query("expansions") expansions: String = "attachments.media_keys,author_id,referenced_tweets.id,referenced_tweets.id.author_id,in_reply_to_user_id,attachments.poll_ids"
+    @Query("tweet.fields") tweetFields: String,
+    @Query("media.fields") mediaFields: String,
+    @Query("poll.fields") pollFields: String,
+    @Query("user.fields") userFields: String,
+    @Query("expansions") expansions: String
   ): TweetLookupPayload?
 
   /**
@@ -49,11 +49,11 @@ interface TwitterApi {
   @GET("tweets/search/recent")
   suspend fun conversationsLookup(
     @Query("query") query: String,
-    @Query("tweet.fields") tweetFields: String = "created_at,author_id,public_metrics,attachments,conversation_id,entities",
-    @Query("media.fields") mediaFields: String = "alt_text,url,preview_image_url,media_key",
-    @Query("poll.fields") pollFields: String = "id,options",
-    @Query("user.fields") userFields: String = "public_metrics,profile_image_url,url,username,verified,description",
-    @Query("expansions") expansions: String = "attachments.media_keys,author_id,referenced_tweets.id,referenced_tweets.id.author_id,in_reply_to_user_id,attachments.poll_ids",
-    @Query("max_results") maxResults: Int = 100
+    @Query("tweet.fields") tweetFields: String,
+    @Query("media.fields") mediaFields: String,
+    @Query("poll.fields") pollFields: String,
+    @Query("user.fields") userFields: String,
+    @Query("expansions") expansions: String,
+    @Query("max_results") maxResults: Int
   ): ConversationsLookupPayload?
 }
