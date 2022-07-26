@@ -48,6 +48,10 @@ kapt {
   correctErrorTypes = true
 }
 
+ksp {
+  arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
   implementation(projects.common)
 
@@ -58,6 +62,9 @@ dependencies {
   implementation(libs.bundles.retrofit)
   implementation(libs.moshi)
   ksp(libs.moshi.codegen)
+
+  implementation(libs.bundles.room)
+  ksp(libs.room.compiler)
 
   androidTestImplementation(projects.commonTesting)
   kaptAndroidTest(libs.hilt.compiler)
