@@ -2,7 +2,6 @@ package dev.sasikanth.twine.data.api
 
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
-import dev.sasikanth.twine.data.api.models.UserPayload
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -57,11 +56,4 @@ interface TwitterApi {
     @Query("expansions") expansions: String,
     @Query("max_results") maxResults: Int
   ): ConversationsLookupPayload?
-
-  /**
-   * Get authenticated user. Uses OAuth2 access token
-   * in the header to fetch the authenticated user.
-   */
-  @GET("users/me")
-  suspend fun me(): UserPayload?
 }

@@ -2,7 +2,6 @@ package dev.sasikanth.twine.data.api
 
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
-import dev.sasikanth.twine.data.api.models.UserPayload
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -81,9 +80,5 @@ class TwitterRemoteSource @Inject constructor(
       expansions = defaultExpansions,
       maxResults = 100
     )
-  }
-
-  suspend fun me(): UserPayload? {
-    return twitterApi.me()
   }
 }
