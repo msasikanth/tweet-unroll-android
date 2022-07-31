@@ -5,7 +5,8 @@ sdk-target = "32"
 
 compose-compiler = "1.2.0"
 compose-ui = "1.2.0-rc03"
-compose-material = "1.0.0-alpha14"
+compose-material = "1.2.0"
+compose-material3 = "1.0.0-alpha14"
 
 agp = "7.2.1"
 
@@ -36,7 +37,8 @@ androidx-datastore-pref = "androidx.datastore:datastore-preferences:1.0.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
-compose-material = { module = "androidx.compose.material3:material3", version.ref = "compose-material" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -72,6 +74,6 @@ junit = "junit:junit:4.13.2"
 truth = "com.google.truth:truth:1.1.3"
 
 [bundles]
-compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material"]
+compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material", "compose-material3"]
 retrofit = ["retrofit", "retrofit-moshi", "retrofit-scalars"]
 room = ["room", "room-ktx", "room-paging"]
