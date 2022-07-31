@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.Color
 internal val md_theme_primary_20 = Color(0xFF442B00)
 internal val md_theme_primary_80 = Color(0xFFFEBA4B)
 
+internal val md_theme_error_20 = Color(0xFF690005)
+internal val md_theme_error_80 = Color(0xFFFFB4AB)
+
 internal val md_theme_light_primary = Color(0xFF835500)
 internal val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 internal val md_theme_light_primaryContainer = Color(0xFFFFDDB5)
