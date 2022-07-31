@@ -10,7 +10,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import kotlin.math.ln
 import androidx.compose.material3.ColorScheme as MaterialColorScheme
 
 @Immutable
@@ -356,6 +360,23 @@ fun TwineColorScheme.contentColorFor(backgroundColor: Color): Color = when (back
   errorContainer -> onErrorContainer
   inverseSurface -> inverseOnSurface
   else -> Color.Unspecified
+}
+
+/**
+ * Computes the surface tonal color at different elevation levels e.g. surface1 through surface5.
+ *
+ * @param elevation Elevation value used to compute alpha of the color overlay layer.
+ *
+ * @return the [TwineColorScheme.surface] color with an alpha of the [TwineColorScheme.surfaceTint] color
+ * overlaid on top of it.
+
+ */
+fun TwineColorScheme.surfaceColorAtElevation(
+  elevation: Dp,
+): Color {
+  if (elevation == 0.dp) return surface
+  val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
+  return surfaceTint.copy(alpha = alpha).compositeOver(surface)
 }
 
 @Composable
