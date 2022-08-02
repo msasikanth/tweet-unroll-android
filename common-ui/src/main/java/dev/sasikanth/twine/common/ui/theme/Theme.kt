@@ -65,4 +65,9 @@ object TwineTheme {
     @Composable
     @ReadOnlyComposable
     get() = MaterialTheme.shapes
+
+  val opacity: Opacity
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalOpacity.current
 }
