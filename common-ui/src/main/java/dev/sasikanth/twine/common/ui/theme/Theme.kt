@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -59,4 +60,9 @@ object TwineTheme {
     @Composable
     @ReadOnlyComposable
     get() = LocalTwineColorScheme.current
+
+  val shapes: Shapes
+    @Composable
+    @ReadOnlyComposable
+    get() = MaterialTheme.shapes
 }
