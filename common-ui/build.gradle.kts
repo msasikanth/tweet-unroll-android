@@ -46,6 +46,8 @@ dependencies {
   implementation(libs.androidx.lifecycle)
   implementation(libs.bundles.compose)
 
+  implementation(libs.kotlin.stdlib)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)
