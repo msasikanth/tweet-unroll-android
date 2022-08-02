@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.toSize
 import dev.sasikanth.twine.common.ui.R
 import dev.sasikanth.twine.common.ui.components.ViewModeToggle.Story
 import dev.sasikanth.twine.common.ui.components.ViewModeToggle.Timeline
+import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 import kotlin.math.roundToInt
@@ -111,10 +112,9 @@ fun ViewModeToggle(
   )
 
   // Applying a tint color on our surface, without any actual elevation
-  val surfaceTintLevel = 5.dp
   val surfaceColor = TwineTheme
     .colorScheme
-    .surfaceColorAtElevation(surfaceTintLevel)
+    .surfaceColorAtElevation(ElevationTokens.Level5)
 
   Box(
     modifier
