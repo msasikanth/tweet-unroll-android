@@ -2,4 +2,6 @@
 <resources>
     <string name="cd_view_mode_timeline">View mode: Timeline</string>
     <string name="cd_view_mode_story">View mode: Story</string>
+    <string name="cd_alert_toggle_on">Alert Toggle: Turn on</string>
+    <string name="cd_alert_toggle_off">Alert Toggle: Turn off</string>
 </resources>
