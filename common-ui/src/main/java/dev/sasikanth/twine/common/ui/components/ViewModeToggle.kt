@@ -56,11 +56,13 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 import kotlin.math.roundToInt
 
-private val SELECTOR_CORNER_RADIUS = 16.dp
-private val CONTAINER_CORNER_RADIUS = 20.dp
-private val CONTAINER_PADDING = 4.dp
-private val BUTTON_ROW_SPACING = 4.dp
-private val ICON_PADDING = 16.dp
+private object ViewModeToggleDefaults {
+  val selectorCornerRadius = 16.dp
+  val containerCornerRadius = 20.dp
+  val containerPadding = 4.dp
+  val buttonRowSpacing = 4.dp
+  val iconPadding = 16.dp
+}
 
 enum class ViewModeToggle {
   Timeline,
@@ -98,7 +100,8 @@ fun ViewModeToggle(
     onDispose { }
   }
 
-  val buttonSpacingInPx = with(LocalDensity.current) { BUTTON_ROW_SPACING.roundToPx() }
+  val buttonSpacingInPx =
+    with(LocalDensity.current) { ViewModeToggleDefaults.buttonRowSpacing.roundToPx() }
   val selectedButtonWidth = if (size.width == 0f) {
     // temp value until we get the actual size
     1f
@@ -122,9 +125,9 @@ fun ViewModeToggle(
       .wrapContentHeight()
       .background(
         color = surfaceColor,
-        shape = RoundedCornerShape(CONTAINER_CORNER_RADIUS)
+        shape = RoundedCornerShape(ViewModeToggleDefaults.containerCornerRadius)
       )
-      .padding(CONTAINER_PADDING)
+      .padding(ViewModeToggleDefaults.containerPadding)
   ) {
     IconButtonRow(onViewModeChanged = onViewModeChanged)
 
@@ -164,7 +167,7 @@ private fun SelectorLayout(
           factorAtMax = 0f
         ),
       ),
-    horizontalArrangement = Arrangement.spacedBy(BUTTON_ROW_SPACING)
+    horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing)
   ) {
     // We are consume clicks here, so that we don't show ripples when swiping
     TimelineIcon(
@@ -185,7 +188,7 @@ private fun IconButtonRow(
 ) {
   Row(
     modifier = modifier,
-    horizontalArrangement = Arrangement.spacedBy(BUTTON_ROW_SPACING),
+    horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing),
   ) {
     IconButton(
       modifier = Modifier
@@ -224,7 +227,7 @@ private fun IconButton(
         onClick = onClick,
         role = Role.Button
       )
-      .padding(ICON_PADDING),
+      .padding(ViewModeToggleDefaults.iconPadding),
     painter = painterResource(id = resource),
     contentDescription = contentDescription,
     tint = iconTint
@@ -237,7 +240,7 @@ private fun TimelineIcon(
   iconTint: Color
 ) {
   Icon(
-    modifier = modifier.padding(ICON_PADDING),
+    modifier = modifier.padding(ViewModeToggleDefaults.iconPadding),
     painter = painterResource(id = R.drawable.ic_view_mode_timeline),
     contentDescription = stringResource(id = R.string.cd_view_mode_timeline),
     tint = iconTint
@@ -250,7 +253,7 @@ private fun StoryIcon(
   iconTint: Color
 ) {
   Icon(
-    modifier = modifier.padding(ICON_PADDING),
+    modifier = modifier.padding(ViewModeToggleDefaults.iconPadding),
     painter = painterResource(id = R.drawable.ic_view_mode_story),
     contentDescription = stringResource(id = R.string.cd_view_mode_story),
     tint = iconTint
@@ -290,8 +293,8 @@ private class SelectorShape(
     layoutDirection: LayoutDirection,
     density: Density
   ): Outline {
-    val cornerSizePx = with(density) { SELECTOR_CORNER_RADIUS.toPx() }
-    val buttonSpacingInPx = with(density) { BUTTON_ROW_SPACING.toPx() }
+    val cornerSizePx = with(density) { ViewModeToggleDefaults.selectorCornerRadius.toPx() }
+    val buttonSpacingInPx = with(density) { ViewModeToggleDefaults.buttonRowSpacing.toPx() }
 
     val shapeSizeInPx = (size.width - buttonSpacingInPx) / 2
     val leftOffset = offset.x.coerceAtMost(maximumValue = shapeSizeInPx + buttonSpacingInPx)
