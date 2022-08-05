@@ -25,9 +25,11 @@ import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 
-private val CONTAINER_CORNER_RADIUS = 20.dp
-private val CONTAINER_PADDING = 4.dp
-private val CONTENT_PADDING = 16.dp
+private object AlertToggleDefaults {
+  val containerCornerRadius = 20.dp
+  val containerPadding = 4.dp
+  val contentPadding = 16.dp
+}
 
 private class AlertToggleRippleTheme(
   private val rippleColor: Color
@@ -77,9 +79,9 @@ fun AlertToggle(
         .wrapContentWidth()
         .background(
           color = containerColor,
-          shape = RoundedCornerShape(CONTAINER_CORNER_RADIUS)
+          shape = RoundedCornerShape(AlertToggleDefaults.containerCornerRadius)
         )
-        .padding(CONTAINER_PADDING)
+        .padding(AlertToggleDefaults.containerPadding)
         .clip(TwineTheme.shapes.large)
         .toggleable(
           value = isToggled,
@@ -131,7 +133,7 @@ private fun Content(
         color = contentColor,
         shape = TwineTheme.shapes.medium
       )
-      .padding(CONTENT_PADDING)
+      .padding(AlertToggleDefaults.contentPadding)
   ) {
     Icon(
       painter = painterResource(id = iconResource),
