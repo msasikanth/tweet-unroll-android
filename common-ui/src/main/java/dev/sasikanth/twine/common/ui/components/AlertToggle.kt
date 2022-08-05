@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -25,6 +29,26 @@ private val CONTAINER_CORNER_RADIUS = 20.dp
 private val CONTAINER_PADDING = 4.dp
 private val CONTENT_PADDING = 16.dp
 
+private class AlertToggleRippleTheme(
+  private val rippleColor: Color
+) : RippleTheme {
+
+  @Composable
+  override fun defaultColor(): Color {
+    return rippleColor
+  }
+
+  @Composable
+  override fun rippleAlpha(): RippleAlpha {
+    return RippleAlpha(
+      TwineTheme.opacity.dragged,
+      TwineTheme.opacity.focused,
+      TwineTheme.opacity.hovered,
+      TwineTheme.opacity.pressed
+    )
+  }
+}
+
 @Composable
 fun AlertToggle(
   modifier: Modifier = Modifier,
@@ -37,22 +61,33 @@ fun AlertToggle(
     Color.Unspecified
   }
 
-  Box(
-    modifier = modifier
-      .wrapContentHeight()
-      .wrapContentWidth()
-      .background(
-        color = containerColor,
-        shape = RoundedCornerShape(CONTAINER_CORNER_RADIUS)
-      )
-      .padding(CONTAINER_PADDING)
-      .clip(TwineTheme.shapes.large)
-      .toggleable(
-        value = isToggled,
-        onValueChange = onAlertToggled
-      ),
+  val rippleColor = if (isToggled) {
+    TwineTheme.colorScheme.onBrand
+  } else {
+    TwineTheme.colorScheme.primary
+  }
+  val rippleTheme = AlertToggleRippleTheme(rippleColor)
+
+  CompositionLocalProvider(
+    LocalRippleTheme provides rippleTheme
   ) {
-    Content(isToggled = isToggled)
+    Box(
+      modifier = modifier
+        .wrapContentHeight()
+        .wrapContentWidth()
+        .background(
+          color = containerColor,
+          shape = RoundedCornerShape(CONTAINER_CORNER_RADIUS)
+        )
+        .padding(CONTAINER_PADDING)
+        .clip(TwineTheme.shapes.large)
+        .toggleable(
+          value = isToggled,
+          onValueChange = onAlertToggled
+        ),
+    ) {
+      Content(isToggled = isToggled)
+    }
   }
 }
 
