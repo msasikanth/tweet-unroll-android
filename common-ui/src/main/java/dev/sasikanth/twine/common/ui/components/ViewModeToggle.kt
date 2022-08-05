@@ -179,7 +179,7 @@ private fun SelectorLayout(
 }
 
 @Composable
-fun IconButtonRow(
+private fun IconButtonRow(
   modifier: Modifier = Modifier,
   onViewModeChanged: (ViewModeToggle) -> Unit
 ) {
@@ -232,7 +232,7 @@ private fun IconButton(
 }
 
 @Composable
-fun TimelineIcon(
+private fun TimelineIcon(
   modifier: Modifier = Modifier,
   iconTint: Color
 ) {
@@ -245,7 +245,7 @@ fun TimelineIcon(
 }
 
 @Composable
-fun StoryIcon(
+private fun StoryIcon(
   modifier: Modifier = Modifier,
   iconTint: Color
 ) {
@@ -259,7 +259,7 @@ fun StoryIcon(
 
 @Preview(group = "ViewModeToggle")
 @Composable
-fun ViewModeTogglePreview_Timeline() {
+private fun ViewModeTogglePreview_Timeline() {
   TwineTheme {
     ViewModeToggle(
       viewModeToggle = Timeline
@@ -271,7 +271,7 @@ fun ViewModeTogglePreview_Timeline() {
 
 @Preview(group = "ViewModeToggle")
 @Composable
-fun ViewModeTogglePreview_Story() {
+private fun ViewModeTogglePreview_Story() {
   TwineTheme {
     ViewModeToggle(
       viewModeToggle = Story
