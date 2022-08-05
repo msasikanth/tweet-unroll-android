@@ -143,7 +143,7 @@ private fun Content(
 
 @Preview
 @Composable
-fun AlertTogglePreview_isToggled() {
+private fun AlertTogglePreview_isToggled() {
   TwineTheme {
     AlertToggle(
       isToggled = true
@@ -155,7 +155,7 @@ fun AlertTogglePreview_isToggled() {
 
 @Preview
 @Composable
-fun AlertTogglePreview_isUnToggled() {
+private fun AlertTogglePreview_isUnToggled() {
   TwineTheme {
     AlertToggle(
       isToggled = false
