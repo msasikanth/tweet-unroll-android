@@ -2,7 +2,7 @@ package dev.sasikanth.twine.common.ui.theme
 
 import androidx.compose.ui.unit.dp
 
-internal object ElevationTokens {
+object ElevationTokens {
   val Level0 = 0.0.dp
   val Level1 = 1.0.dp
   val Level2 = 3.0.dp
