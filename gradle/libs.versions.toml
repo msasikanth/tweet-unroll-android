@@ -22,6 +22,8 @@ coroutines = "1.6.4"
 
 room = "2.4.2"
 
+lifecycle = "2.6.0-alpha01"
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -32,7 +34,9 @@ ksp = { id = "com.google.devtools.ksp", version = "1.7.0-1.0.6" }
 [libraries]
 androidx-activity = "androidx.activity:activity-compose:1.5.0"
 androidx-core = "androidx.core:core-ktx:1.8.0"
-androidx-lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-datastore-pref = "androidx.datastore:datastore-preferences:1.0.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
@@ -78,3 +82,4 @@ truth = "com.google.truth:truth:1.1.3"
 compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material", "compose-material3"]
 retrofit = ["retrofit", "retrofit-moshi", "retrofit-scalars"]
 room = ["room", "room-ktx", "room-paging"]
+androidx-lifecycle = ["androidx-lifecycle-runtime", "androidx-lifecycle-runtime-compose", "androidx-lifecycle-viewmodel-compose"]

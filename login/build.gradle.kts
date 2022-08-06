@@ -48,7 +48,7 @@ dependencies {
   implementation(projects.commonUi)
 
   implementation(libs.androidx.core)
-  implementation(libs.androidx.lifecycle)
+  implementation(libs.bundles.androidx.lifecycle)
   implementation(libs.bundles.compose)
 
   implementation(libs.kotlin.stdlib)

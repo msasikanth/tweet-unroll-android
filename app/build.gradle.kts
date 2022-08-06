@@ -72,7 +72,6 @@ dependencies {
 
   implementation(libs.androidx.activity)
   implementation(libs.androidx.core)
-  implementation(libs.androidx.lifecycle)
   implementation(libs.bundles.compose)
 
   implementation(libs.hilt)
