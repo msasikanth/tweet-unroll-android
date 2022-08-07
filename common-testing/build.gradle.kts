@@ -41,6 +41,8 @@ dependencies {
   implementation(libs.hilt)
   kapt(libs.hilt.compiler)
 
+  implementation(libs.kotlinx.coroutines)
+
   api(libs.junit)
   api(libs.androidx.test.junit)
   api(libs.androidx.test.espresso)
