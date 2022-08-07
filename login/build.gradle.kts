@@ -13,7 +13,7 @@ android {
     minSdk = libs.versions.sdk.min.get().toInt()
     targetSdk = libs.versions.sdk.target.get().toInt()
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     consumerProguardFiles("consumer-rules.pro")
 
     manifestPlaceholders["appAuthRedirectScheme"] = "empty"
@@ -59,6 +59,8 @@ dependencies {
   kapt(libs.hilt.compiler)
 
   testImplementation(libs.junit)
+  testImplementation(projects.commonTesting)
+
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)
   androidTestImplementation(libs.compose.ui.test)
