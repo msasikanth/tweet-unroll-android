@@ -49,4 +49,5 @@ dependencies {
   api(libs.hilt.test)
   api(libs.kotlinx.coroutines.test)
   api(libs.truth)
+  api(libs.turbine)
 }
