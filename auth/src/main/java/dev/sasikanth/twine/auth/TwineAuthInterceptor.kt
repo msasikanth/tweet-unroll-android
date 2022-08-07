@@ -14,7 +14,7 @@ import javax.inject.Inject
  *
  */
 class TwineAuthInterceptor @Inject constructor(
-  private val authManager: AuthManager
+  private val authManager: TwineAuthManager
 ) : Interceptor {
 
   override fun intercept(chain: Interceptor.Chain): Response {

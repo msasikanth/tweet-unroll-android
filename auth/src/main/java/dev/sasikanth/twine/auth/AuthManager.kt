@@ -33,6 +33,27 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+interface AuthManager {
+  val authState: StateFlow<TwineAuthState>
+
+  /**
+   * Create an activity result contract for login
+   *
+   * see also: [TwineLogin]
+   */
+  fun buildTwineLoginActivityResult(): TwineLogin?
+
+  /**
+   * Handle login result obtained from activity result
+   */
+  suspend fun onLoginResult(result: TwineLogin.Result)
+
+  /**
+   * Clear auth state from preference and notify state
+   */
+  suspend fun logout()
+}
+
 /**
  * Class to manage Twine authentication
  *
@@ -44,18 +65,18 @@ import kotlin.coroutines.suspendCoroutine
  */
 @OptIn(DelicateCoroutinesApi::class)
 @Singleton
-class AuthManager @Inject constructor(
+class TwineAuthManager @Inject constructor(
   @ApplicationContext context: Context,
   private val requestProvider: Lazy<AuthorizationRequest>,
   private val clientAuth: Lazy<ClientAuthentication>,
   private val coroutineDispatchers: CoroutineDispatchers,
   @Named("auth_pref") private val authPref: DataStore<Preferences>,
-) {
+) : AuthManager {
 
   private val authService = AuthorizationService(context)
 
   private val _authState = MutableStateFlow(IDLE)
-  val authState: StateFlow<TwineAuthState>
+  override val authState: StateFlow<TwineAuthState>
     get() = _authState.asStateFlow()
 
   init {
@@ -74,12 +95,12 @@ class AuthManager @Inject constructor(
    *
    * see also: [TwineLogin]
    */
-  fun buildTwineLoginActivityResult() = TwineLogin(intentBuilder = ::buildLoginIntent)
+  override fun buildTwineLoginActivityResult() = TwineLogin(intentBuilder = ::buildLoginIntent)
 
   /**
    * Handle login result obtained from activity result
    */
-  suspend fun onLoginResult(result: TwineLogin.Result) {
+  override suspend fun onLoginResult(result: TwineLogin.Result) {
     val (response, ex) = result
 
     _authState.value = when {
@@ -92,7 +113,7 @@ class AuthManager @Inject constructor(
   /**
    * Clear auth state from preference and notify state
    */
-  suspend fun logout() {
+  override suspend fun logout() {
     clearAuthState()
     _authState.value = LOGGED_OUT
   }
