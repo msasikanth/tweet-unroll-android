@@ -52,6 +52,7 @@ dependencies {
   implementation(libs.androidx.core)
   implementation(libs.bundles.androidx.lifecycle)
   implementation(libs.bundles.compose)
+  implementation(libs.androidx.activity)
 
   implementation(libs.kotlin.stdlib)
 
