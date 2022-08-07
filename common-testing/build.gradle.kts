@@ -48,4 +48,5 @@ dependencies {
   api(libs.androidx.test.espresso)
   api(libs.hilt.test)
   api(libs.kotlinx.coroutines.test)
+  api(libs.truth)
 }
