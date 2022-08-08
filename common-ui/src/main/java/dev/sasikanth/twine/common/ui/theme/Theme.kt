@@ -36,6 +36,7 @@ fun TwineTheme(
     SideEffect {
       val window = (view.context as Activity).window
       WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !useDarkTheme
+      WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !useDarkTheme
     }
   }
 
