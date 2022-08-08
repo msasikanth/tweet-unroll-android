@@ -12,7 +12,11 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import dev.sasikanth.twine.common.ui.R
 
-private val AlbertSans = FontFamily(Font(R.font.albert_sans))
+private val AlbertSans = FontFamily(
+  Font(R.font.albert_sans_medium, FontWeight.Medium),
+  Font(R.font.albert_sans_semi_bold, FontWeight.SemiBold),
+  Font(R.font.albert_sans_bold, FontWeight.Bold),
+)
 private val figmaLineHeightStyle = LineHeightStyle(
   alignment = LineHeightStyle.Alignment.Center,
   trim = LineHeightStyle.Trim.None
