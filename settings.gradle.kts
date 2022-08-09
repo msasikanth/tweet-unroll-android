@@ -26,5 +26,6 @@ include(
   ":common-testing",
   ":data",
   ":ui-common",
-  ":ui-login"
+  ":ui-login",
+  ":ui-home",
 )
