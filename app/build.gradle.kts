@@ -69,7 +69,7 @@ dependencies {
   implementation(projects.auth)
   implementation(projects.common)
   implementation(projects.commonUi)
-  implementation(projects.login)
+  implementation(projects.uiLogin)
 
   implementation(libs.androidx.activity)
   implementation(libs.androidx.core)
