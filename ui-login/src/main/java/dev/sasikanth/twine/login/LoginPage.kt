@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -57,9 +58,14 @@ fun LoginPage(
       onResult = viewModel::onLoginResult
     )
 
-    when {
-      uiState.isUserLoggedIn -> navigateToHome()
-      !uiState.isCheckingLoginStatus -> LoginPageContent {
+    if (uiState.isUserLoggedIn) {
+      LaunchedEffect(Unit) {
+        navigateToHome()
+      }
+    }
+
+    if (!uiState.isCheckingLoginStatus && !uiState.isUserLoggedIn) {
+      LoginPageContent {
         launcher.launch(Unit)
       }
     }
