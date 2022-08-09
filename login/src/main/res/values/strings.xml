@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_greeting_welcome">Welcome to</string>
+    <string name="login_greeting_app_name">Twine</string>
+    <string name="login_sign_in_with_twitter">Sign in with Twitter</string>
+    <string name="login_ready_to_get_started">Ready to get started?</string>
+</resources>
