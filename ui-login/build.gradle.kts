@@ -47,7 +47,7 @@ android {
 
 dependencies {
   implementation(projects.auth)
-  implementation(projects.commonUi)
+  implementation(projects.uiCommon)
 
   implementation(libs.androidx.core)
   implementation(libs.bundles.androidx.lifecycle)
