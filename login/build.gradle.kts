@@ -57,6 +57,7 @@ dependencies {
   implementation(libs.kotlin.stdlib)
 
   implementation(libs.hilt)
+  implementation(libs.hilt.navigation.compose)
   kapt(libs.hilt.compiler)
 
   testImplementation(libs.junit)

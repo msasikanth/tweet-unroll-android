@@ -49,6 +49,7 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-test = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 javax-inject = "javax.inject:javax.inject:1"
+hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 
 appauth = "net.openid:appauth:0.9.1"
 
