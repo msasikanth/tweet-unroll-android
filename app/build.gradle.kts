@@ -74,6 +74,7 @@ dependencies {
   implementation(projects.common)
   implementation(projects.uiCommon)
   implementation(projects.uiLogin)
+  implementation(projects.uiHome)
 
   implementation(libs.androidx.activity)
   implementation(libs.androidx.core)
