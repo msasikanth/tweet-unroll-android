@@ -86,6 +86,8 @@ dependencies {
   implementation(libs.bundles.retrofit)
   implementation(libs.moshi)
 
+  debugImplementation(libs.leakCanary)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)

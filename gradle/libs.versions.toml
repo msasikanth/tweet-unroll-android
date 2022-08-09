@@ -72,6 +72,8 @@ room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
+leakCanary = "com.squareup.leakcanary:leakcanary-android:2.9.1"
+
 androidx-test-junit = "androidx.test.ext:junit:1.1.3"
 androidx-test-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui" }
