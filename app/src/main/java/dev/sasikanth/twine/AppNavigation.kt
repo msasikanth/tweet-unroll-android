@@ -22,7 +22,7 @@ internal fun AppNavigation(
     startDestination = Screen.Login.route
   ) {
     addLogin(navController)
-    addHome()
+    addHome(navController)
   }
 }
 
@@ -40,8 +40,17 @@ internal fun NavGraphBuilder.addLogin(
   }
 }
 
-internal fun NavGraphBuilder.addHome() {
+internal fun NavGraphBuilder.addHome(
+  navController: NavHostController
+) {
   composable(Screen.Home.route) {
-    HomePage()
+    HomePage(
+      navigateToSearch = {
+        // TODO: Navigate to search
+      },
+      navigateToSettings = {
+        // TODO: Navigate to settings
+      }
+    )
   }
 }
