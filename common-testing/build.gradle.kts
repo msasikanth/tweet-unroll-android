@@ -32,6 +32,10 @@ android {
   }
 }
 
+hilt {
+  enableAggregatingTask = true
+}
+
 kapt {
   correctErrorTypes = true
 }

@@ -45,6 +45,10 @@ android {
   }
 }
 
+hilt {
+  enableAggregatingTask = true
+}
+
 dependencies {
   implementation(projects.auth)
   implementation(projects.uiCommon)
