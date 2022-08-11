@@ -43,6 +43,19 @@ internal object AppBarDefaults {
   val ActionsStartPadding = 8.dp
 }
 
+/**
+ * Top app bar displays information and actions related to current screen. Like navigation icon,
+ * title, actions.
+ *
+ * @param title: title to be displayed in the app bar
+ * @param navigationIcon: navigation icon to be displayed at start of app bar.
+ * Use [AppBarBackButton] for displaying back button, or provide custom composable
+ * @param actions: actions displayed at end of the app bar. Use [AppBarActionButton] for displaying
+ * action buttons or provide a custom composable. Default layout for displaying actions is [Row],
+ * so actions are played horizontally.
+ * @param backgroundColor: container color of the app bar
+ * @param contentColor: content color provided for title of the app bar
+ */
 @Composable
 fun TopAppBar(
   modifier: Modifier = Modifier,
@@ -102,6 +115,9 @@ fun TopAppBar(
   }
 }
 
+/**
+ * Icon button with brand color background and onBrand icon tint
+ */
 @Composable
 fun AppBarBackButton(
   modifier: Modifier = Modifier,

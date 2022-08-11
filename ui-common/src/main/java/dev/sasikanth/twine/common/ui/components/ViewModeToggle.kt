@@ -69,6 +69,13 @@ enum class ViewModeToggle {
   Story
 }
 
+/**
+ * Segmented toggleable buttons for switching between different view modes of Twine
+ *
+ * @param viewModeToggle: indicates [ViewModeToggle] state
+ * @param onViewModeChanged: callback invoked with [ViewModeToggle] when buttons are clicked
+ * or swiped to
+ */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ViewModeToggle(
@@ -141,6 +148,12 @@ fun ViewModeToggle(
   }
 }
 
+/**
+ * Clipping layer to indicate selected button and also helps us provide a clipping animation
+ * when overlapping different colored buttons in the group.
+ *
+ * see also: [SelectorShape]
+ */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SelectorLayout(
@@ -284,6 +297,11 @@ private fun ViewModeTogglePreview_Story() {
   }
 }
 
+/**
+ * A rounded rectangle shape that is clipped to half the size of [ViewModeToggle] button.
+ *
+ * @param offset: horizontal offset used for moving shape on x-axis
+ */
 private class SelectorShape(
   private val offset: Offset,
 ) : Shape {

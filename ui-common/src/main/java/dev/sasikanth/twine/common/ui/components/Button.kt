@@ -36,6 +36,9 @@ private object ButtonDefaults {
   val IconSize = 18.dp
 }
 
+/**
+ * Custom ripple theme that uses onBrand color for ripple
+ */
 private object ButtonRippleTheme : RippleTheme {
 
   @Composable
@@ -54,6 +57,13 @@ private object ButtonRippleTheme : RippleTheme {
   }
 }
 
+/**
+ * Standard filled button that supports icon and text
+ *
+ * @param text: set button label
+ * @param icon: set button icon
+ * @param onClick: called when button is clicked
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TwineButton(

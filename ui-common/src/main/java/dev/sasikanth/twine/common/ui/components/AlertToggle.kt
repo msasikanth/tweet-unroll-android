@@ -31,6 +31,9 @@ private object AlertToggleDefaults {
   val contentPadding = 16.dp
 }
 
+/**
+ * Custom ripple theme that changes ripple color based on the alert toggle state
+ */
 private class AlertToggleRippleTheme(
   private val rippleColor: Color
 ) : RippleTheme {
@@ -51,6 +54,15 @@ private class AlertToggleRippleTheme(
   }
 }
 
+/**
+ * Icon button that is toggleable.
+ *
+ * Indicates whether alerts are enabled or not
+ *
+ * @param isToggled: indicates whether alerts are on or off
+ * @param onAlertToggled: callback to be invoked with new state when button is clicked
+ * to request state change
+ */
 @Composable
 fun AlertToggle(
   modifier: Modifier = Modifier,
