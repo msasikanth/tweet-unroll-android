@@ -4,7 +4,7 @@ sdk-min = "28"
 sdk-target = "32"
 
 compose-compiler = "1.2.0"
-compose-ui = "1.2.0-rc03"
+compose-ui = "1.2.0"
 compose-material = "1.2.0"
 compose-material3 = "1.0.0-alpha14"
 
