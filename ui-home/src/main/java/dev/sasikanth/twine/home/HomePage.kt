@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.components.AppBarActionButton
-import dev.sasikanth.twine.common.ui.components.AppBarDefaults
 import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.R as commonR
@@ -37,7 +37,7 @@ fun HomePage(
           onClick = navigateToSearch
         )
 
-        Spacer(modifier = Modifier.width(AppBarDefaults.AppBarContentSpacing))
+        Spacer(modifier = Modifier.width(24.dp))
 
         AppBarActionButton(
           icon = commonR.drawable.ic_settings,
