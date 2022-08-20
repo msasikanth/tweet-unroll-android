@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.common.ui.components
 
+import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -25,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
@@ -65,11 +68,17 @@ fun TopAppBar(
   backgroundColor: Color = TwineTheme.colorScheme.surface,
   contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
 ) {
+  val configuration = LocalConfiguration.current
+  val insetsModifier = when (configuration.orientation) {
+    Configuration.ORIENTATION_LANDSCAPE -> modifier.systemBarsPadding()
+    Configuration.ORIENTATION_PORTRAIT -> modifier.statusBarsPadding()
+    else -> modifier
+  }
+
   Row(
-    modifier = modifier
+    modifier = insetsModifier
       .fillMaxWidth()
       .wrapContentHeight()
-      .systemBarsPadding()
       .requiredHeight(88.dp)
       .background(backgroundColor)
       .padding(AppBarDefaults.AppBarPadding),
