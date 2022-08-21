@@ -1,6 +1,12 @@
 package dev.sasikanth.twine.login
 
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,13 +19,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,11 +52,6 @@ fun LoginPage(
     modifier = modifier
       .fillMaxSize()
       .background(backgroundColor)
-      .drawWithCache {
-        onDrawBehind {
-          backgroundPattern(backgroundPatternColor)
-        }
-      }
   ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val launcher = rememberLauncherForActivityResult(
@@ -65,6 +64,8 @@ fun LoginPage(
         navigateToHome()
       }
     }
+
+    BackgroundPattern()
 
     if (!uiState.isCheckingLoginStatus && !uiState.isUserLoggedIn) {
       LoginPageContent {
@@ -92,46 +93,56 @@ private fun LoginPageContent(
   }
 }
 
-private fun DrawScope.backgroundPattern(
-  backgroundPatternColor: Color,
+@Composable
+private fun BackgroundPattern(
+  modifier: Modifier = Modifier
 ) {
-  val lineWidthPx = 2.dp.toPx()
+  val backgroundColor = TwineTheme
+    .colorScheme
+    .surfaceColorAtElevation(ElevationTokens.Level1)
+
+  val backgroundPatternColor = TwineTheme
+    .colorScheme
+    .surfaceColorAtElevation(ElevationTokens.Level3)
+
+  val lineWidthPx = with(LocalDensity.current) { 2.dp.toPx() }
   val lineToGapRatio = 0.5f
   val lineGapWidthPx = lineWidthPx / lineToGapRatio
   val brushSizePx = lineGapWidthPx + lineWidthPx
   val stripeStart = lineGapWidthPx / brushSizePx
 
-  val brush = Brush.linearGradient(
-    stripeStart to Color.Transparent,
-    stripeStart to backgroundPatternColor,
-    start = Offset(0f, 0f),
-    end = Offset(brushSizePx, brushSizePx),
-    tileMode = TileMode.Repeated,
-  )
 
-  drawRect(brush)
+  val infiniteTransition = rememberInfiniteTransition()
+  val offset by infiniteTransition
+    .animateFloat(
+      initialValue = 0f,
+      targetValue = brushSizePx,
+      animationSpec = infiniteRepeatable(tween(1000, easing = LinearEasing))
+    )
+
+  Canvas(
+    modifier = modifier
+      .fillMaxSize()
+      .background(backgroundColor),
+    onDraw = {
+      val brush = Brush.linearGradient(
+        stripeStart to Color.Transparent,
+        stripeStart to backgroundPatternColor,
+        start = Offset(offset, offset),
+        end = Offset(offset + brushSizePx, offset + brushSizePx),
+        tileMode = TileMode.Repeated,
+      )
+
+      drawRect(brush)
+    }
+  )
 }
 
 @Preview
 @Composable
 private fun BackgroundPatternPreview() {
   TwineTheme {
-    val backgroundColor = TwineTheme
-      .colorScheme
-      .surfaceColorAtElevation(ElevationTokens.Level1)
-
-    val backgroundPatternColor = TwineTheme
-      .colorScheme
-      .surfaceColorAtElevation(ElevationTokens.Level3)
-
-    Box(
-      modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor)
-        .drawBehind {
-          backgroundPattern(backgroundPatternColor)
-        }
-    )
+    BackgroundPattern()
   }
 }
 
