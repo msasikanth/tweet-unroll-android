@@ -28,4 +28,5 @@ include(
   ":ui-common",
   ":ui-login",
   ":ui-home",
+  ":ui-settings",
 )
