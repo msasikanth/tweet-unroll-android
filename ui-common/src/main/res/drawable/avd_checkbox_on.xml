@@ -1,0 +1,42 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="unchecked_to_checked"
+            android:width="48dp"
+            android:height="48dp"
+            android:viewportWidth="48"
+            android:viewportHeight="48">
+            <path
+                android:name="outline"
+                android:pathData="M 28 21 L 22.5 26.5 L 17.129 21.129 C 16.566 20.566 16.25 19.801 16.25 19.005 C 16.25 17.348 17.593 16 19.25 16 L 29 16 C 30.657 16 32 17.343 32 19 L 32 29 C 32 30.657 30.657 32 29 32 L 19 32 C 17.343 32 16 30.657 16 29 L 16 19 C 16 17.343 17.343 16 19 16"
+                android:strokeColor="#000000"
+                android:strokeWidth="2"
+                android:trimPathStart="0.28"
+                android:trimPathEnd="0"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+        </vector>
+    </aapt:attr>
+    <target android:name="outline">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="trimPathEnd"
+                    android:duration="400"
+                    android:valueFrom="1"
+                    android:valueTo="0.138"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="trimPathStart"
+                    android:duration="400"
+                    android:valueFrom="0.28"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
