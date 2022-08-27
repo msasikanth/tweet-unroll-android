@@ -66,6 +66,8 @@ dependencies {
   implementation(libs.bundles.room)
   ksp(libs.room.compiler)
 
+  implementation(libs.androidx.datastore.pref)
+
   androidTestImplementation(projects.commonTesting)
   kaptAndroidTest(libs.hilt.compiler)
   androidTestImplementation(libs.truth)
