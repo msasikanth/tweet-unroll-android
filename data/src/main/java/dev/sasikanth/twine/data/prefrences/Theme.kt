@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.common.preferences
+package dev.sasikanth.twine.data.prefrences
 
 enum class Theme {
   LIGHT,
