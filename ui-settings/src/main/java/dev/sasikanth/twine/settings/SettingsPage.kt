@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.settings
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ import dev.sasikanth.twine.data.prefrences.Theme.SYSTEM
 fun SettingsPage(
   modifier: Modifier = Modifier,
   theme: Theme,
+  useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
   toggleDynamicColors: (Boolean) -> Unit,
   navigateBack: () -> Unit,
@@ -67,8 +69,8 @@ fun SettingsPage(
 
       ThemeSection(
         theme = theme,
-        isDynamicColorsSupported = true,
-        useDynamicColors = true,
+        isDynamicColorsSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
+        useDynamicColors = useDynamicColors,
         onThemeChange = onThemeChange,
         toggleDynamicColors = toggleDynamicColors
       )
@@ -190,6 +192,7 @@ private fun SettingsPagePreview() {
   TwineTheme {
     SettingsPage(
       theme = SYSTEM,
+      useDynamicColors = true,
       navigateBack = {
         // navigate to previous page
       },

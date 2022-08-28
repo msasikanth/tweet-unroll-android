@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
           AppNavigation(
             navController = rememberNavController(),
             theme = Theme.SYSTEM,
+            useDynamicColors = true,
             onThemeChange = {
               // TODO
             },

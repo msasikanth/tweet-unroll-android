@@ -20,6 +20,7 @@ internal sealed class Screen(val route: String) {
 internal fun AppNavigation(
   navController: NavHostController,
   theme: Theme,
+  useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
   toggleDynamicColors: (Boolean) -> Unit,
 ) {
@@ -32,6 +33,7 @@ internal fun AppNavigation(
     addSettings(
       navController = navController,
       theme = theme,
+      useDynamicColors = useDynamicColors,
       onThemeChange = onThemeChange,
       toggleDynamicColors = toggleDynamicColors
     )
@@ -70,12 +72,14 @@ internal fun NavGraphBuilder.addHome(
 internal fun NavGraphBuilder.addSettings(
   navController: NavHostController,
   theme: Theme,
+  useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
   toggleDynamicColors: (Boolean) -> Unit
 ) {
   composable(Screen.Settings.route) {
     SettingsPage(
       theme = theme,
+      useDynamicColors = useDynamicColors,
       onThemeChange = onThemeChange,
       toggleDynamicColors = toggleDynamicColors,
       navigateBack = {
