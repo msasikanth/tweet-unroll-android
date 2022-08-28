@@ -1,7 +1,6 @@
 package dev.sasikanth.twine.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
@@ -10,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.components.AppBarActionButton
 import dev.sasikanth.twine.common.ui.components.TopAppBar
@@ -22,12 +22,9 @@ fun HomePage(
   navigateToSearch: () -> Unit,
   navigateToSettings: () -> Unit,
 ) {
-  val backgroundColor = TwineTheme.colorScheme.background
-
-  Box(
-    modifier = modifier
-      .fillMaxSize()
-      .background(backgroundColor)
+  Column(
+    modifier = modifier.fillMaxSize(),
+    horizontalAlignment = Alignment.CenterHorizontally
   ) {
     TopAppBar(
       title = stringResource(id = R.string.home_app_bar_title),
@@ -48,8 +45,20 @@ fun HomePage(
 
     // Add home page content
     Text(
-      modifier = Modifier.align(Alignment.Center),
       text = "Work in progress!"
     )
+  }
+}
+
+@Preview
+@Composable
+private fun HomePagePreview() {
+  TwineTheme {
+    HomePage(
+      navigateToSearch = {
+        // Handle navigation
+      }, navigateToSettings = {
+        // Handle navigation
+      })
   }
 }
