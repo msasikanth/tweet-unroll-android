@@ -38,12 +38,7 @@ class DataStoreAppPreferences @Inject constructor(
       .data
       .mapLatest { preferences ->
         val themeString = preferences[KEY_THEME]
-
-        if (themeString != null) {
-          Theme.valueOf(themeString)
-        } else {
-          Theme.SYSTEM
-        }
+        Theme.fromString(themeString)
       }
 
   override val dynamicColors: Flow<Boolean>
