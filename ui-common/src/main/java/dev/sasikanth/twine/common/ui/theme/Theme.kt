@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
@@ -48,7 +49,8 @@ fun TwineTheme(
       typography = TwineTypography
     ) {
       CompositionLocalProvider(
-        LocalRippleTheme provides TwineRippleTheme
+        LocalRippleTheme provides TwineRippleTheme,
+        LocalContentColor provides colorScheme.onSurface
       ) {
         content.invoke()
       }
