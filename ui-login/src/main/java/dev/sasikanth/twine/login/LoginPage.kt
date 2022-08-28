@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,18 +41,8 @@ fun LoginPage(
   viewModel: LoginViewModel = hiltViewModel(),
   navigateToHome: () -> Unit,
 ) {
-  val backgroundColor = TwineTheme
-    .colorScheme
-    .surfaceColorAtElevation(ElevationTokens.Level1)
-
-  val backgroundPatternColor = TwineTheme
-    .colorScheme
-    .surfaceColorAtElevation(ElevationTokens.Level3)
-
   Box(
-    modifier = modifier
-      .fillMaxSize()
-      .background(backgroundColor)
+    modifier = modifier.fillMaxSize()
   ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val launcher = rememberLauncherForActivityResult(
