@@ -19,8 +19,10 @@ fun SubHeader(
     modifier = modifier
       .fillMaxWidth()
       .padding(
-        horizontal = 16.dp,
-        vertical = 32.dp
+        start = 16.dp,
+        top = 32.dp,
+        end = 16.dp,
+        bottom = 16.dp
       )
   ) {
     Text(
