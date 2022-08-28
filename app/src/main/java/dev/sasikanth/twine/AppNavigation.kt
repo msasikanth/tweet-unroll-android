@@ -5,17 +5,23 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.sasikanth.twine.common.preferences.Theme
 import dev.sasikanth.twine.home.HomePage
 import dev.sasikanth.twine.login.LoginPage
+import dev.sasikanth.twine.settings.SettingsPage
 
 internal sealed class Screen(val route: String) {
   object Login : Screen("login")
   object Home : Screen("home")
+  object Settings : Screen("settings")
 }
 
 @Composable
 internal fun AppNavigation(
-  navController: NavHostController
+  navController: NavHostController,
+  theme: Theme,
+  onThemeChange: (Theme) -> Unit,
+  toggleDynamicColors: (Boolean) -> Unit,
 ) {
   NavHost(
     navController = navController,
@@ -23,6 +29,12 @@ internal fun AppNavigation(
   ) {
     addLogin(navController)
     addHome(navController)
+    addSettings(
+      navController = navController,
+      theme = theme,
+      onThemeChange = onThemeChange,
+      toggleDynamicColors = toggleDynamicColors
+    )
   }
 }
 
@@ -49,8 +61,25 @@ internal fun NavGraphBuilder.addHome(
         // TODO: Navigate to search
       },
       navigateToSettings = {
-        // TODO: Navigate to settings
+        navController.navigate(Screen.Settings.route)
       }
     )
+  }
+}
+
+internal fun NavGraphBuilder.addSettings(
+  navController: NavHostController,
+  theme: Theme,
+  onThemeChange: (Theme) -> Unit,
+  toggleDynamicColors: (Boolean) -> Unit
+) {
+  composable(Screen.Settings.route) {
+    SettingsPage(
+      theme = theme,
+      onThemeChange = onThemeChange,
+      toggleDynamicColors = toggleDynamicColors,
+      navigateBack = {
+        navController.popBackStack()
+      })
   }
 }

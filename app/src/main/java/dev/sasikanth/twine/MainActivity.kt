@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sasikanth.twine.common.preferences.Theme
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 
 @AndroidEntryPoint
@@ -23,7 +24,16 @@ class MainActivity : ComponentActivity() {
           modifier = Modifier.fillMaxSize(),
           color = TwineTheme.colorScheme.surface
         ) {
-          AppNavigation(navController = rememberNavController())
+          AppNavigation(
+            navController = rememberNavController(),
+            theme = Theme.SYSTEM,
+            onThemeChange = {
+              // TODO
+            },
+            toggleDynamicColors = {
+              // TODO
+            }
+          )
         }
       }
     }
