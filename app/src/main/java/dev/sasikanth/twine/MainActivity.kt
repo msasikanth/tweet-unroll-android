@@ -3,6 +3,9 @@ package dev.sasikanth.twine
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +19,12 @@ class MainActivity : ComponentActivity() {
     WindowCompat.setDecorFitsSystemWindows(window, false)
     setContent {
       TwineTheme {
-        AppNavigation(navController = rememberNavController())
+        Surface(
+          modifier = Modifier.fillMaxSize(),
+          color = TwineTheme.colorScheme.surface
+        ) {
+          AppNavigation(navController = rememberNavController())
+        }
       }
     }
   }
