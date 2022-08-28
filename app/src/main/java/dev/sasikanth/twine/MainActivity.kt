@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sasikanth.twine.common.preferences.Theme
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
+import dev.sasikanth.twine.data.prefrences.Theme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

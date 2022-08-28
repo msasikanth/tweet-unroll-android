@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.sasikanth.twine.common.preferences.Theme
+import dev.sasikanth.twine.data.prefrences.Theme
 import dev.sasikanth.twine.home.HomePage
 import dev.sasikanth.twine.login.LoginPage
 import dev.sasikanth.twine.settings.SettingsPage

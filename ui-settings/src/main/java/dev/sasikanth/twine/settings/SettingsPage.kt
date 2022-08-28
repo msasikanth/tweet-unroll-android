@@ -24,10 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.sasikanth.twine.common.preferences.Theme
-import dev.sasikanth.twine.common.preferences.Theme.DARK
-import dev.sasikanth.twine.common.preferences.Theme.LIGHT
-import dev.sasikanth.twine.common.preferences.Theme.SYSTEM
 import dev.sasikanth.twine.common.ui.components.AppBarBackButton
 import dev.sasikanth.twine.common.ui.components.SegmentedButtonGroup
 import dev.sasikanth.twine.common.ui.components.SegmentedButtonItem
@@ -37,6 +33,10 @@ import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
+import dev.sasikanth.twine.data.prefrences.Theme
+import dev.sasikanth.twine.data.prefrences.Theme.DARK
+import dev.sasikanth.twine.data.prefrences.Theme.LIGHT
+import dev.sasikanth.twine.data.prefrences.Theme.SYSTEM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
