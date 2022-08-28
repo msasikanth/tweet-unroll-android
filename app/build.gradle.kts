@@ -73,6 +73,7 @@ hilt {
 dependencies {
   implementation(projects.auth)
   implementation(projects.common)
+  implementation(projects.data)
   implementation(projects.uiCommon)
   implementation(projects.uiLogin)
   implementation(projects.uiHome)
@@ -91,6 +92,8 @@ dependencies {
   debugImplementation(libs.leakCanary)
 
   testImplementation(libs.junit)
+  testImplementation(projects.commonTesting)
+
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)
   androidTestImplementation(libs.compose.ui.test)
