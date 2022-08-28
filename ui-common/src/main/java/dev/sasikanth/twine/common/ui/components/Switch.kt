@@ -8,6 +8,7 @@ import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -76,7 +77,7 @@ fun Switch(
           value = checked,
           enabled = enabled,
           interactionSource = remember { MutableInteractionSource() },
-          indication = null,
+          indication = LocalIndication.current,
           role = Role.Switch,
           onValueChange = onValueChange,
         )
