@@ -86,7 +86,7 @@ internal object IconButtonDefaults {
   val IconButtonSize = 48.dp
 
   val IconSize = 24.dp
-  val IconSizeSmall = 18.dp
+  val IconSizeSmall = 20.dp
 }
 
 @Preview
