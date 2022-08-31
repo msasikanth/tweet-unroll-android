@@ -31,7 +31,7 @@
     <target android:name="moving_stem">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="150"
+                android:duration="350"
                 android:interpolator="@android:anim/accelerate_decelerate_interpolator"
                 android:propertyName="pathData"
                 android:valueFrom="M 4 12 L 12 4"
@@ -42,7 +42,7 @@
     <target android:name="static_stem">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="150"
+                android:duration="350"
                 android:interpolator="@android:anim/accelerate_decelerate_interpolator"
                 android:propertyName="pathData"
                 android:valueFrom="M 4 4 L 12 12 Z"
@@ -53,7 +53,7 @@
     <target android:name="stems">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="150"
+                android:duration="350"
                 android:interpolator="@android:anim/accelerate_decelerate_interpolator"
                 android:propertyName="rotation"
                 android:valueFrom="0"

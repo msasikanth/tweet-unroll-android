@@ -2,7 +2,9 @@ package dev.sasikanth.twine.common.ui.components
 
 import android.graphics.Path
 import androidx.annotation.FloatRange
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
@@ -66,10 +68,13 @@ fun Switch(
     TwineTheme.colorScheme.primary
   }
 
+  val trackWidth = SwitchDefaults.TrackWidth
+  val trackHeight = SwitchDefaults.TrackHeight
+
   Box(
     modifier = modifier
-      .width(SwitchDefaults.TrackWidth)
-      .height(SwitchDefaults.TrackHeight)
+      .width(trackWidth)
+      .height(trackHeight)
       .padding(vertical = SwitchDefaults.VerticalPadding)
       .clip(SwitchDefaults.TrackShape)
       .toggleable(
@@ -89,15 +94,46 @@ fun Switch(
 
     val thumbSize = SwitchDefaults.ThumbSize
     val thumbPadding = SwitchDefaults.ThumbPadding
-    val thumbPathLength = (SwitchDefaults.TrackWidth - thumbSize) - thumbPadding
 
-    val minBound = with(LocalDensity.current) { thumbPadding.toPx() }
-    val maxBound = with(LocalDensity.current) { thumbPathLength.toPx() }
+    val density = LocalDensity.current
 
-    val thumbOffset by transition.animateFloat(label = "ThumbOffset") {
-      if (it) maxBound else minBound
+    val trackWidthPx = with(density) { trackWidth.toPx() }
+    val thumbSizePx = with(density) { thumbSize.toPx() }
+    val thumbPaddingPx = with(density) { thumbPadding.toPx() }
+
+    val thumbCenterPx = thumbSizePx / 2f
+
+    @Suppress("UnnecessaryVariable")
+    val thumbOffsetMin = thumbPaddingPx
+    val thumbOffsetMax = (trackWidthPx - thumbSizePx) - thumbPaddingPx
+
+    val revealOffsetMin = thumbPaddingPx + thumbCenterPx
+    val revealOffsetMax = (trackWidthPx - thumbCenterPx) - thumbPaddingPx
+
+    val thumbOffset by transition.animateFloat(
+      label = "ThumbOffset",
+      transitionSpec = {
+        spring(stiffness = Spring.StiffnessLow)
+      }
+    ) {
+      if (it) thumbOffsetMax else thumbOffsetMin
     }
-    val revealProgress by transition.animateFloat(label = "RevealProgress") {
+
+    val revealOffset by transition.animateFloat(
+      label = "ThumbOffset",
+      transitionSpec = {
+        spring(stiffness = Spring.StiffnessLow)
+      }
+    ) {
+      if (it) revealOffsetMax else revealOffsetMin
+    }
+
+    val revealProgress by transition.animateFloat(
+      label = "RevealProgress",
+      transitionSpec = {
+        spring(stiffness = Spring.StiffnessLow)
+      }
+    ) {
       if (it) 1f else 0f
     }
 
@@ -126,7 +162,7 @@ fun Switch(
      */
     if (enabled) {
       SwitchImpl(
-        modifier = Modifier.circularClip(revealProgress),
+        modifier = Modifier.circularClip(revealProgress, revealOffset),
         checked = checked,
         trackColor = TwineTheme.colorScheme.brand,
         thumbColor = TwineTheme.colorScheme.onBrand,
@@ -208,11 +244,13 @@ private fun uncheckedIconColor(enabled: Boolean): Color {
 }
 
 private fun Modifier.circularClip(
-  @FloatRange(from = 0.0, to = 1.0) progress: Float
-) = clip(CircularRevealShape(progress))
+  @FloatRange(from = 0.0, to = 1.0) progress: Float,
+  offset: Float
+) = clip(CircularRevealShape(progress, offset))
 
 private class CircularRevealShape(
-  @FloatRange(from = 0.0, to = 1.0) private val progress: Float
+  @FloatRange(from = 0.0, to = 1.0) private val progress: Float,
+  private val offset: Float
 ) : Shape {
 
   override fun createOutline(
@@ -220,18 +258,14 @@ private class CircularRevealShape(
     layoutDirection: LayoutDirection,
     density: Density
   ): Outline {
-    val thumbPaddingPx = with(density) { SwitchDefaults.ThumbPadding.toPx() }
-    val thumbSizePx = with(density) { SwitchDefaults.ThumbSize.toPx() }
+    val radius = with(density) { SwitchDefaults.RevealRadius.toPx() } * progress
 
-    val x = thumbPaddingPx + (thumbSizePx / 2f)
-    val y = size.height / 2
-
-    val radius = size.width * 2 * progress
+    val yCenter = size.height / 2
 
     return Outline.Generic(Path().apply {
       addCircle(
-        x,
-        y,
+        offset,
+        yCenter,
         radius,
         Path.Direction.CW
       )
@@ -250,6 +284,8 @@ internal object SwitchDefaults {
 
   val TrackShape = Shapes.Full
   val ThumbShape = Shapes.Full
+
+  val RevealRadius = 44.dp
 }
 
 @Preview
