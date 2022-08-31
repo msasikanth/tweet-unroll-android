@@ -8,7 +8,6 @@ import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -19,13 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -64,78 +60,80 @@ fun Switch(
   enabled: Boolean = true,
   onValueChange: (Boolean) -> Unit,
 ) {
-  CompositionLocalProvider(
-    LocalRippleTheme provides SwitchRippleTheme(checked)
-  ) {
-    Box(
-      modifier = modifier
-        .width(SwitchDefaults.TrackWidth)
-        .height(SwitchDefaults.TrackHeight)
-        .padding(vertical = SwitchDefaults.VerticalPadding)
-        .clip(SwitchDefaults.TrackShape)
-        .toggleable(
-          value = checked,
-          enabled = enabled,
-          interactionSource = remember { MutableInteractionSource() },
-          indication = LocalIndication.current,
-          role = Role.Switch,
-          onValueChange = onValueChange,
-        )
-        .testTag("Switch")
-    ) {
-      val transition = updateTransition(
-        targetState = checked,
-        label = "Switch"
+  val rippleColor = if (checked) {
+    TwineTheme.colorScheme.onBrand
+  } else {
+    TwineTheme.colorScheme.primary
+  }
+
+  Box(
+    modifier = modifier
+      .width(SwitchDefaults.TrackWidth)
+      .height(SwitchDefaults.TrackHeight)
+      .padding(vertical = SwitchDefaults.VerticalPadding)
+      .clip(SwitchDefaults.TrackShape)
+      .toggleable(
+        value = checked,
+        enabled = enabled,
+        interactionSource = remember { MutableInteractionSource() },
+        indication = rememberRipple(color = rippleColor),
+        role = Role.Switch,
+        onValueChange = onValueChange,
       )
+      .testTag("Switch")
+  ) {
+    val transition = updateTransition(
+      targetState = checked,
+      label = "Switch"
+    )
 
-      val thumbSize = SwitchDefaults.ThumbSize
-      val thumbPadding = SwitchDefaults.ThumbPadding
-      val thumbPathLength = (SwitchDefaults.TrackWidth - thumbSize) - thumbPadding
+    val thumbSize = SwitchDefaults.ThumbSize
+    val thumbPadding = SwitchDefaults.ThumbPadding
+    val thumbPathLength = (SwitchDefaults.TrackWidth - thumbSize) - thumbPadding
 
-      val minBound = with(LocalDensity.current) { thumbPadding.toPx() }
-      val maxBound = with(LocalDensity.current) { thumbPathLength.toPx() }
+    val minBound = with(LocalDensity.current) { thumbPadding.toPx() }
+    val maxBound = with(LocalDensity.current) { thumbPathLength.toPx() }
 
-      val thumbOffset by transition.animateFloat(label = "ThumbOffset") {
-        if (it) maxBound else minBound
-      }
-      val revealProgress by transition.animateFloat(label = "RevealProgress") {
-        if (it) 1f else 0f
-      }
+    val thumbOffset by transition.animateFloat(label = "ThumbOffset") {
+      if (it) maxBound else minBound
+    }
+    val revealProgress by transition.animateFloat(label = "RevealProgress") {
+      if (it) 1f else 0f
+    }
 
-      val uncheckedTrackColor = uncheckedTrackColor(enabled = enabled)
-      val uncheckedThumbColor = uncheckedThumbColor(enabled = enabled)
-      val uncheckedIconColor = uncheckedIconColor(enabled = enabled)
+    val uncheckedTrackColor = uncheckedTrackColor(enabled = enabled)
+    val uncheckedThumbColor = uncheckedThumbColor(enabled = enabled)
+    val uncheckedIconColor = uncheckedIconColor(enabled = enabled)
 
+    SwitchImpl(
+      checked = checked,
+      trackColor = uncheckedTrackColor,
+      thumbColor = uncheckedThumbColor,
+      iconTint = uncheckedIconColor,
+      thumbSize = thumbSize,
+      thumbOffset = thumbOffset.roundToInt()
+    )
+
+    /**
+     * When a switch is enabled and turned on, we animate the checked
+     * state using a circular reveal. Colors used to indicate
+     * checked switch are different from unchecked state.
+     *
+     * Since we want the content to have a "clipping" effect
+     * as the reveal happens. We are placing the checked switch
+     * above the unchecked switch and animate the clip using
+     * circular reveal.
+     */
+    if (enabled) {
       SwitchImpl(
+        modifier = Modifier.circularClip(revealProgress),
         checked = checked,
-        trackColor = uncheckedTrackColor,
-        thumbColor = uncheckedThumbColor,
-        iconTint = uncheckedIconColor,
+        trackColor = TwineTheme.colorScheme.brand,
+        thumbColor = TwineTheme.colorScheme.onBrand,
+        iconTint = TwineTheme.colorScheme.brand,
         thumbSize = thumbSize,
         thumbOffset = thumbOffset.roundToInt()
       )
-
-      /**
-       * When a switch is enabled and turned on, we animate the checked
-       * state using a circular reveal. Colors used to indicate
-       * checked switch are different from unchecked state.
-       *
-       * Since we want the content to have a "clipping" effect
-       * as the reveal happens. We are placing the checked switch
-       * above the unchecked switch and animate the clip using
-       * circular reveal.
-       */
-      if (enabled) {
-        SwitchImpl(
-          modifier = Modifier.circularClip(revealProgress),
-          checked = checked,
-          trackColor = TwineTheme.colorScheme.brand,
-          thumbColor = TwineTheme.colorScheme.onBrand,
-          iconTint = TwineTheme.colorScheme.brand,
-          thumbSize = thumbSize,
-          thumbOffset = thumbOffset.roundToInt()
-        )
-      }
     }
   }
 }
@@ -252,30 +250,6 @@ internal object SwitchDefaults {
 
   val TrackShape = Shapes.Full
   val ThumbShape = Shapes.Full
-}
-
-internal class SwitchRippleTheme(
-  private val checked: Boolean
-) : RippleTheme {
-
-  @Composable
-  override fun defaultColor(): Color {
-    return if (checked) {
-      TwineTheme.colorScheme.onBrand
-    } else {
-      TwineTheme.colorScheme.primary
-    }
-  }
-
-  @Composable
-  override fun rippleAlpha(): RippleAlpha {
-    return RippleAlpha(
-      draggedAlpha = TwineTheme.opacity.dragged,
-      hoveredAlpha = TwineTheme.opacity.hovered,
-      pressedAlpha = TwineTheme.opacity.pressed,
-      focusedAlpha = TwineTheme.opacity.focused
-    )
-  }
 }
 
 @Preview

@@ -1,6 +1,7 @@
 package dev.sasikanth.twine.common.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,15 +9,12 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Text
-import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -82,32 +80,31 @@ private fun SegmentedButton(
   } else {
     TwineTheme.colorScheme.primary
   }
-  val rippleTheme = SegmentedButtonGroupRippleTheme(rippleColor)
 
-  CompositionLocalProvider(
-    LocalRippleTheme provides rippleTheme
-  ) {
-    Box(
-      modifier = modifier
-        .defaultMinSize(minHeight = SegmentedButtonGroupDefaults.ButtonHeight)
-        .clip(TwineTheme.shapes.medium)
-        .background(color = buttonBackground)
-        .toggleable(
-          value = checked,
-          onValueChange = {
-            onClick()
-          }
-        )
-        .padding(SegmentedButtonGroupDefaults.LabelPadding)
-        .testTag("SegmentedButton"),
-      contentAlignment = Alignment.Center
-    ) {
-      Text(
-        text = label,
-        color = labelColor,
-        style = TwineTheme.typography.labelLarge,
+  Box(
+    modifier = modifier
+      .defaultMinSize(minHeight = SegmentedButtonGroupDefaults.ButtonHeight)
+      .clip(TwineTheme.shapes.medium)
+      .background(color = buttonBackground)
+      .toggleable(
+        value = checked,
+        onValueChange = {
+          onClick()
+        },
+        interactionSource = remember {
+          MutableInteractionSource()
+        },
+        indication = rememberRipple(color = rippleColor)
       )
-    }
+      .padding(SegmentedButtonGroupDefaults.LabelPadding)
+      .testTag("SegmentedButton"),
+    contentAlignment = Alignment.Center
+  ) {
+    Text(
+      text = label,
+      color = labelColor,
+      style = TwineTheme.typography.labelLarge,
+    )
   }
 }
 
@@ -116,26 +113,6 @@ internal object SegmentedButtonGroupDefaults {
   val LabelPadding = 12.dp
 
   val ButtonHeight = 48.dp
-}
-
-internal class SegmentedButtonGroupRippleTheme(
-  private val rippleColor: Color
-) : RippleTheme {
-
-  @Composable
-  override fun defaultColor(): Color {
-    return rippleColor
-  }
-
-  @Composable
-  override fun rippleAlpha(): RippleAlpha {
-    return RippleAlpha(
-      draggedAlpha = TwineTheme.opacity.dragged,
-      focusedAlpha = TwineTheme.opacity.focused,
-      hoveredAlpha = TwineTheme.opacity.hovered,
-      pressedAlpha = TwineTheme.opacity.pressed
-    )
-  }
 }
 
 @Preview
