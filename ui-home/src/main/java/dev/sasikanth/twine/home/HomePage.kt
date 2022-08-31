@@ -3,7 +3,10 @@ package dev.sasikanth.twine.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,37 +19,44 @@ import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.R as commonR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
   modifier: Modifier = Modifier,
   navigateToSearch: () -> Unit,
   navigateToSettings: () -> Unit,
 ) {
-  Column(
-    modifier = modifier.fillMaxSize(),
-    horizontalAlignment = Alignment.CenterHorizontally
+  Scaffold(
+    topBar = {
+      TopAppBar(
+        title = stringResource(id = R.string.home_app_bar_title),
+        actions = {
+          AppBarActionButton(
+            icon = commonR.drawable.ic_search,
+            onClick = navigateToSearch
+          )
+
+          Spacer(modifier = Modifier.width(24.dp))
+
+          AppBarActionButton(
+            icon = commonR.drawable.ic_settings,
+            onClick = navigateToSettings
+          )
+        },
+      )
+    }
   ) {
-    TopAppBar(
-      title = stringResource(id = R.string.home_app_bar_title),
-      actions = {
-        AppBarActionButton(
-          icon = commonR.drawable.ic_search,
-          onClick = navigateToSearch
-        )
-
-        Spacer(modifier = Modifier.width(24.dp))
-
-        AppBarActionButton(
-          icon = commonR.drawable.ic_settings,
-          onClick = navigateToSettings
-        )
-      },
-    )
-
-    // Add home page content
-    Text(
-      text = "Work in progress!"
-    )
+    Column(
+      modifier = modifier
+        .fillMaxSize()
+        .padding(it),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      // Add home page content
+      Text(
+        text = "Work in progress!"
+      )
+    }
   }
 }
 
