@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -20,9 +21,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -136,6 +139,7 @@ fun AppBarBackButton(
     modifier = modifier,
     icon = R.drawable.ic_arrow_back,
     backgroundColor = TwineTheme.colorScheme.brand,
+    rippleColor = TwineTheme.colorScheme.onBrand,
     onClick = onClick
   )
 }
@@ -168,6 +172,7 @@ private fun AppBarIconButton(
   @DrawableRes icon: Int,
   backgroundColor: Color,
   contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
+  rippleColor: Color = TwineTheme.colorScheme.primary,
   onClick: () -> Unit,
 ) {
   Box(
@@ -176,7 +181,14 @@ private fun AppBarIconButton(
       .requiredSize(AppBarDefaults.AppBarIconButtonSize)
       .clip(CircleShape)
       .background(backgroundColor)
-      .clickable(role = Role.Button, onClick = onClick),
+      .clickable(
+        role = Role.Button,
+        onClick = onClick,
+        interactionSource = remember {
+          MutableInteractionSource()
+        },
+        indication = rememberRipple(color = rippleColor)
+      ),
     contentAlignment = Alignment.Center
   ) {
     Icon(
