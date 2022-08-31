@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
@@ -115,6 +116,7 @@ fun TwineButton(
             .testTag("TwineButton:Label"),
           text = text,
           maxLines = 1,
+          overflow = TextOverflow.Ellipsis,
           style = TwineTheme.typography.labelLarge
         )
       }
