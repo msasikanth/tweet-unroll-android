@@ -33,7 +33,7 @@ private object ButtonDefaults {
   val HorizontalPaddingStart = 16.dp
   val HorizontalPaddingEnd = 24.dp
   val HorizontalSpacing = 8.dp
-  val IconSize = 18.dp
+  val IconSize = 20.dp
 }
 
 /**
