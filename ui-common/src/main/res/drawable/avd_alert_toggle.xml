@@ -1,0 +1,109 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="alert_toggle"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:name="waves"
+                android:pivotX="12"
+                android:pivotY="10"
+                android:scaleX="0.56"
+                android:scaleY="0.56">
+                <path
+                    android:name="end_wave"
+                    android:pathData="M 21 10 C 21 7.173 19.696 4.65 17.657 3"
+                    android:strokeWidth="2"
+                    android:strokeColor="#000000"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+                <path
+                    android:name="start_wave"
+                    android:pathData="M 3.127 10 C 3.127 7.173 4.431 4.65 6.47 3"
+                    android:strokeWidth="2"
+                    android:strokeColor="#000000"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+            </group>
+            <path
+                android:name="bell"
+                android:fillColor="#000000"
+                android:fillType="evenOdd"
+                android:pathData="M 12 2 C 11.172 2 10.5 2.672 10.5 3.5 L 10.5 4.189 C 7.912 4.855 6 7.204 6 10 L 6 17 L 5 17 C 4.448 17 4 17.448 4 18 C 4 18.552 4.448 19 5 19 L 19 19 C 19.552 19 20 18.552 20 18 C 20 17.448 19.552 17 19 17 L 18 17 L 18 10 C 18 7.204 16.088 4.855 13.5 4.189 L 13.5 3.5 C 13.5 2.672 12.828 2 12 2 Z M 16 17 L 16 10 C 16 7.791 14.209 6 12 6 C 9.791 6 8 7.791 8 10 L 8 17 L 16 17 Z"
+                android:strokeWidth="1" />
+            <path
+                android:name="bell_pendulum"
+                android:fillColor="#000000"
+                android:pathData="M 14 20 C 14 21.105 13.105 22 12 22 C 10.895 22 10 21.105 10 20 L 14 20 Z"
+                android:strokeWidth="1" />
+            <path
+                android:name="path"
+                android:fillColor="#000000"
+                android:pathData="M 0 0 L 24 0 L 24 24 L 24 0 Z" />
+            <clip-path
+                android:name="mask"
+                android:pathData="M 17 10 L 17 18 L 7 18 L 7 10 C 7 7.239 9.239 5 12 5 C 14.761 5 17 7.239 17 10 Z" />
+            <path
+                android:name="path_1"
+                android:fillColor="#000000"
+                android:pathData="M 0 17 L 24 17 L 24 24 L 0 24 Z"
+                android:strokeWidth="1" />
+        </vector>
+    </aapt:attr>
+    <target android:name="waves">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="250"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="scaleX"
+                    android:valueFrom="0.56"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="250"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="scaleY"
+                    android:valueFrom="0.56"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="end_wave">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="strokeWidth"
+                android:valueFrom="1"
+                android:valueTo="2"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="start_wave">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="strokeWidth"
+                android:valueFrom="1"
+                android:valueTo="2"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="path_1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 0 17 L 24 17 L 24 24 L 0 24 Z"
+                android:valueTo="M 0 6 L 24 6 L 24 24 L 0 24 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+</animated-vector>

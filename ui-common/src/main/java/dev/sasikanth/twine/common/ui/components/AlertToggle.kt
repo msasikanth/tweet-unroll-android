@@ -1,5 +1,9 @@
 package dev.sasikanth.twine.common.ui.components
 
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -15,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,6 +81,7 @@ fun AlertToggle(
   }
 }
 
+@OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 private fun Content(
   modifier: Modifier = Modifier,
@@ -120,8 +124,14 @@ private fun Content(
       )
       .padding(AlertToggleDefaults.contentPadding)
   ) {
+    val alertToggleIcon = AnimatedImageVector
+      .animatedVectorResource(id = R.drawable.avd_alert_toggle)
+
     Icon(
-      painter = painterResource(id = iconResource),
+      painter = rememberAnimatedVectorPainter(
+        animatedImageVector = alertToggleIcon,
+        atEnd = isToggled
+      ),
       contentDescription = stringResource(id = contentDescription),
       tint = onContentColor
     )
