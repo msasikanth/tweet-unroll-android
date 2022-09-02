@@ -57,14 +57,14 @@
         <aapt:attr name="android:animation">
             <set>
                 <objectAnimator
-                    android:duration="250"
+                    android:duration="200"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
                     android:propertyName="scaleX"
                     android:valueFrom="0.56"
                     android:valueTo="1"
                     android:valueType="floatType" />
                 <objectAnimator
-                    android:duration="250"
+                    android:duration="200"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
                     android:propertyName="scaleY"
                     android:valueFrom="0.56"
@@ -76,11 +76,11 @@
     <target android:name="path_1">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="250"
+                android:duration="200"
                 android:interpolator="@android:interpolator/fast_out_slow_in"
                 android:propertyName="pathData"
                 android:valueFrom="M 0 17 L 24 17 L 24 24 L 0 24 Z"
-                android:valueTo="M 0 6 L 24 6 L 24 24 L 0 24 Z"
+                android:valueTo="M 0 5.5 L 24 5.5 L 24 24 L 0 24 Z"
                 android:valueType="pathType" />
         </aapt:attr>
     </target>
