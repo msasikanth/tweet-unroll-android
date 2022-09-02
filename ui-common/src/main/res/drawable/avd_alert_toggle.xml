@@ -73,28 +73,6 @@
             </set>
         </aapt:attr>
     </target>
-    <target android:name="end_wave">
-        <aapt:attr name="android:animation">
-            <objectAnimator
-                android:duration="250"
-                android:interpolator="@android:interpolator/fast_out_slow_in"
-                android:propertyName="strokeWidth"
-                android:valueFrom="1"
-                android:valueTo="2"
-                android:valueType="floatType" />
-        </aapt:attr>
-    </target>
-    <target android:name="start_wave">
-        <aapt:attr name="android:animation">
-            <objectAnimator
-                android:duration="250"
-                android:interpolator="@android:interpolator/fast_out_slow_in"
-                android:propertyName="strokeWidth"
-                android:valueFrom="1"
-                android:valueTo="2"
-                android:valueType="floatType" />
-        </aapt:attr>
-    </target>
     <target android:name="path_1">
         <aapt:attr name="android:animation">
             <objectAnimator
