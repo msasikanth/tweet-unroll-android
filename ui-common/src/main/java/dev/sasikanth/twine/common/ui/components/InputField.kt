@@ -1,5 +1,8 @@
 package dev.sasikanth.twine.common.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -25,12 +28,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.sasikanth.twine.common.ui.anim.TwineSpring
 import dev.sasikanth.twine.common.ui.components.InputFieldDefaults.InputFieldMinHeight
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
@@ -73,20 +78,33 @@ fun InputField(
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()
 
-  val backgroundColor = if (isFocused) {
-    TwineTheme
-      .colorScheme
-      .surfaceColorAtElevation(ElevationTokens.Level5)
-  } else {
-    TwineTheme
-      .colorScheme
-      .surfaceColorAtElevation(ElevationTokens.Level2)
-  }
-  val textColor = if (isFocused) {
-    TwineTheme.colorScheme.onSurface
-  } else {
-    TwineTheme.colorScheme.outline
-  }
+  val animationSpec = spring<Color>(
+    dampingRatio = Spring.DampingRatioNoBouncy,
+    stiffness = TwineSpring.StiffnessMedium
+  )
+  val backgroundColor by animateColorAsState(
+    targetValue = if (isFocused) {
+      TwineTheme
+        .colorScheme
+        .surfaceColorAtElevation(ElevationTokens.Level5)
+    } else {
+      TwineTheme
+        .colorScheme
+        .surfaceColorAtElevation(ElevationTokens.Level2)
+    },
+    animationSpec = animationSpec
+  )
+
+  val textColor by animateColorAsState(
+    targetValue = if (isFocused) {
+      TwineTheme.colorScheme.onSurface
+    } else if (text.isNotBlank()) {
+      TwineTheme.colorScheme.onSurfaceVariant
+    } else {
+      TwineTheme.colorScheme.outline
+    },
+    animationSpec = animationSpec
+  )
 
   val slotsPaddingModifier = Modifier.padding(horizontal = 4.dp)
 
