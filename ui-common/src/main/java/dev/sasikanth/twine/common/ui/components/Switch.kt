@@ -110,10 +110,11 @@ fun Switch(
     val revealOffsetMin = thumbPaddingPx + thumbCenterPx
     val revealOffsetMax = (trackWidthPx - thumbCenterPx) - thumbPaddingPx
 
+    val transitionStiffness = 900f
     val thumbOffset by transition.animateFloat(
       label = "ThumbOffset",
       transitionSpec = {
-        spring(stiffness = Spring.StiffnessLow)
+        spring(stiffness = transitionStiffness)
       }
     ) {
       if (it) thumbOffsetMax else thumbOffsetMin
@@ -122,7 +123,7 @@ fun Switch(
     val revealOffset by transition.animateFloat(
       label = "ThumbOffset",
       transitionSpec = {
-        spring(stiffness = Spring.StiffnessLow)
+        spring(stiffness = transitionStiffness)
       }
     ) {
       if (it) revealOffsetMax else revealOffsetMin
@@ -131,7 +132,7 @@ fun Switch(
     val revealProgress by transition.animateFloat(
       label = "RevealProgress",
       transitionSpec = {
-        spring(stiffness = Spring.StiffnessLow)
+        spring(stiffness = transitionStiffness)
       }
     ) {
       if (it) 1f else 0f
