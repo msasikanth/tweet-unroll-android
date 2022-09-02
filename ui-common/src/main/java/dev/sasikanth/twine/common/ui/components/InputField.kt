@@ -1,8 +1,9 @@
 package dev.sasikanth.twine.common.ui.components
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -78,12 +79,20 @@ fun InputField(
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()
 
+  val transition = updateTransition(
+    targetState = isFocused,
+    label = "InputField:FocusChanges"
+  )
   val animationSpec = spring<Color>(
     dampingRatio = Spring.DampingRatioNoBouncy,
     stiffness = TwineSpring.StiffnessMedium
   )
-  val backgroundColor by animateColorAsState(
-    targetValue = if (isFocused) {
+
+  val backgroundColor by transition.animateColor(
+    label = "InputField:BackgroundColor",
+    transitionSpec = { animationSpec }
+  ) {
+    if (it) {
       TwineTheme
         .colorScheme
         .surfaceColorAtElevation(ElevationTokens.Level5)
@@ -91,20 +100,21 @@ fun InputField(
       TwineTheme
         .colorScheme
         .surfaceColorAtElevation(ElevationTokens.Level2)
-    },
-    animationSpec = animationSpec
-  )
+    }
+  }
 
-  val textColor by animateColorAsState(
-    targetValue = if (isFocused) {
+  val textColor by transition.animateColor(
+    label = "InputField:TextColor",
+    transitionSpec = { animationSpec }
+  ) {
+    if (it) {
       TwineTheme.colorScheme.onSurface
     } else if (text.isNotBlank()) {
       TwineTheme.colorScheme.onSurfaceVariant
     } else {
       TwineTheme.colorScheme.outline
-    },
-    animationSpec = animationSpec
-  )
+    }
+  }
 
   val slotsPaddingModifier = Modifier.padding(horizontal = 4.dp)
 
