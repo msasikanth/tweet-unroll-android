@@ -2,7 +2,6 @@ package dev.sasikanth.twine.common.ui.components
 
 import android.graphics.Path
 import androidx.annotation.FloatRange
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -44,7 +43,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.R
+import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
+import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 import kotlin.math.roundToInt
 
 /**
@@ -219,7 +220,7 @@ private fun SwitchImpl(
 @Composable
 private fun uncheckedTrackColor(enabled: Boolean): Color {
   return if (enabled)
-    TwineTheme.colorScheme.surfaceVariant
+    TwineTheme.colorScheme.surfaceColorAtElevation(ElevationTokens.Level5)
   else
     TwineTheme.colorScheme.onSurface.copy(
       alpha = TwineTheme.opacity.bgDisabled
