@@ -1,11 +1,11 @@
 package dev.sasikanth.twine.common.ui.components
 
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,6 +18,7 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeableDefaults
 import androidx.compose.material.SwipeableState
 import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material.swipeable
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toOffset
 import androidx.compose.ui.unit.toSize
 import dev.sasikanth.twine.common.ui.R
+import dev.sasikanth.twine.common.ui.anim.TwineSpring
 import dev.sasikanth.twine.common.ui.components.ViewModeToggle.Story
 import dev.sasikanth.twine.common.ui.components.ViewModeToggle.Timeline
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
@@ -100,8 +102,8 @@ fun ViewModeToggle(
       swipeableState.animateTo(
         targetValue = viewModeToggle,
         anim = spring(
-          dampingRatio = Spring.DampingRatioMediumBouncy,
-          stiffness = Spring.StiffnessMedium
+          dampingRatio = TwineSpring.DampingRatioHigh,
+          stiffness = TwineSpring.StiffnessMedium
         )
       )
     }
@@ -144,7 +146,13 @@ fun ViewModeToggle(
       )
       .padding(ViewModeToggleDefaults.containerPadding)
   ) {
-    IconButtonRow(onViewModeChanged = onViewModeChanged)
+    IconButtonRow(
+      isAnimationRunning = swipeableState.isAnimationRunning,
+      onViewModeChanged = {
+        if (!swipeableState.isAnimationRunning)
+          onViewModeChanged(it)
+      }
+    )
 
     SelectorLayout(
       modifier = Modifier
@@ -205,17 +213,26 @@ private fun SelectorLayout(
 @Composable
 private fun IconButtonRow(
   modifier: Modifier = Modifier,
+  isAnimationRunning: Boolean,
   onViewModeChanged: (ViewModeToggle) -> Unit
 ) {
+  val iconTint = if (isAnimationRunning) {
+    TwineTheme.colorScheme.outline
+  } else {
+    TwineTheme.colorScheme.onPrimaryContainer
+  }
+
   Row(
-    modifier = modifier,
+    modifier = modifier
+      .clip(TwineTheme.shapes.large),
     horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing),
   ) {
     IconButton(
       modifier = Modifier
         .testTag("ViewMode:Timeline"),
       resource = R.drawable.ic_view_mode_timeline,
-      iconTint = TwineTheme.colorScheme.onPrimaryContainer,
+      iconTint = iconTint,
+      enabled = !isAnimationRunning,
       contentDescription = stringResource(id = R.string.cd_view_mode_timeline)
     ) {
       onViewModeChanged(Timeline)
@@ -225,7 +242,8 @@ private fun IconButtonRow(
       modifier = Modifier
         .testTag("ViewMode:Story"),
       resource = R.drawable.ic_view_mode_story,
-      iconTint = TwineTheme.colorScheme.onPrimaryContainer,
+      iconTint = iconTint,
+      enabled = !isAnimationRunning,
       contentDescription = stringResource(id = R.string.cd_view_mode_story)
     ) {
       onViewModeChanged(Story)
@@ -239,14 +257,20 @@ private fun IconButton(
   @DrawableRes resource: Int,
   iconTint: Color,
   contentDescription: String? = null,
+  enabled: Boolean = true,
   onClick: () -> Unit
 ) {
   Icon(
     modifier = modifier
-      .clip(TwineTheme.shapes.large)
       .clickable(
         onClick = onClick,
-        role = Role.Button
+        role = Role.Button,
+        interactionSource = remember { MutableInteractionSource() },
+        indication = rememberRipple(
+          bounded = false,
+          radius = 100.dp
+        ),
+        enabled = enabled
       )
       .padding(ViewModeToggleDefaults.iconPadding),
     painter = painterResource(id = resource),
