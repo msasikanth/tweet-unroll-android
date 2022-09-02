@@ -1,7 +1,7 @@
 [versions]
-sdk-compile = "32"
+sdk-compile = "33"
 sdk-min = "28"
-sdk-target = "32"
+sdk-target = "33"
 
 compose-compiler = "1.2.0"
 compose-ui = "1.2.0"
