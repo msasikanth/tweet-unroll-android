@@ -27,6 +27,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
@@ -68,6 +70,7 @@ fun InputField(
   text: String,
   hint: String,
   singleLine: Boolean = true,
+  focusRequester: FocusRequester = FocusRequester(),
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   startSlot: @Composable (BoxScope.() -> Unit)? = null,
@@ -137,6 +140,7 @@ fun InputField(
     BasicTextField(
       modifier = Modifier
         .weight(1f)
+        .focusRequester(focusRequester)
         .testTag("InputField:Text"),
       value = text,
       onValueChange = onValueChange,
