@@ -45,6 +45,7 @@ fun IconButton(
   modifier: Modifier = Modifier,
   backgroundColor: Color = Color.Unspecified,
   contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
+  enabled: Boolean = true,
   content: @Composable () -> Unit
 ) {
   // TODO: Think of a better way to configure it. Param? Separate filled icon button component?
@@ -61,7 +62,7 @@ fun IconButton(
       .size(IconButtonSize)
       .clickable(
         onClick = onClick,
-        enabled = true,
+        enabled = enabled,
         role = Role.Button,
         interactionSource = remember { MutableInteractionSource() },
         indication = rememberRipple(color = rippleColor)
