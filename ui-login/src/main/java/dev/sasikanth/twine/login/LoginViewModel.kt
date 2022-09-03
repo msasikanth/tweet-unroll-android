@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
 
   fun buildTwineLoginActivityResult() = authManager.buildTwineLoginActivityResult()
 
-  fun onLoginResult(result: TwineLogin.Result) {
+  fun onLoginResult(result: TwineLogin.Result?) {
     viewModelScope.launch {
       authManager.onLoginResult(result)
     }

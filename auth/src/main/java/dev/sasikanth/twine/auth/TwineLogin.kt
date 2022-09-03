@@ -14,9 +14,9 @@ import net.openid.appauth.AuthorizationResponse
  */
 class TwineLogin internal constructor(
   private val intentBuilder: () -> Intent
-) : ActivityResultContract<Unit, TwineLogin.Result>() {
+) : ActivityResultContract<Unit, TwineLogin.Result?>() {
 
-  override fun createIntent(context: Context, input: Unit?): Intent {
+  override fun createIntent(context: Context, input: Unit): Intent {
     return intentBuilder()
   }
 

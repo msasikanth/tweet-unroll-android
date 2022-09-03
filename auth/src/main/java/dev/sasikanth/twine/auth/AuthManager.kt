@@ -46,7 +46,7 @@ interface AuthManager {
   /**
    * Handle login result obtained from activity result
    */
-  suspend fun onLoginResult(result: TwineLogin.Result)
+  suspend fun onLoginResult(result: TwineLogin.Result?)
 
   /**
    * Clear auth state from preference and notify state
@@ -100,8 +100,8 @@ class TwineAuthManager @Inject constructor(
   /**
    * Handle login result obtained from activity result
    */
-  override suspend fun onLoginResult(result: TwineLogin.Result) {
-    val (response, ex) = result
+  override suspend fun onLoginResult(result: TwineLogin.Result?) {
+    val (response, ex) = result ?: return
 
     _authState.value = when {
       response != null -> handleAuthorizationResponse(response)
