@@ -37,8 +37,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.R
+import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.contentColorFor
+import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 
 internal object AppBarDefaults {
   val AppBarContentSpacing = 24.dp
@@ -152,10 +154,7 @@ fun AppBarActionButton(
 ) {
   val backgroundColor = TwineTheme
     .colorScheme
-    .primary
-    .copy(
-      alpha = TwineTheme.opacity.hovered
-    )
+    .surfaceColorAtElevation(ElevationTokens.Level2)
 
   AppBarIconButton(
     modifier = modifier,
