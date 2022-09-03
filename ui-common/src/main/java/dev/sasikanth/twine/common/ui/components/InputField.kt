@@ -148,7 +148,9 @@ fun InputField(
             modifier = Modifier.testTag("InputField:Hint"),
             text = hint,
             style = TwineTheme.typography.bodyLarge,
-            color = TwineTheme.colorScheme.outline
+            color = TwineTheme.colorScheme.outline,
+            maxLines = 1,
+            softWrap = false,
           )
         }
 
