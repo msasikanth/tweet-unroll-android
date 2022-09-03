@@ -48,8 +48,10 @@ class TwineColorScheme(
   errorContainer: Color,
   onErrorContainer: Color,
   outline: Color,
+  outlineVariant: Color,
   deleteButton: Color,
   onDeleteButton: Color,
+  scrim: Color,
 ) {
   var brand by mutableStateOf(brand, structuralEqualityPolicy())
     internal set
@@ -109,9 +111,13 @@ class TwineColorScheme(
     internal set
   var outline by mutableStateOf(outline, structuralEqualityPolicy())
     internal set
+  var outlineVariant by mutableStateOf(outlineVariant, structuralEqualityPolicy())
+    internal set
   var deleteButton by mutableStateOf(deleteButton, structuralEqualityPolicy())
     internal set
   var onDeleteButton by mutableStateOf(onDeleteButton, structuralEqualityPolicy())
+    internal set
+  var scrim by mutableStateOf(scrim, structuralEqualityPolicy())
     internal set
 
   fun copy(
@@ -144,8 +150,10 @@ class TwineColorScheme(
     errorContainer: Color = this.errorContainer,
     onErrorContainer: Color = this.onErrorContainer,
     outline: Color = this.outline,
+    outlineVariant: Color = this.outlineVariant,
     deleteButton: Color = this.deleteButton,
     onDeleteButton: Color = this.onDeleteButton,
+    scrim: Color = this.scrim,
   ): TwineColorScheme =
     TwineColorScheme(
       brand = brand,
@@ -177,8 +185,10 @@ class TwineColorScheme(
       errorContainer = errorContainer,
       onErrorContainer = onErrorContainer,
       outline = outline,
+      outlineVariant = outlineVariant,
       deleteButton = deleteButton,
       onDeleteButton = onDeleteButton,
+      scrim = scrim,
     )
 
   fun toMaterialColorScheme(): MaterialColorScheme =
@@ -209,7 +219,9 @@ class TwineColorScheme(
       onError = onError,
       errorContainer = errorContainer,
       onErrorContainer = onErrorContainer,
-      outline = outline
+      outline = outline,
+      outlineVariant = outlineVariant,
+      scrim = scrim,
     )
 }
 
@@ -239,12 +251,14 @@ internal fun lightColorScheme(
   surfaceVariant: Color = md_theme_light_surfaceVariant,
   onSurfaceVariant: Color = md_theme_light_onSurfaceVariant,
   outline: Color = md_theme_light_outline,
+  outlineVariant: Color = md_theme_light_outline_variant,
   inverseOnSurface: Color = md_theme_light_inverseOnSurface,
   inverseSurface: Color = md_theme_light_inverseSurface,
   inversePrimary: Color = md_theme_light_inversePrimary,
   surfaceTint: Color = md_theme_light_surfaceTint,
   deleteButton: Color = md_theme_error_20,
   onDeleteButton: Color = md_theme_error_20,
+  scrim: Color = md_theme_light_scrim,
 ): TwineColorScheme = TwineColorScheme(
   brand = brand,
   onBrand = onBrand,
@@ -275,8 +289,10 @@ internal fun lightColorScheme(
   errorContainer = errorContainer,
   onErrorContainer = onErrorContainer,
   outline = outline,
+  outlineVariant = outlineVariant,
   deleteButton = deleteButton,
   onDeleteButton = onDeleteButton,
+  scrim = scrim
 )
 
 internal fun darkColorScheme(
@@ -305,12 +321,14 @@ internal fun darkColorScheme(
   surfaceVariant: Color = md_theme_dark_surfaceVariant,
   onSurfaceVariant: Color = md_theme_dark_onSurfaceVariant,
   outline: Color = md_theme_dark_outline,
+  outlineVariant: Color = md_theme_dark_outline_variant,
   inverseOnSurface: Color = md_theme_dark_inverseOnSurface,
   inverseSurface: Color = md_theme_dark_inverseSurface,
   inversePrimary: Color = md_theme_dark_inversePrimary,
   surfaceTint: Color = md_theme_dark_surfaceTint,
   deleteButton: Color = md_theme_error_80,
   onDeleteButton: Color = md_theme_error_20,
+  scrim: Color = md_theme_dark_scrim,
 ): TwineColorScheme = TwineColorScheme(
   brand = brand,
   onBrand = onBrand,
@@ -341,8 +359,10 @@ internal fun darkColorScheme(
   errorContainer = errorContainer,
   onErrorContainer = onErrorContainer,
   outline = outline,
+  outlineVariant = outlineVariant,
   deleteButton = deleteButton,
   onDeleteButton = onDeleteButton,
+  scrim = scrim,
 )
 
 fun TwineColorScheme.contentColorFor(backgroundColor: Color): Color = when (backgroundColor) {

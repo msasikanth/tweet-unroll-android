@@ -6,7 +6,7 @@ sdk-target = "33"
 compose-compiler = "1.2.0"
 compose-ui = "1.2.0"
 compose-material = "1.2.0"
-compose-material3 = "1.0.0-alpha14"
+compose-material3 = "1.0.0-beta01"
 
 agp = "7.2.2"
 

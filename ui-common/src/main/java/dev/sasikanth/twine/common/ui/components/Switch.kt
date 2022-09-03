@@ -19,9 +19,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -284,8 +284,8 @@ internal object SwitchDefaults {
 
   val ThumbSize = 28.dp
 
-  val TrackShape = Shapes.Full
-  val ThumbShape = Shapes.Full
+  val TrackShape = CircleShape
+  val ThumbShape = CircleShape
 
   val RevealRadius = 44.dp
 }
