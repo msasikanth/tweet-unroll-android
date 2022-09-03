@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
@@ -120,8 +119,10 @@ fun InputField(
   Row(
     modifier = modifier
       .defaultMinSize(minHeight = InputFieldMinHeight)
-      .clip(TwineTheme.shapes.large)
-      .background(backgroundColor),
+      .background(
+        color = backgroundColor,
+        shape = TwineTheme.shapes.large
+      ),
     verticalAlignment = Alignment.CenterVertically
   ) {
     if (startSlot == null) {
