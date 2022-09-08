@@ -23,8 +23,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -139,9 +141,10 @@ fun Switch(
       if (it) 1f else 0f
     }
 
-    val uncheckedTrackColor = uncheckedTrackColor(enabled = enabled)
-    val uncheckedThumbColor = uncheckedThumbColor(enabled = enabled)
-    val uncheckedIconColor = uncheckedIconColor(enabled = enabled)
+    val switchColors = SwitchDefaults.colors()
+    val uncheckedTrackColor by switchColors.uncheckedTrackColor(enabled = enabled)
+    val uncheckedThumbColor by switchColors.uncheckedThumbColor(enabled = enabled)
+    val uncheckedIconColor by switchColors.uncheckedIconTint(enabled = enabled)
 
     SwitchImpl(
       checked = checked,
@@ -217,34 +220,6 @@ private fun SwitchImpl(
   }
 }
 
-@Composable
-private fun uncheckedTrackColor(enabled: Boolean): Color {
-  return if (enabled)
-    TwineTheme.colorScheme.surfaceColorAtElevation(ElevationTokens.Level5)
-  else
-    TwineTheme.colorScheme.onSurface.copy(
-      alpha = TwineTheme.opacity.bgDisabled
-    )
-}
-
-@Composable
-private fun uncheckedThumbColor(enabled: Boolean): Color {
-  return if (enabled)
-    TwineTheme.colorScheme.onSurfaceVariant
-  else
-    TwineTheme.colorScheme.onSurface.copy(
-      alpha = TwineTheme.opacity.bgDisabled
-    )
-}
-
-@Composable
-private fun uncheckedIconColor(enabled: Boolean): Color {
-  return if (enabled)
-    TwineTheme.colorScheme.surfaceVariant
-  else
-    TwineTheme.colorScheme.surface
-}
-
 private fun Modifier.circularClip(
   @FloatRange(from = 0.0, to = 1.0) progress: Float,
   offset: Float
@@ -275,7 +250,7 @@ private class CircularRevealShape(
   }
 }
 
-internal object SwitchDefaults {
+private object SwitchDefaults {
   val TrackWidth = 64.dp
   val TrackHeight = 48.dp
 
@@ -288,6 +263,46 @@ internal object SwitchDefaults {
   val ThumbShape = CircleShape
 
   val RevealRadius = 44.dp
+
+  @Composable
+  fun colors() = SwitchColors()
+}
+
+private class SwitchColors {
+
+  @Composable
+  fun uncheckedTrackColor(enabled: Boolean): State<Color> {
+    return rememberUpdatedState(
+      if (enabled)
+        TwineTheme.colorScheme.surfaceColorAtElevation(ElevationTokens.Level5)
+      else
+        TwineTheme.colorScheme.onSurface.copy(
+          alpha = TwineTheme.opacity.bgDisabled
+        )
+    )
+  }
+
+  @Composable
+  fun uncheckedThumbColor(enabled: Boolean): State<Color> {
+    return rememberUpdatedState(
+      if (enabled)
+        TwineTheme.colorScheme.onSurfaceVariant
+      else
+        TwineTheme.colorScheme.onSurface.copy(
+          alpha = TwineTheme.opacity.bgDisabled
+        )
+    )
+  }
+
+  @Composable
+  fun uncheckedIconTint(enabled: Boolean): State<Color> {
+    return rememberUpdatedState(
+      if (enabled)
+        TwineTheme.colorScheme.surfaceVariant
+      else
+        TwineTheme.colorScheme.surface
+    )
+  }
 }
 
 @Preview
