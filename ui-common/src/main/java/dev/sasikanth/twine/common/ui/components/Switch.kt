@@ -35,16 +35,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.R
+import dev.sasikanth.twine.common.ui.anim.TwineSpring
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
@@ -71,13 +72,10 @@ fun Switch(
     TwineTheme.colorScheme.primary
   }
 
-  val trackWidth = SwitchDefaults.TrackWidth
-  val trackHeight = SwitchDefaults.TrackHeight
-
-  Box(
+  SwitchContainer(
     modifier = modifier
-      .width(trackWidth)
-      .height(trackHeight)
+      .width(SwitchDefaults.TrackWidth)
+      .height(SwitchDefaults.TrackHeight)
       .padding(vertical = SwitchDefaults.VerticalPadding)
       .clip(SwitchDefaults.TrackShape)
       .toggleable(
@@ -88,8 +86,19 @@ fun Switch(
         role = Role.Switch,
         onValueChange = onValueChange,
       )
-      .testTag("Switch")
-  ) {
+      .testTag("Switch"),
+    checked = checked,
+    enabled = enabled
+  )
+}
+
+@Composable
+private fun SwitchContainer(
+  modifier: Modifier = Modifier,
+  checked: Boolean,
+  enabled: Boolean,
+) {
+  Box(modifier = modifier) {
     val transition = updateTransition(
       targetState = checked,
       label = "Switch"
@@ -100,7 +109,7 @@ fun Switch(
 
     val density = LocalDensity.current
 
-    val trackWidthPx = with(density) { trackWidth.toPx() }
+    val trackWidthPx = with(density) { SwitchDefaults.TrackWidth.toPx() }
     val thumbSizePx = with(density) { thumbSize.toPx() }
     val thumbPaddingPx = with(density) { thumbPadding.toPx() }
 
@@ -113,11 +122,10 @@ fun Switch(
     val revealOffsetMin = thumbPaddingPx + thumbCenterPx
     val revealOffsetMax = (trackWidthPx - thumbCenterPx) - thumbPaddingPx
 
-    val transitionStiffness = 900f
     val thumbOffset by transition.animateFloat(
       label = "ThumbOffset",
       transitionSpec = {
-        spring(stiffness = transitionStiffness)
+        spring(stiffness = TwineSpring.StiffnessMedium)
       }
     ) {
       if (it) thumbOffsetMax else thumbOffsetMin
@@ -126,7 +134,7 @@ fun Switch(
     val revealOffset by transition.animateFloat(
       label = "ThumbOffset",
       transitionSpec = {
-        spring(stiffness = transitionStiffness)
+        spring(stiffness = TwineSpring.StiffnessMedium)
       }
     ) {
       if (it) revealOffsetMax else revealOffsetMin
@@ -135,24 +143,16 @@ fun Switch(
     val revealProgress by transition.animateFloat(
       label = "RevealProgress",
       transitionSpec = {
-        spring(stiffness = transitionStiffness)
+        spring(stiffness = TwineSpring.StiffnessMedium)
       }
     ) {
       if (it) 1f else 0f
     }
 
-    val switchColors = SwitchDefaults.colors()
-    val uncheckedTrackColor by switchColors.uncheckedTrackColor(enabled = enabled)
-    val uncheckedThumbColor by switchColors.uncheckedThumbColor(enabled = enabled)
-    val uncheckedIconColor by switchColors.uncheckedIconTint(enabled = enabled)
-
-    SwitchImpl(
+    SwitchOff(
       checked = checked,
-      trackColor = uncheckedTrackColor,
-      thumbColor = uncheckedThumbColor,
-      iconTint = uncheckedIconColor,
-      thumbSize = thumbSize,
-      thumbOffset = thumbOffset.roundToInt()
+      enabled = enabled,
+      thumbOffsetProvider = { thumbOffset }
     )
 
     /**
@@ -166,17 +166,61 @@ fun Switch(
      * circular reveal.
      */
     if (enabled) {
-      SwitchImpl(
-        modifier = Modifier.circularClip(revealProgress, revealOffset),
+      SwitchOn(
         checked = checked,
-        trackColor = TwineTheme.colorScheme.brand,
-        thumbColor = TwineTheme.colorScheme.onBrand,
-        iconTint = TwineTheme.colorScheme.brand,
-        thumbSize = thumbSize,
-        thumbOffset = thumbOffset.roundToInt()
+        thumbOffsetProvider = { thumbOffset },
+        revealProgressProvider = { revealProgress },
+        revealOffsetProvider = { revealOffset }
       )
     }
   }
+}
+
+@Composable
+private fun SwitchOff(
+  modifier: Modifier = Modifier,
+  checked: Boolean,
+  enabled: Boolean,
+  thumbOffsetProvider: () -> Float,
+) {
+  val switchColors = SwitchDefaults.colors()
+  val uncheckedTrackColor by switchColors.uncheckedTrackColor(enabled = enabled)
+  val uncheckedThumbColor by switchColors.uncheckedThumbColor(enabled = enabled)
+  val uncheckedIconColor by switchColors.uncheckedIconTint(enabled = enabled)
+
+  SwitchImpl(
+    modifier = modifier,
+    checked = checked,
+    trackColor = uncheckedTrackColor,
+    thumbColor = uncheckedThumbColor,
+    iconTint = uncheckedIconColor,
+    thumbOffsetProvider = thumbOffsetProvider
+  )
+}
+
+@Composable
+fun SwitchOn(
+  modifier: Modifier = Modifier,
+  checked: Boolean,
+  thumbOffsetProvider: () -> Float,
+  revealProgressProvider: () -> Float,
+  revealOffsetProvider: () -> Float,
+) {
+  SwitchImpl(
+    modifier = modifier
+      .graphicsLayer {
+        clip = true
+        shape = CircularRevealShape(
+          progress = revealProgressProvider(),
+          offset = revealOffsetProvider()
+        )
+      },
+    checked = checked,
+    trackColor = TwineTheme.colorScheme.brand,
+    thumbColor = TwineTheme.colorScheme.onBrand,
+    iconTint = TwineTheme.colorScheme.brand,
+    thumbOffsetProvider = thumbOffsetProvider
+  )
 }
 
 @OptIn(ExperimentalAnimationGraphicsApi::class)
@@ -187,8 +231,7 @@ private fun SwitchImpl(
   trackColor: Color,
   thumbColor: Color,
   iconTint: Color,
-  thumbSize: Dp,
-  thumbOffset: Int
+  thumbOffsetProvider: () -> Float,
 ) {
   Box(
     modifier = modifier
@@ -198,8 +241,13 @@ private fun SwitchImpl(
     Box(
       modifier = Modifier
         .align(Alignment.CenterStart)
-        .offset { IntOffset(thumbOffset, 0) }
-        .requiredSize(thumbSize)
+        .offset {
+          IntOffset(
+            x = thumbOffsetProvider().roundToInt(),
+            y = 0
+          )
+        }
+        .requiredSize(SwitchDefaults.ThumbSize)
         .background(
           color = thumbColor,
           shape = SwitchDefaults.ThumbShape
@@ -220,20 +268,15 @@ private fun SwitchImpl(
   }
 }
 
-private fun Modifier.circularClip(
-  @FloatRange(from = 0.0, to = 1.0) progress: Float,
-  offset: Float
-) = clip(CircularRevealShape(progress, offset))
-
 private class CircularRevealShape(
   @FloatRange(from = 0.0, to = 1.0) private val progress: Float,
-  private val offset: Float
+  private val offset: Float,
 ) : Shape {
 
   override fun createOutline(
     size: Size,
     layoutDirection: LayoutDirection,
-    density: Density
+    density: Density,
   ): Outline {
     val radius = with(density) { SwitchDefaults.RevealRadius.toPx() } * progress
 
