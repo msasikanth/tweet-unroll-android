@@ -29,6 +29,7 @@
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight"
             tools:node="replace">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
