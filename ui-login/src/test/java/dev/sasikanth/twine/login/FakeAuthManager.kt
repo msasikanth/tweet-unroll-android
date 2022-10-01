@@ -20,10 +20,10 @@ class FakeAuthManager : AuthManager {
     return null
   }
 
-  override suspend fun onLoginResult(result: TwineLogin.Result) {
+  override suspend fun onLoginResult(result: TwineLogin.Result?) {
     _authState.value = when {
-      result.response != null -> LOGGED_IN
-      result.error != null -> FAILED_TO_LOGIN
+      result?.response != null -> LOGGED_IN
+      result?.error != null -> FAILED_TO_LOGIN
       else -> LOGGED_OUT
     }
   }
