@@ -29,8 +29,11 @@ class TwitterRemoteSourceIntegrationTest {
     val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1550874190793674753")
 
     // then
-    assertThat(tweetLookupPayload?.data).isNotNull()
+    assertThat(tweetLookupPayload?.data?.text).isNotEmpty()
     assertThat(tweetLookupPayload?.includes?.users).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.media).isNull()
+    assertThat(tweetLookupPayload?.includes?.tweets).isNull()
+    assertThat(tweetLookupPayload?.includes?.polls).isNull()
   }
 
   @Test
@@ -39,8 +42,11 @@ class TwitterRemoteSourceIntegrationTest {
     val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1257031096249679872")
 
     // then
-    assertThat(tweetLookupPayload?.data).isNotNull()
-    assertThat(tweetLookupPayload?.includes?.media).isNotNull()
+    assertThat(tweetLookupPayload?.data?.attachments?.mediaKeys).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.users).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.media).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.tweets).isNull()
+    assertThat(tweetLookupPayload?.includes?.polls).isNull()
   }
 
   @Test
@@ -49,8 +55,11 @@ class TwitterRemoteSourceIntegrationTest {
     val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1551053769932419072")
 
     // then
-    assertThat(tweetLookupPayload?.data).isNotNull()
+    assertThat(tweetLookupPayload?.data?.attachments?.pollIds).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.users).isNotEmpty()
     assertThat(tweetLookupPayload?.includes?.polls).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.media).isNull()
+    assertThat(tweetLookupPayload?.includes?.tweets).isNull()
   }
 
   @Test
@@ -59,8 +68,8 @@ class TwitterRemoteSourceIntegrationTest {
     val tweetLookupPayload = twitterRemoteSource.tweetLookup(id = "1550400941673050112")
 
     // then
-    assertThat(tweetLookupPayload?.data).isNotNull()
-    assertThat(tweetLookupPayload?.includes?.tweets).isNotNull()
+    assertThat(tweetLookupPayload?.data?.referencedTweets).isNotEmpty()
+    assertThat(tweetLookupPayload?.includes?.tweets).isNotEmpty()
   }
 
   /**
