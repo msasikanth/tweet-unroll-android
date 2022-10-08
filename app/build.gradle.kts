@@ -89,6 +89,7 @@ dependencies {
 
   implementation(libs.bundles.retrofit)
   implementation(libs.moshi)
+  debugImplementation(libs.okhttp.logging)
 
   debugImplementation(libs.leakCanary)
 
