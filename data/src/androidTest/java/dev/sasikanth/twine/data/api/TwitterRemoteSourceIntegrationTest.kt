@@ -71,20 +71,4 @@ class TwitterRemoteSourceIntegrationTest {
     assertThat(tweetLookupPayload?.data?.referencedTweets).isNotEmpty()
     assertThat(tweetLookupPayload?.includes?.tweets).isNotEmpty()
   }
-
-  /**
-   * Since this API endpoint is time sensitive, we are not verifying the data received.
-   * We are just checking if the API call is successfully made.
-   */
-  @Test
-  fun conversation_lookup_api_should_work_correctly() = runTest {
-    // when
-    val conversationLookupPayload = twitterRemoteSource.conversationsLookup(
-      conversationId = "1550867609368686593",
-      authorId = "17424947"
-    )
-
-    // then
-    assertThat(conversationLookupPayload).isNotNull()
-  }
 }
