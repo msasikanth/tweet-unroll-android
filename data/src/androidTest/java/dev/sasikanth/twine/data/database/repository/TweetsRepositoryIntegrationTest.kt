@@ -125,24 +125,26 @@ class TweetsRepositoryIntegrationTest {
     val recentTweets = (recentTweetsLoadResult as Page<Int, RecentConversation>).data
 
     // then
-    assertThat(recentTweets).containsExactly(
-      RecentConversation(
-        conversationId = conversation2Id,
-        conversationPreviewText = "Tweet 1 from conversation 2",
-        conversationStartedAt = LocalDateTime.parse("2022-02-01T10:00:00"),
-        username = "its_a_random",
-        userFullName = "Random User",
-        userProfileImage = "https://twitter.com/image/random_user.png",
-        numberOfTweetsInConversation = 3
-      ),
-      RecentConversation(
-        conversationId = conversation1Id,
-        conversationPreviewText = "Tweet 1 from conversation 1",
-        conversationStartedAt = LocalDateTime.parse("2022-01-01T10:00:00"),
-        username = "its_sasikanth",
-        userFullName = "Sasikanth",
-        userProfileImage = "https://twitter.com/image/its_sasikanth.png",
-        numberOfTweetsInConversation = 2
+    assertThat(recentTweets).isEqualTo(
+      listOf(
+        RecentConversation(
+          conversationId = conversation2Id,
+          conversationPreviewText = "Tweet 1 from conversation 2",
+          conversationStartedAt = LocalDateTime.parse("2022-02-01T10:00:00"),
+          username = "its_a_random",
+          userFullName = "Random User",
+          userProfileImage = "https://twitter.com/image/random_user.png",
+          numberOfTweetsInConversation = 3
+        ),
+        RecentConversation(
+          conversationId = conversation1Id,
+          conversationPreviewText = "Tweet 1 from conversation 1",
+          conversationStartedAt = LocalDateTime.parse("2022-01-01T10:00:00"),
+          username = "its_sasikanth",
+          userFullName = "Sasikanth",
+          userProfileImage = "https://twitter.com/image/its_sasikanth.png",
+          numberOfTweetsInConversation = 2
+        )
       )
     )
   }
