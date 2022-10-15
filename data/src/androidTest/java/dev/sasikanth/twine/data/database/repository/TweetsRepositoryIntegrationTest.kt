@@ -1,12 +1,13 @@
 package dev.sasikanth.twine.data.database.repository
 
+import androidx.paging.PagingSource.LoadParams.Refresh
+import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -101,7 +102,16 @@ class TweetsRepositoryIntegrationTest {
     repository.saveTweets(tweetsFromConversation1 + tweetsFromConversation2)
 
     // when
-    val recentTweets = repository.recentConversations().first()
+    val recentTweetsLoadResult = repository
+      .recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      )
+    val recentTweets = (recentTweetsLoadResult as Page<Int, RecentConversation>).data
 
     // then
     assertThat(recentTweets).containsExactly(

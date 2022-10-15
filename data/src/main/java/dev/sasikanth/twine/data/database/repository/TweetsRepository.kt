@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.data.database.repository
 
+import androidx.paging.PagingSource
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
 import dev.sasikanth.twine.data.database.entities.RecentConversation
@@ -13,7 +14,7 @@ class TweetsRepository @Inject constructor(
   private val usersDao: UsersDao
 ) {
 
-  fun recentConversations(): Flow<List<RecentConversation>> {
+  fun recentConversations(): PagingSource<Int, RecentConversation> {
     return tweetsDao.recentConversations()
   }
 

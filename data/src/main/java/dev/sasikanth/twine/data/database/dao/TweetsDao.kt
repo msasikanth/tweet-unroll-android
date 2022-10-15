@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.data.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,7 +18,7 @@ interface TweetsDao {
       ORDER BY conversationStartedAt DESC
     """
   )
-  fun recentConversations(): Flow<List<RecentConversation>>
+  fun recentConversations(): PagingSource<Int, RecentConversation>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun save(tweets: List<Tweet>)
