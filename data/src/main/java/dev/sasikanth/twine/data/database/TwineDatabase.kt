@@ -3,6 +3,7 @@ package dev.sasikanth.twine.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.util.LocalDatetimeConverter
 
@@ -16,4 +17,6 @@ import dev.sasikanth.twine.data.util.LocalDatetimeConverter
   LocalDatetimeConverter::class
 )
 abstract class TwineDatabase : RoomDatabase() {
+
+  abstract fun tweetsDao(): TweetsDao
 }
