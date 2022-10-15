@@ -22,4 +22,13 @@ interface TweetsDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun save(tweets: List<Tweet>)
+
+  @Query(
+    """
+      SELECT * FROM Tweet
+      WHERE conversation_id = :conversationId
+      ORDER BY created_at ASC
+    """
+  )
+  fun tweetsInConversation(conversationId: String): Flow<List<Tweet>>
 }

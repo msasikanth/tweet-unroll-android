@@ -25,4 +25,8 @@ class TweetsRepository @Inject constructor(
   suspend fun saveUsers(users: List<User>) {
     usersDao.save(users)
   }
+
+  fun tweetsInConversation(conversationId: String): Flow<List<Tweet>> {
+    return tweetsDao.tweetsInConversation(conversationId)
+  }
 }
