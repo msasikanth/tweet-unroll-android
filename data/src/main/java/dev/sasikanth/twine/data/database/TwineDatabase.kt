@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
+import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
 import dev.sasikanth.twine.data.util.LocalDatetimeConverter
@@ -14,6 +15,9 @@ import dev.sasikanth.twine.data.util.LocalDatetimeConverter
   entities = [
     Tweet::class,
     User::class
+  ],
+  views = [
+    RecentConversation::class
   ]
 )
 @TypeConverters(
