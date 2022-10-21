@@ -23,4 +23,6 @@ data class Tweet(
   val text: String,
   @ColumnInfo(name = "created_at")
   val createdAt: LocalDateTime
-)
+) {
+  companion object
+}
