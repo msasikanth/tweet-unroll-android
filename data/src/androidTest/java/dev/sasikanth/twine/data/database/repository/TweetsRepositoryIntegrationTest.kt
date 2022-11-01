@@ -25,7 +25,10 @@ class TweetsRepositoryIntegrationTest {
   val hiltRule = HiltAndroidRule(this)
 
   @Inject
-  lateinit var repository: TweetsRepository
+  lateinit var tweetsRepository: TweetsRepository
+
+  @Inject
+  lateinit var usersRepository: UsersRepository
 
   @Inject
   lateinit var database: TwineDatabase
@@ -109,11 +112,11 @@ class TweetsRepositoryIntegrationTest {
       )
     )
 
-    repository.saveUsers(listOf(user1, user2))
-    repository.saveTweets(tweetsFromConversation1 + tweetsFromConversation2)
+    usersRepository.saveUsers(listOf(user1, user2))
+    tweetsRepository.saveTweets(tweetsFromConversation1 + tweetsFromConversation2)
 
     // when
-    val recentTweetsLoadResult = repository
+    val recentTweetsLoadResult = tweetsRepository
       .recentConversations()
       .load(
         Refresh(
@@ -182,7 +185,7 @@ class TweetsRepositoryIntegrationTest {
       createdAt = LocalDateTime.parse("2022-01-01T10:00:00")
     )
 
-    repository.saveTweets(
+    tweetsRepository.saveTweets(
       listOf(
         tweet1FromConversation1,
         tweet2FromConversation1,
@@ -191,7 +194,7 @@ class TweetsRepositoryIntegrationTest {
     )
 
     // when
-    val tweetsInConversation = repository.tweetsInConversation(conversation1).first()
+    val tweetsInConversation = tweetsRepository.tweetsInConversation(conversation1).first()
 
     // then
     assertThat(tweetsInConversation).isEqualTo(
