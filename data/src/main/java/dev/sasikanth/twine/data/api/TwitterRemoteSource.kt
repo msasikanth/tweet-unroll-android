@@ -5,15 +5,24 @@ import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface TwitterRemoteSource {
+
+  suspend fun tweetLookup(id: String): TweetLookupPayload?
+
+  suspend fun conversationsLookup(
+    conversationId: String,
+    authorId: String
+  ): ConversationsLookupPayload?
+}
+
 /**
  * A wrapper class around [TwitterApi], so that it's easier to define
  * default fields, instead of defining them individually in every
  * API call in [TwitterApi]
  */
-@Singleton
-class TwitterRemoteSource @Inject constructor(
+class TwitterRemoteSourceImpl @Inject constructor(
   private val twitterApi: TwitterApi
-) {
+) : TwitterRemoteSource {
 
   private val defaultTweetFields = listOf(
     "created_at",
@@ -54,7 +63,7 @@ class TwitterRemoteSource @Inject constructor(
     "attachments.poll_ids"
   ).joinToString(separator = ",")
 
-  suspend fun tweetLookup(id: String): TweetLookupPayload? {
+  override suspend fun tweetLookup(id: String): TweetLookupPayload? {
     return twitterApi.tweetLookup(
       id = id,
       tweetFields = defaultTweetFields,
@@ -65,7 +74,7 @@ class TwitterRemoteSource @Inject constructor(
     )
   }
 
-  suspend fun conversationsLookup(
+  override suspend fun conversationsLookup(
     conversationId: String,
     authorId: String
   ): ConversationsLookupPayload? {
