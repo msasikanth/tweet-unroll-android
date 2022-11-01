@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.sasikanth.twine.data.database.TwineDatabase
+import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
 import javax.inject.Singleton
@@ -40,5 +41,10 @@ object DatabaseModule {
   @Provides
   fun providesUsersDao(database: TwineDatabase): UsersDao {
     return database.usersDao()
+  }
+
+  @Provides
+  fun providesRecentConversationsDao(database: TwineDatabase): RecentConversationsDao {
+    return database.recentConversationsDao()
   }
 }

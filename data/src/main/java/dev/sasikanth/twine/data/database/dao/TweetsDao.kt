@@ -12,14 +12,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TweetsDao {
 
-  @Query(
-    """
-      SELECT * FROM RecentConversation
-      ORDER BY conversationStartedAt DESC
-    """
-  )
-  fun recentConversations(): PagingSource<Int, RecentConversation>
-
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun save(tweets: List<Tweet>)
 
