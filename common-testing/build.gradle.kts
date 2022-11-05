@@ -42,6 +42,7 @@ kapt {
 
 dependencies {
   implementation(projects.data)
+  implementation(projects.common)
 
   implementation(libs.androidx.core)
   implementation(libs.hilt)
