@@ -91,6 +91,8 @@ dependencies {
   implementation(libs.moshi)
   debugImplementation(libs.okhttp.logging)
 
+  implementation(libs.work.hilt)
+
   debugImplementation(libs.leakCanary)
 
   testImplementation(libs.junit)

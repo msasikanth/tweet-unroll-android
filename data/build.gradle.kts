@@ -68,6 +68,10 @@ dependencies {
 
   implementation(libs.androidx.datastore.pref)
 
+  implementation(libs.work.runtime)
+  implementation(libs.work.hilt)
+  kapt(libs.work.hilt.compiler)
+
   androidTestImplementation(projects.commonTesting)
   kaptAndroidTest(libs.hilt.compiler)
   androidTestImplementation(libs.truth)
