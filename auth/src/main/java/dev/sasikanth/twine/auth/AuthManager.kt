@@ -169,11 +169,11 @@ class TwineAuthManager @Inject constructor(
   /**
    * Suspend function for fetching token after OAuth authorization
    */
-  private suspend fun requestToken(response: AuthorizationResponse): AuthState {
+  private suspend fun requestToken(authorizationResponse: AuthorizationResponse): AuthState {
     return withContext(coroutineDispatchers.io) {
       suspendCoroutine { continuation ->
         authService.performTokenRequest(
-          response.createTokenExchangeRequest(),
+          authorizationResponse.createTokenExchangeRequest(),
           clientAuth.get()
         ) { tokenResponse, exception ->
           val state = AuthState().apply {
