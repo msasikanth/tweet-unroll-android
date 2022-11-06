@@ -23,10 +23,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
+import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.ClientAuthentication
+import net.openid.appauth.TokenResponse
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -155,8 +157,11 @@ class TwineAuthManager @Inject constructor(
    * - Notify [_authState]
    */
   private suspend fun handleAuthorizationResponse(response: AuthorizationResponse): TwineAuthState {
-    val authState = requestToken(response)
+    val (tokenResponse, tokenRequestException) = requestToken(response)
 
+    val authState = AuthState(response, null).apply {
+      update(tokenResponse, tokenRequestException)
+    }
     saveAuthState(authState)
 
     return if (authState.isAuthorized) {
@@ -169,17 +174,14 @@ class TwineAuthManager @Inject constructor(
   /**
    * Suspend function for fetching token after OAuth authorization
    */
-  private suspend fun requestToken(authorizationResponse: AuthorizationResponse): AuthState {
+  private suspend fun requestToken(authorizationResponse: AuthorizationResponse): Pair<TokenResponse?, AuthorizationException?> {
     return withContext(coroutineDispatchers.io) {
       suspendCoroutine { continuation ->
         authService.performTokenRequest(
           authorizationResponse.createTokenExchangeRequest(),
           clientAuth.get()
         ) { tokenResponse, exception ->
-          val state = AuthState(authorizationResponse, null).apply {
-            update(tokenResponse, exception)
-          }
-          continuation.resume(state)
+          continuation.resume(Pair(tokenResponse, exception))
         }
       }
     }
