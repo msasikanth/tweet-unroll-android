@@ -46,4 +46,6 @@ dependencies {
   implementation(libs.moshi)
 
   coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+  testImplementation(projects.commonTesting)
 }
