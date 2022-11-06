@@ -63,6 +63,8 @@ dependencies {
   implementation(libs.hilt.navigation.compose)
   kapt(libs.hilt.compiler)
 
+  implementation(libs.bundles.paging)
+
   testImplementation(libs.junit)
   testImplementation(projects.commonTesting)
 
