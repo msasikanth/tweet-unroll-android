@@ -176,7 +176,7 @@ class TwineAuthManager @Inject constructor(
           authorizationResponse.createTokenExchangeRequest(),
           clientAuth.get()
         ) { tokenResponse, exception ->
-          val state = AuthState().apply {
+          val state = AuthState(authorizationResponse, null).apply {
             update(tokenResponse, exception)
           }
           continuation.resume(state)
