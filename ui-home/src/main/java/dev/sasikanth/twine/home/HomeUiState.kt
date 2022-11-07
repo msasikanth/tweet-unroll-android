@@ -10,7 +10,7 @@ data class HomeUiState(
     )
   }
 
-  fun onTweetUrlChanged(tweetUrl: String): HomeUiState {
+  fun onTweetUrlChanged(tweetUrl: String?): HomeUiState {
     return copy(tweetUrl = tweetUrl)
   }
 }
