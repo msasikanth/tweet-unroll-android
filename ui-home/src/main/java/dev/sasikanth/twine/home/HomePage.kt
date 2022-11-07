@@ -7,25 +7,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.sasikanth.twine.common.ui.components.AppBarActionButton
 import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.R as commonR
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomePage(
   modifier: Modifier = Modifier,
   navigateToSearch: () -> Unit,
   navigateToSettings: () -> Unit,
+  viewModel: HomeViewModel = hiltViewModel()
 ) {
+  val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+
   Scaffold(
     topBar = {
       TopAppBar(
@@ -52,9 +58,10 @@ fun HomePage(
         .padding(it),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      // Add home page content
-      Text(
-        text = "Work in progress!"
+      HeroInput(
+        text = homeUiState.tweetUrl.orEmpty(),
+        onPasteClick = viewModel::pasteUrl,
+        onTextChange = viewModel::tweetUrlChanged
       )
     }
   }
