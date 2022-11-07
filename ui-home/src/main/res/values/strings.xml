@@ -4,6 +4,5 @@
     <string name="home_hero_input_heading">Paste a tweet link to get started</string>
     <string name="home_hero_input_hint">Tweet link</string>
     <string name="home_hero_input_action">Paste</string>
-    <string name="home_hero_input_auto_paste_label">Paste from clipboard automatically</string>
     <string name="home_hero_input_tooltip">You can also view threads by sharing tweet links with Twine from your share menu.</string>
 </resources>
