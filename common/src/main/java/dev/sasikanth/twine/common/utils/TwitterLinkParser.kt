@@ -16,7 +16,8 @@ class TwitterLinkParser @Inject constructor() {
   )
 
   fun getId(tweetLink: String): String? {
-    val uri = URI.create(tweetLink)
+    val uri = tweetLink.toURI() ?: return null
+
     if (!uri.isTwitterLink()) {
       return null
     }
@@ -26,7 +27,8 @@ class TwitterLinkParser @Inject constructor() {
   }
 
   fun getUserName(tweetLink: String): String? {
-    val uri = URI.create(tweetLink)
+    val uri = tweetLink.toURI() ?: return null
+
     if (!uri.isTwitterLink()) {
       return null
     }
@@ -35,5 +37,11 @@ class TwitterLinkParser @Inject constructor() {
     return result.groups[GROUP_TAG_USERNAME]?.value ?: return null
   }
 
-  private fun URI.isTwitterLink(): Boolean = host.contains("twitter.com")
+  private fun URI.isTwitterLink(): Boolean = host?.contains("twitter.com") ?: false
+
+  private fun String.toURI(): URI? = try {
+    URI.create(this)
+  } catch (e: IllegalArgumentException) {
+    null
+  }
 }

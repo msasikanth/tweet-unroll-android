@@ -30,4 +30,16 @@ class TwitterLinkParserTest {
     // then
     assertThat(userName).isEqualTo("its_sasikanth")
   }
+
+  @Test
+  fun `malformed link should be handled correctly`() {
+    // given
+    val tweetLink = "this is not a valid link"
+
+    // when
+    val id = linkParser.getId(tweetLink)
+
+    // then
+    assertThat(id).isNull()
+  }
 }
