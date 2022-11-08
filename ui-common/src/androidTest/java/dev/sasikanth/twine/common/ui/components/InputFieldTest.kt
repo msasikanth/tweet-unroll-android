@@ -7,7 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +20,7 @@ class InputFieldTest {
   val composeTestRule = createComposeRule()
 
   @Test
-  fun when_text_is_empty_then_hint_should_be_shown() {
+  fun when_text_is_empty_then_hint_should_be_shown_and_clear_button_should_be_hidden() {
     // given
     composeTestRule.setContent {
       TwineTheme {
@@ -27,6 +29,9 @@ class InputFieldTest {
           hint = "Label",
           onValueChange = {
             // Handle text changes
+          },
+          onClearTextClick = {
+            // Handle clear text
           }
         )
       }
@@ -40,10 +45,14 @@ class InputFieldTest {
     composeTestRule
       .onNodeWithTag("InputField:Hint", useUnmergedTree = true)
       .assertTextEquals("Label")
+
+    composeTestRule
+      .onNodeWithTag("InputField:Clear", useUnmergedTree = true)
+      .assertDoesNotExist()
   }
 
   @Test
-  fun when_text_is_not_empty_then_hint_should_not_be_shown() {
+  fun when_text_is_not_empty_then_hint_should_not_be_shown_and_clear_button_should_be_shown() {
     // given
     val text = mutableStateOf("")
 
@@ -54,6 +63,9 @@ class InputFieldTest {
           hint = "Label",
           onValueChange = {
             text.value = it
+          },
+          onClearTextClick = {
+            text.value = ""
           }
         )
       }
@@ -72,6 +84,10 @@ class InputFieldTest {
     composeTestRule
       .onNodeWithTag("InputField:Hint", useUnmergedTree = true)
       .assertDoesNotExist()
+
+    composeTestRule
+      .onNodeWithTag("InputField:Clear", useUnmergedTree = true)
+      .assertExists()
   }
 
   @Test
@@ -86,6 +102,9 @@ class InputFieldTest {
           hint = "Label",
           onValueChange = {
             text.value = it
+          },
+          onClearTextClick = {
+            text.value = ""
           }
         )
       }
@@ -117,6 +136,9 @@ class InputFieldTest {
           },
           onValueChange = {
             // Handle text change
+          },
+          onClearTextClick = {
+            // Handle clear text
           }
         )
       }
@@ -139,6 +161,9 @@ class InputFieldTest {
           startSlot = null,
           onValueChange = {
             // Handle text change
+          },
+          onClearTextClick = {
+            // Handle clear text
           }
         )
       }
@@ -165,6 +190,9 @@ class InputFieldTest {
           },
           onValueChange = {
             // Handle text change
+          },
+          onClearTextClick = {
+            // Handle clear text
           }
         )
       }
@@ -187,6 +215,9 @@ class InputFieldTest {
           endSlot = null,
           onValueChange = {
             // Handle text change
+          },
+          onClearTextClick = {
+            // Handle clear text
           }
         )
       }
@@ -195,6 +226,47 @@ class InputFieldTest {
     // then
     composeTestRule
       .onNodeWithTag("InputField:EndSlot")
+      .assertDoesNotExist()
+  }
+
+  @Test
+  fun when_clear_text_button_is_clicked_then_clear_text() {
+    // given
+    val text = mutableStateOf("Hello")
+
+    composeTestRule.setContent {
+      TwineTheme {
+        InputField(
+          text = text.value,
+          hint = "Label",
+          onValueChange = {
+            text.value = it
+          },
+          onClearTextClick = {
+            text.value = ""
+          }
+        )
+      }
+    }
+
+    composeTestRule
+      .onNodeWithTag("InputField:Clear", useUnmergedTree = true)
+      .assertExists()
+
+    // when
+    composeTestRule
+      .onNodeWithTag("InputField:Clear", useUnmergedTree = true)
+      .performClick()
+
+    // then
+    assertThat(text.value).isEmpty()
+
+    composeTestRule
+      .onNodeWithTag("InputField:Hint", useUnmergedTree = true)
+      .assertExists()
+
+    composeTestRule
+      .onNodeWithTag("InputField:Clear", useUnmergedTree = true)
       .assertDoesNotExist()
   }
 }

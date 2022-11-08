@@ -22,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -73,9 +74,10 @@ fun InputField(
   focusRequester: FocusRequester = FocusRequester(),
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
-  startSlot: @Composable (BoxScope.() -> Unit)? = null,
-  endSlot: @Composable (BoxScope.() -> Unit)? = null,
+  startSlot: @Composable() (BoxScope.() -> Unit)? = null,
+  endSlot: @Composable() (BoxScope.() -> Unit)? = null,
   onValueChange: (String) -> Unit,
+  onClearTextClick: () -> Unit,
 ) {
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()
@@ -166,6 +168,21 @@ fun InputField(
       cursorBrush = SolidColor(TwineTheme.colorScheme.onSurface)
     )
 
+    if (text.isNotBlank()) {
+      IconButton(
+        modifier = Modifier
+          .padding(start = 4.dp)
+          .testTag("InputField:Clear"),
+        onClick = onClearTextClick
+      ) {
+        Icon(
+          imageVector = Icons.Filled.Cancel,
+          contentDescription = null,
+          tint = TwineTheme.colorScheme.secondary
+        )
+      }
+    }
+
     if (endSlot == null) {
       Spacer(modifier = Modifier.width(16.dp))
     } else {
@@ -193,9 +210,13 @@ private fun InputFieldPreview_EndSlot() {
 
         }
       },
-    ) {
-      // Handle text changes
-    }
+      onValueChange = {
+        // Handle text changes
+      },
+      onClearTextClick = {
+        // Handle clear text
+      },
+    )
   }
 }
 
@@ -225,8 +246,12 @@ private fun InputFieldPreview_StartSlot_EndSlot() {
           )
         }
       },
-    ) {
-      // Handle text changes
-    }
+      onValueChange = {
+        // Handle text changes
+      },
+      onClearTextClick = {
+        // Handle clear text
+      },
+    )
   }
 }
