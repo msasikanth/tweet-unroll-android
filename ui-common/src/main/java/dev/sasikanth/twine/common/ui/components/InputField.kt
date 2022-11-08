@@ -17,11 +17,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -184,12 +184,12 @@ fun InputField(
         modifier = Modifier
           .padding(start = 4.dp)
           .testTag("InputField:Clear"),
-        onClick = onClearTextClick
+        onClick = onClearTextClick,
+        contentColor = TwineTheme.colorScheme.secondary
       ) {
         Icon(
           painter = painterResource(id = R.drawable.ic_clear),
           contentDescription = null,
-          tint = TwineTheme.colorScheme.secondary
         )
       }
     }
