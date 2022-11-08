@@ -50,6 +50,7 @@ hilt {
 dependencies {
   implementation(projects.uiCommon)
   implementation(projects.data)
+  implementation(projects.common)
 
   implementation(libs.androidx.core)
   implementation(libs.bundles.androidx.lifecycle)
