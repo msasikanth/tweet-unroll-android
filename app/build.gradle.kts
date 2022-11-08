@@ -39,6 +39,8 @@ android {
 
       buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
       buildConfigField("String", "CLIENT_SECRET", "\"$clientSecret\"")
+
+      applicationIdSuffix = ".debug"
     }
   }
   compileOptions {
