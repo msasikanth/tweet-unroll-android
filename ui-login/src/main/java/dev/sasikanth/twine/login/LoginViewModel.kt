@@ -12,6 +12,7 @@ import dev.sasikanth.twine.auth.TwineAuthState.LOGGED_OUT
 import dev.sasikanth.twine.auth.TwineLogin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,11 +47,13 @@ class LoginViewModel @Inject constructor(
   }
 
   private fun handleAuthState(authState: TwineAuthState) {
-    _uiState.value = when (authState) {
-      IDLE -> _uiState.value.checkingUserLoginStatus()
-      LOGGED_IN -> _uiState.value.userLoggedIn()
-      LOGGED_OUT,
-      FAILED_TO_LOGIN -> _uiState.value.userNotLoggedIn()
+    _uiState.update {
+      when (authState) {
+        IDLE -> it.checkingUserLoginStatus()
+        LOGGED_IN -> it.userLoggedIn()
+        LOGGED_OUT,
+        FAILED_TO_LOGIN -> it.userNotLoggedIn()
+      }
     }
   }
 }
