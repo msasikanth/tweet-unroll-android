@@ -6,6 +6,7 @@ import dev.sasikanth.twine.data.clipboard.Clipboard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,16 +19,22 @@ class HomeViewModel @Inject constructor(
   val homeUiState: StateFlow<HomeUiState>
     get() = _homeUiState.asStateFlow()
 
-  fun tweetUrlChanged(tweetUrl: String) {
-    _homeUiState.value = homeUiState.value.onTweetUrlChanged(tweetUrl)
+  fun tweetUrlChanged(tweetUrl: String?) {
+    _homeUiState.update {
+      it.onTweetUrlChanged(tweetUrl = tweetUrl)
+    }
   }
 
   fun pasteUrl() {
     val clipText = clipboard.getText()
-    _homeUiState.value = homeUiState.value.onTweetUrlChanged(clipText)
+    _homeUiState.update {
+      it.onTweetUrlChanged(tweetUrl = clipText)
+    }
   }
 
   fun clearUrl() {
-    _homeUiState.value = homeUiState.value.onTweetUrlChanged(tweetUrl = null)
+    _homeUiState.update {
+      it.onTweetUrlChanged(tweetUrl = null)
+    }
   }
 }
