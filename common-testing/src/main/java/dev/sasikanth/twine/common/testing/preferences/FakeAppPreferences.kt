@@ -4,6 +4,7 @@ import dev.sasikanth.twine.data.prefrences.AppPreferences
 import dev.sasikanth.twine.data.prefrences.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 class FakeAppPreferences : AppPreferences {
 
@@ -17,10 +18,10 @@ class FakeAppPreferences : AppPreferences {
     get() = _dynamicColors
 
   override suspend fun setTheme(theme: Theme) {
-    _theme.value = theme
+    _theme.update { theme }
   }
 
   override suspend fun setDynamicColors(enabled: Boolean) {
-    _dynamicColors.value = enabled
+    _dynamicColors.update { enabled }
   }
 }
