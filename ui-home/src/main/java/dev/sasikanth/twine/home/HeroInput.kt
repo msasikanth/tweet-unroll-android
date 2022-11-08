@@ -24,6 +24,7 @@ internal fun HeroInput(
   modifier: Modifier = Modifier,
   text: String,
   onPasteClick: () -> Unit,
+  onGoClick: () -> Unit,
   onTextChange: (String) -> Unit,
   onClearTextClick: () -> Unit,
 ) {
@@ -47,9 +48,10 @@ internal fun HeroInput(
       hint = stringResource(id = R.string.home_hero_input_hint),
       onValueChange = onTextChange,
       endSlot = {
-        TwineButton(
-          text = stringResource(id = R.string.home_hero_input_action),
-          onClick = onPasteClick
+        inputFieldEndSlot(
+          hasText = text.isNotBlank(),
+          onPasteClick = onPasteClick,
+          onGoClick = onGoClick
         )
       },
       onClearTextClick = onClearTextClick
@@ -67,6 +69,31 @@ internal fun HeroInput(
   }
 }
 
+@Composable
+private fun inputFieldEndSlot(
+  hasText: Boolean,
+  onPasteClick: () -> Unit,
+  onGoClick: () -> Unit
+) {
+  if (hasText) {
+    IconButton(
+      backgroundColor = TwineTheme.colorScheme.brand,
+      content = {
+        Icon(
+          imageVector = Icons.Filled.ArrowForward,
+          contentDescription = null
+        )
+      },
+      onClick = onGoClick
+    )
+  } else {
+    TwineButton(
+      text = stringResource(id = R.string.home_hero_input_action),
+      onClick = onPasteClick
+    )
+  }
+}
+
 @Preview
 @Composable
 private fun HeroInputPreview() {
@@ -76,7 +103,8 @@ private fun HeroInputPreview() {
         text = "",
         onPasteClick = {},
         onTextChange = {},
-        onClearTextClick = {}
+        onClearTextClick = {},
+        onGoClick = {}
       )
     }
   }
@@ -91,7 +119,8 @@ private fun HeroInputWithTextPreview() {
         text = "https://twitter.com/",
         onPasteClick = {},
         onTextChange = {},
-        onClearTextClick = {}
+        onClearTextClick = {},
+        onGoClick = {}
       )
     }
   }

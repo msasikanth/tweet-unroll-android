@@ -64,6 +64,9 @@ fun HomePage(
         onTextChange = viewModel::tweetUrlChanged,
         onClearTextClick = {
           // TODO: Clear text
+        },
+        onGoClick = {
+          // TODO: Validate URL and sync thread
         }
       )
     }
