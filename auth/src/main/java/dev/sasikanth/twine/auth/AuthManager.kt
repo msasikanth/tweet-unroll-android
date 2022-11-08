@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
@@ -85,9 +86,11 @@ class TwineAuthManager @Inject constructor(
     // Read the current auth state from preferences and notify the state flow
     GlobalScope.launch(coroutineDispatchers.main) {
       val state = withContext(coroutineDispatchers.io) { readAuthState() }
-      _authState.value = when {
-        state.isAuthorized -> LOGGED_IN
-        else -> LOGGED_OUT
+      _authState.update {
+        when {
+          state.isAuthorized -> LOGGED_IN
+          else -> LOGGED_OUT
+        }
       }
     }
   }
@@ -105,10 +108,12 @@ class TwineAuthManager @Inject constructor(
   override suspend fun onLoginResult(result: TwineLogin.Result?) {
     val (response, ex) = result ?: return
 
-    _authState.value = when {
-      response != null -> handleAuthorizationResponse(response)
-      ex != null -> FAILED_TO_LOGIN
-      else -> LOGGED_OUT
+    _authState.update {
+      when {
+        response != null -> handleAuthorizationResponse(response)
+        ex != null -> FAILED_TO_LOGIN
+        else -> LOGGED_OUT
+      }
     }
   }
 
@@ -117,7 +122,7 @@ class TwineAuthManager @Inject constructor(
    */
   override suspend fun logout() {
     clearAuthState()
-    _authState.value = LOGGED_OUT
+    _authState.update { LOGGED_OUT }
   }
 
   /**
