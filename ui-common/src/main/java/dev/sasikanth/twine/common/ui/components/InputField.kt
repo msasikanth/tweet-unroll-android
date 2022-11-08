@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,6 +32,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -43,6 +45,8 @@ import dev.sasikanth.twine.common.ui.components.InputFieldDefaults.InputFieldMin
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
+import dev.sasikanth.twine.common.ui.utils.KeyboardState
+import dev.sasikanth.twine.common.ui.utils.keyboardVisibilityAsState
 
 /**
  * Component that lets user edit text using either software or hardware keyboard.
@@ -82,6 +86,12 @@ fun InputField(
 ) {
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()
+  val focusManager = LocalFocusManager.current
+  val keyboardState by keyboardVisibilityAsState()
+
+  LaunchedEffect(keyboardState) {
+    if (keyboardState == KeyboardState.Closed) focusManager.clearFocus()
+  }
 
   val transition = updateTransition(
     targetState = isFocused,
