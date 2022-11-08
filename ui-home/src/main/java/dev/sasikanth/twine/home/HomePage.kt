@@ -62,9 +62,7 @@ fun HomePage(
         text = homeUiState.tweetUrl.orEmpty(),
         onPasteClick = viewModel::pasteUrl,
         onTextChange = viewModel::tweetUrlChanged,
-        onClearTextClick = {
-          // TODO: Clear text
-        },
+        onClearTextClick = viewModel::clearUrl,
         onGoClick = {
           // TODO: Validate URL and sync thread
         }

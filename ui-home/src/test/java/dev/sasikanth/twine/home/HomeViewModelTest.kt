@@ -38,4 +38,18 @@ class HomeViewModelTest {
     val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
   }
+
+  @Test
+  fun `when clear button is clicked, then clear the text`() {
+    // given
+    val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
+    viewModel.tweetUrlChanged(tweetUrl)
+
+    // when
+    viewModel.clearUrl()
+
+    // then
+    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl = null)
+    assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
+  }
 }

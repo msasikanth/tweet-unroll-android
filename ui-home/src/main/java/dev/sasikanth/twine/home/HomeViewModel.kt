@@ -26,4 +26,8 @@ class HomeViewModel @Inject constructor(
     val clipText = clipboard.getText()
     _homeUiState.value = homeUiState.value.onTweetUrlChanged(clipText)
   }
+
+  fun clearUrl() {
+    _homeUiState.value = homeUiState.value.onTweetUrlChanged(tweetUrl = null)
+  }
 }
