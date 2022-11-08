@@ -22,7 +22,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,10 +32,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.sasikanth.twine.common.ui.R
 import dev.sasikanth.twine.common.ui.anim.TwineSpring
 import dev.sasikanth.twine.common.ui.components.InputFieldDefaults.InputFieldMinHeight
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
@@ -176,7 +177,7 @@ fun InputField(
         onClick = onClearTextClick
       ) {
         Icon(
-          imageVector = Icons.Filled.Cancel,
+          painter = painterResource(id = R.drawable.ic_clear),
           contentDescription = null,
           tint = TwineTheme.colorScheme.secondary
         )
