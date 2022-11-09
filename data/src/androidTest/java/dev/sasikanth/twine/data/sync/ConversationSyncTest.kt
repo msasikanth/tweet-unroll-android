@@ -5,8 +5,8 @@ import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
+import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.IncludesPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
@@ -15,7 +15,6 @@ import dev.sasikanth.twine.data.api.models.UserPayload
 import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
-import dev.sasikanth.twine.data.database.repository.UsersRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -31,32 +30,23 @@ class ConversationSyncTest {
   val hiltRule = HiltAndroidRule(this)
 
   @Inject
-  lateinit var fakeTwitterRemoteSource: FakeTwitterRemoteSource
+  lateinit var twitterRemoteSource: TwitterRemoteSource
 
   @Inject
   lateinit var tweetsRepository: TweetsRepository
 
   @Inject
-  lateinit var usersRepository: UsersRepository
-
-  @Inject
-  lateinit var dispatchers: CoroutineDispatchers
+  lateinit var conversationSync: ConversationSync
 
   @Inject
   lateinit var appDatabase: TwineDatabase
 
-  private lateinit var conversationSync: ConversationSync
+  private val fakeTwitterRemoteSource
+    get() = (twitterRemoteSource as FakeTwitterRemoteSource)
 
   @Before
   fun setup() {
     hiltRule.inject()
-
-    conversationSync = ConversationSync(
-      twitterRemoteSource = fakeTwitterRemoteSource,
-      tweetsRepository = tweetsRepository,
-      usersRepository = usersRepository,
-      dispatchers = dispatchers
-    )
   }
 
   @After
