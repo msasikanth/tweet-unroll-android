@@ -3,9 +3,9 @@ package dev.sasikanth.twine.common.utils
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class TwitterLinkParserTest {
+class TweetLinkParserTest {
 
-  private val linkParser = TwitterLinkParser()
+  private val linkParser = TweetLinkParser()
 
   @Test
   fun `getting id from the tweet link should work correctly`() {

@@ -4,7 +4,7 @@ import java.net.URI
 import javax.inject.Inject
 
 // Based on : https://github.com/saket/unfurl/blob/3d753e38b00ec6fe396154031a9fe40386cc80b8/unfurl-social/src/main/kotlin/me/saket/unfurl/social/TweetUnfurler.kt#L199
-class TwitterLinkParser @Inject constructor() {
+class TweetLinkParser @Inject constructor() {
 
   companion object {
     private const val GROUP_TAG_USERNAME = "username"
