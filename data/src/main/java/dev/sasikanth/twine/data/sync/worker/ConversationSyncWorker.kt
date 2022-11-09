@@ -39,7 +39,6 @@ class ConversationSyncWorker @AssistedInject constructor(
     val tweetId = inputData.getString(KEY_TWEET_ID) ?: return Result.failure()
 
     return when (conversationSync.trySync(tweetId = tweetId)) {
-      Response.ConversationIsOlderThanSevenDays,
       Response.NoTweetFound,
       is Response.Unknown -> Result.failure()
 

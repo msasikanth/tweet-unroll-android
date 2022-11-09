@@ -6,7 +6,6 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
-import dev.sasikanth.twine.common.testing.util.TestUserClock
 import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.IncludesPayload
@@ -22,7 +21,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -42,9 +40,6 @@ class ConversationSyncTest {
   lateinit var usersRepository: UsersRepository
 
   @Inject
-  lateinit var userClock: TestUserClock
-
-  @Inject
   lateinit var dispatchers: CoroutineDispatchers
 
   @Inject
@@ -56,13 +51,10 @@ class ConversationSyncTest {
   fun setup() {
     hiltRule.inject()
 
-    userClock.setDate(date = LocalDate.parse("2022-07-23"))
-
     conversationSync = ConversationSync(
       twitterRemoteSource = fakeTwitterRemoteSource,
       tweetsRepository = tweetsRepository,
       usersRepository = usersRepository,
-      userClock = userClock,
       dispatchers = dispatchers
     )
   }
@@ -163,78 +155,6 @@ class ConversationSyncTest {
         )
       )
     )
-  }
-
-  @Test
-  fun syncing_a_tweet_that_is_older_than_7_days_should_fail() = runTest {
-    // given
-    userClock.setDate(LocalDate.parse("2022-11-05"))
-
-    val tweetLookupPayload = TweetLookupPayload(
-      data = TweetPayload(
-        id = "1550874190793674753",
-        authorId = "280595048",
-        conversationId = "1550874190793674753",
-        text = "Tweet 1 in the thread",
-        attachments = null,
-        entities = null,
-        inReplyToUserId = null,
-        referencedTweets = null,
-        createdAt = LocalDateTime.parse("2022-07-23T16:03:15")
-      ),
-      includes = IncludesPayload(
-        tweets = null,
-        media = null,
-        users = listOf(
-          UserPayload(
-            id = "280595048",
-            name = "Sasikanth",
-            username = "its_sasikanth",
-            profileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg"
-          )
-        ),
-        polls = null
-      )
-    )
-
-    val conversationLookupPayload = ConversationsLookupPayload(
-      data = listOf(
-        TweetPayload(
-          id = "1550874190793674756",
-          authorId = "280595048",
-          conversationId = "1550874190793674753",
-          text = "Tweet 2 in the thread",
-          attachments = null,
-          entities = null,
-          inReplyToUserId = null,
-          referencedTweets = null,
-          createdAt = LocalDateTime.parse("2022-07-23T16:10:15")
-        )
-      ),
-      includes = IncludesPayload(
-        tweets = null,
-        media = null,
-        users = listOf(
-          UserPayload(
-            id = "280595048",
-            name = "Sasikanth",
-            username = "its_sasikanth",
-            profileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg"
-          )
-        ),
-        polls = null
-      ),
-      meta = null
-    )
-
-    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
-    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
-
-    // when
-    val result = conversationSync.trySync(tweetId = "1550874190793674753")
-
-    // then
-    assertThat(result).isEqualTo(Response.ConversationIsOlderThanSevenDays)
   }
 
   @Test

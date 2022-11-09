@@ -1,7 +1,6 @@
 package dev.sasikanth.twine.data.sync
 
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
-import dev.sasikanth.twine.common.utils.UserClock
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
@@ -12,35 +11,23 @@ import dev.sasikanth.twine.data.database.entities.from
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import dev.sasikanth.twine.data.database.repository.UsersRepository
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class ConversationSync @Inject constructor(
   private val twitterRemoteSource: TwitterRemoteSource,
   private val tweetsRepository: TweetsRepository,
   private val usersRepository: UsersRepository,
-  private val userClock: UserClock,
   private val dispatchers: CoroutineDispatchers,
 ) {
-
-  companion object {
-    private const val CONVERSATION_START_DELTA_CEILING = 7
-  }
 
   suspend fun trySync(tweetId: String): Response {
     return withContext(dispatchers.io) {
       val response = try {
         val conversationHead = fetchConversationHead(tweetId)
-        val conversationHeadTweet = conversationHead?.data
 
-        when {
-          conversationHeadTweet == null -> {
+        when (val conversationHeadTweet = conversationHead?.data) {
+          null -> {
             Response.NoTweetFound
-          }
-
-          isConversationOlderThan7Days(conversationHeadTweet.createdAt) -> {
-            Response.ConversationIsOlderThanSevenDays
           }
 
           else -> {
@@ -118,13 +105,6 @@ class ConversationSync @Inject constructor(
     return conversationHead
   }
 
-  private fun isConversationOlderThan7Days(conversationStartedAt: LocalDateTime): Boolean {
-    val now = LocalDateTime.now(userClock)
-    val conversationStartDelta = ChronoUnit.DAYS.between(conversationStartedAt, now)
-
-    return conversationStartDelta > CONVERSATION_START_DELTA_CEILING
-  }
-
   /**
    * Ignore all the tweets that are not a direct reply to the author. Some of the
    * replies may contain author mention, but we don't want to include those. We only want
@@ -137,6 +117,5 @@ class ConversationSync @Inject constructor(
 sealed interface Response {
   object Success : Response
   object NoTweetFound : Response
-  object ConversationIsOlderThanSevenDays : Response
   data class Unknown(val throwable: Throwable) : Response
 }
