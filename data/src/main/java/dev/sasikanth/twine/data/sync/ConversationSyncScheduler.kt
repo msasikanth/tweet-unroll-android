@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.data.sync.worker
+package dev.sasikanth.twine.data.sync
 
 import androidx.work.WorkManager
 import javax.inject.Inject

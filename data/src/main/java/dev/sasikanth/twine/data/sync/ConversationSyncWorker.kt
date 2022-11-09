@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.data.sync.worker
+package dev.sasikanth.twine.data.sync
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
@@ -8,8 +8,6 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dev.sasikanth.twine.data.sync.ConversationSync
-import dev.sasikanth.twine.data.sync.Response
 
 @HiltWorker
 class ConversationSyncWorker @AssistedInject constructor(
