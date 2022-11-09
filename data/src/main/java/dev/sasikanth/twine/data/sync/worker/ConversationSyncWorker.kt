@@ -21,11 +21,16 @@ class ConversationSyncWorker @AssistedInject constructor(
   companion object {
     private const val CONVERSATION_SYNC_WORKER_TAG = "conversation_tag:"
     private const val KEY_TWEET_ID = "tweet_id"
+    private const val KEY_TWEET_BY = "tweet_by"
 
-    fun createWorkRequest(tweetId: String): OneTimeWorkRequest {
+    fun createWorkRequest(
+      tweetId: String,
+      tweetBy: String
+    ): OneTimeWorkRequest {
       val tag = "$CONVERSATION_SYNC_WORKER_TAG$tweetId"
       val input = workDataOf(
-        KEY_TWEET_ID to tweetId
+        KEY_TWEET_ID to tweetId,
+        KEY_TWEET_BY to tweetBy
       )
 
       return OneTimeWorkRequest.Builder(ConversationSyncWorker::class.java)
