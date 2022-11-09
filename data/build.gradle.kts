@@ -21,6 +21,8 @@ android {
 
     val testTwineBearerToken = System.getenv("TWINE_DEV_BEARER_TOKEN")
     buildConfigField("String", "TEST_TWINE_BEARER_TOKEN", "\"$testTwineBearerToken\"")
+
+    manifestPlaceholders["appAuthRedirectScheme"] = "empty"
   }
 
   buildTypes {
