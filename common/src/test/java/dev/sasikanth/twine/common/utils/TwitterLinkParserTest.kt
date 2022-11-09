@@ -32,14 +32,26 @@ class TwitterLinkParserTest {
   }
 
   @Test
-  fun `malformed link should be handled correctly`() {
+  fun `valid tweet url should be detected correctly`() {
     // given
-    val tweetLink = "this is not a valid link"
+    val tweetLink = "https://twitter.com/its_sasikanth/status/1588742946387824640"
 
     // when
-    val id = linkParser.getId(tweetLink)
+    val isAValidTweetUrl = linkParser.isAValidTweetUrl(tweetLink)
 
     // then
-    assertThat(id).isNull()
+    assertThat(isAValidTweetUrl).isTrue()
+  }
+
+  @Test
+  fun `invalid tweet url should be detected correctly`() {
+    // given
+    val url = "https://github.com/msasikanth/pinnit"
+
+    // when
+    val isAValidTweetUrl = linkParser.isAValidTweetUrl(url)
+
+    // then
+    assertThat(isAValidTweetUrl).isFalse()
   }
 }

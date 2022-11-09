@@ -37,6 +37,16 @@ class TwitterLinkParser @Inject constructor() {
     return result.groups[GROUP_TAG_USERNAME]?.value ?: return null
   }
 
+  fun isAValidTweetUrl(tweetLink: String): Boolean {
+    val uri = tweetLink.toURI() ?: return false
+
+    if (!uri.isTwitterLink()) {
+      return false
+    }
+
+    return regex.matches(uri.path)
+  }
+
   private fun URI.isTwitterLink(): Boolean = host?.contains("twitter.com") ?: false
 
   private fun String.toURI(): URI? = try {
