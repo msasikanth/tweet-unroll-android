@@ -2,7 +2,9 @@ package dev.sasikanth.twine.data.sync
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.NetworkType.CONNECTED
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
@@ -31,9 +33,15 @@ class ConversationSyncWorker @AssistedInject constructor(
         KEY_TWEET_BY to tweetBy
       )
 
+      val constraints = Constraints.Builder()
+        .setRequiresBatteryNotLow(true)
+        .setRequiredNetworkType(CONNECTED)
+        .build()
+
       return OneTimeWorkRequest.Builder(ConversationSyncWorker::class.java)
         .setInputData(input)
         .addTag(tag)
+        .setConstraints(constraints)
         .build()
     }
   }
