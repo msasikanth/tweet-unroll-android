@@ -9,10 +9,12 @@ class TwitterLinkParser @Inject constructor() {
   companion object {
     private const val GROUP_TAG_USERNAME = "username"
     private const val GROUP_TAG_ID = "id"
+
+    private const val HOST = "twitter.com"
   }
 
   private val regex = Regex(
-    pattern = "^/(?<$GROUP_TAG_USERNAME>[\\w\\d]+)/status/(?<$GROUP_TAG_ID>[\\w\\d]+)\$"
+    pattern = "^/(?<$GROUP_TAG_USERNAME>\\w+)/status/(?<$GROUP_TAG_ID>\\w+)\$"
   )
 
   fun getId(tweetLink: String): String? {
@@ -47,7 +49,7 @@ class TwitterLinkParser @Inject constructor() {
     return regex.matches(uri.path)
   }
 
-  private fun URI.isTwitterLink(): Boolean = host?.contains("twitter.com") ?: false
+  private fun URI.isTwitterLink(): Boolean = host?.contains(HOST) ?: false
 
   private fun String.toURI(): URI? = try {
     URI.create(this)
