@@ -45,9 +45,9 @@ class ConversationSyncWorker @AssistedInject constructor(
 
     return when (conversationSync.trySync(tweetId = tweetId)) {
       Response.NoTweetFound,
-      is Response.Unknown -> Result.failure()
+      is Response.Unknown -> Result.failure(inputData)
 
-      Response.Success -> Result.success()
+      Response.Success -> Result.success(inputData)
     }
   }
 }
