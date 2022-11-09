@@ -41,6 +41,7 @@ kapt {
 }
 
 dependencies {
+  implementation(projects.auth)
   implementation(projects.data)
   implementation(projects.common)
 

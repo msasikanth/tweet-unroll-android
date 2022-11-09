@@ -3,6 +3,7 @@ package dev.sasikanth.twine.login
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.auth.TwineLogin
+import dev.sasikanth.twine.common.testing.auth.FakeAuthManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
