@@ -7,6 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface Clipboard {
+  val content: String?
   fun getText(): String?
 }
 
@@ -18,7 +19,7 @@ class AndroidClipboard @Inject constructor(
     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
   }
 
-  val content: String?
+  override val content: String?
     get() {
       val clipItem = clipboardManager.primaryClip ?: return null
       val isPrimaryClipText =

@@ -6,6 +6,9 @@ class FakeClipboard : Clipboard {
 
   private var text: String? = null
 
+  override val content: String?
+    get() = text
+
   override fun getText(): String? {
     return text
   }
