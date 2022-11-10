@@ -74,9 +74,12 @@ dependencies {
   implementation(libs.work.hilt)
   kapt(libs.work.hilt.compiler)
 
+  implementation(libs.androidx.lifecycle.livedata.ktx)
+
   androidTestImplementation(projects.commonTesting)
   kaptAndroidTest(libs.hilt.compiler)
   androidTestImplementation(libs.truth)
+  androidTestImplementation(libs.work.testing)
 
   coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
