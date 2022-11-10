@@ -9,5 +9,5 @@ enum class Status {
 data class ConversationSyncQueueItem(
   val tweetId: String,
   val tweetBy: String,
-  val status: Status? = Status.Enqueued
+  val status: Status = Status.Enqueued
 )

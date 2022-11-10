@@ -17,6 +17,7 @@ import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
+import dev.sasikanth.twine.data.sync.Status.Enqueued
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -85,7 +86,7 @@ class ConversationSyncQueueIntegrationTest {
     val queueItem = ConversationSyncQueueItem(
       tweetId = tweetId,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     // when
@@ -99,7 +100,7 @@ class ConversationSyncQueueIntegrationTest {
           ConversationSyncQueueItem(
             tweetId = tweetId,
             tweetBy = "its_sasikanth",
-            status = Status.Enqueued
+            status = Enqueued
           )
         )
       )
@@ -116,13 +117,13 @@ class ConversationSyncQueueIntegrationTest {
     val queueItem1 = ConversationSyncQueueItem(
       tweetId = tweetId1,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     val queueItem2 = ConversationSyncQueueItem(
       tweetId = tweetId2,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     // when
@@ -138,12 +139,12 @@ class ConversationSyncQueueIntegrationTest {
         ConversationSyncQueueItem(
           tweetId = tweetId2,
           tweetBy = "its_sasikanth",
-          status = Status.Enqueued
+          status = Enqueued
         ),
         ConversationSyncQueueItem(
           tweetId = tweetId1,
           tweetBy = "its_sasikanth",
-          status = Status.Enqueued
+          status = Enqueued
         )
       )
       cancelAndIgnoreRemainingEvents()
@@ -156,7 +157,7 @@ class ConversationSyncQueueIntegrationTest {
     val queueItem = ConversationSyncQueueItem(
       tweetId = "2338820652804611367",
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
     conversationSyncQueue.add(queueItem)
 
@@ -179,13 +180,13 @@ class ConversationSyncQueueIntegrationTest {
     val queueItem1 = ConversationSyncQueueItem(
       tweetId = failedTweet,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     val queueItem2 = ConversationSyncQueueItem(
       tweetId = enqueuedTweet,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     // when
@@ -208,7 +209,7 @@ class ConversationSyncQueueIntegrationTest {
         ConversationSyncQueueItem(
           tweetId = enqueuedTweet,
           tweetBy = "its_sasikanth",
-          status = Status.Enqueued
+          status = Enqueued
         )
       )
       cancelAndIgnoreRemainingEvents()
@@ -224,13 +225,13 @@ class ConversationSyncQueueIntegrationTest {
     val queueItem1 = ConversationSyncQueueItem(
       tweetId = successfullySyncedTweet,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     val queueItem2 = ConversationSyncQueueItem(
       tweetId = enqueuedTweet,
       tweetBy = "its_sasikanth",
-      status = null
+      status = Enqueued
     )
 
     fakeTwitterRemoteSource.addTweetLookupPayload(
@@ -270,14 +271,14 @@ class ConversationSyncQueueIntegrationTest {
         ConversationSyncQueueItem(
           tweetId = enqueuedTweet,
           tweetBy = "its_sasikanth",
-          status = Status.Enqueued
+          status = Enqueued
         )
       )
       assertThat(awaitItem()).containsExactly(
         ConversationSyncQueueItem(
           tweetId = enqueuedTweet,
           tweetBy = "its_sasikanth",
-          status = Status.Enqueued
+          status = Enqueued
         )
       )
       cancelAndIgnoreRemainingEvents()
