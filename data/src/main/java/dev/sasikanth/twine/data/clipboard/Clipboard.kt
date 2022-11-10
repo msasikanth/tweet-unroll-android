@@ -14,8 +14,9 @@ class AndroidClipboard @Inject constructor(
   @ApplicationContext context: Context
 ) : Clipboard {
 
-  private val clipboardManager =
+  private val clipboardManager by lazy {
     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+  }
 
   override fun getText(): String? {
     val clipItem = clipboardManager.primaryClip ?: return null
