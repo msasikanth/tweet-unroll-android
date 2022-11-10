@@ -30,7 +30,7 @@ class TwitterRemoteSourceIntegrationTest {
   val hiltRule = HiltAndroidRule(this)
 
   @Inject
-  lateinit var twitterRemoteSource: TwitterRemoteSource
+  lateinit var twitterRemoteSource: TwitterRemoteSourceImpl
 
   @Before
   fun setup() {
