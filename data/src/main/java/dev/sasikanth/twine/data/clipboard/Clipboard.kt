@@ -18,6 +18,19 @@ class AndroidClipboard @Inject constructor(
     context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
   }
 
+  val content: String?
+    get() {
+      val clipItem = clipboardManager.primaryClip ?: return null
+      val isPrimaryClipText =
+        clipboardManager.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) ?: return null
+
+      return if (isPrimaryClipText) {
+        clipItem.getItemAt(0).text.toString()
+      } else {
+        null
+      }
+    }
+
   override fun getText(): String? {
     val clipItem = clipboardManager.primaryClip ?: return null
     val isPrimaryClipText =
