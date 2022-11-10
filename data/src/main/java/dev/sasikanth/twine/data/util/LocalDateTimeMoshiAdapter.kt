@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.common.moshi
+package dev.sasikanth.twine.data.util
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson

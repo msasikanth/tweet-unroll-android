@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.sasikanth.twine.common.moshi.LocalDateTimeMoshiAdapter
 import dev.sasikanth.twine.common.utils.Constants.BASE_API_URL
 import dev.sasikanth.twine.data.api.TwitterApi
+import dev.sasikanth.twine.data.util.LocalDateTimeMoshiAdapter
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
