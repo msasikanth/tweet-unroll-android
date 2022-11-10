@@ -157,7 +157,7 @@ class ConversationSyncTest {
   }
 
   @Test
-  fun syncing_a_conversation_without_head_should_fail() = runTest {
+  fun syncing_a_conversation_without_an_head_tweet_should_work_correctly() = runTest {
     // given
     val tweetLookupPayload = TweetLookupPayload(
       data = TweetPayload(
@@ -186,12 +186,65 @@ class ConversationSyncTest {
       )
     )
 
+    val conversationLookupPayload = ConversationsLookupPayload(
+      data = listOf(
+        TweetPayload(
+          id = "1550874190793674759",
+          authorId = "280595048",
+          conversationId = "1550874190793674753",
+          text = "Tweet 4 in the thread",
+          attachments = null,
+          entities = null,
+          inReplyToUserId = null,
+          referencedTweets = null,
+          createdAt = Instant.parse("2022-07-23T16:10:15Z")
+        )
+      ),
+      includes = IncludesPayload(
+        tweets = null,
+        media = null,
+        users = listOf(
+          UserPayload(
+            id = "280595048",
+            name = "Sasikanth",
+            username = "its_sasikanth",
+            profileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg"
+          )
+        ),
+        polls = null
+      ),
+      meta = null
+    )
+
     fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
 
     // when
-    val result = conversationSync.trySync(tweetId = "1550874190793674753")
+    val result = conversationSync.trySync(tweetId = "1550874190793674757")
+
+    val recentConversationsPage = tweetsRepository.recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      ) as Page<Int, RecentConversation>
 
     // then
-    assertThat(result).isEqualTo(Response.NoTweetFound)
+    assertThat(result).isEqualTo(Response.Success)
+    assertThat(recentConversationsPage.data).isEqualTo(
+      listOf(
+        RecentConversation(
+          conversationId = "1550874190793674753",
+          conversationPreviewText = "Tweet 3 in the thread",
+          conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          username = "its_sasikanth",
+          userFullName = "Sasikanth",
+          userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
+          numberOfTweetsInConversation = 2
+        )
+      )
+    )
   }
 }

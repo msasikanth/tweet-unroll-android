@@ -97,7 +97,7 @@ class ConversationSync @Inject constructor(
     val conversationId = tweetPayload?.data?.conversationId
 
     val conversationHead = if (!conversationId.isNullOrBlank() && conversationId != tweetId) {
-      twitterRemoteSource.tweetLookup(conversationId)
+      twitterRemoteSource.tweetLookup(conversationId) ?: tweetPayload
     } else {
       tweetPayload
     }
