@@ -56,7 +56,7 @@ class ConversationSyncTest {
   }
 
   @Test
-  fun syncing_a_tweet_should_work_correctly() = runTest {
+  fun syncing_a_conversation_should_work_correctly() = runTest {
     // given
     val tweetLookupPayload = TweetLookupPayload(
       data = TweetPayload(
