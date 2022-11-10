@@ -26,9 +26,8 @@ class HomeViewModel @Inject constructor(
   }
 
   fun pasteUrl() {
-    val clipText = clipboard.getText()
     _homeUiState.update {
-      it.onTweetUrlChanged(tweetUrl = clipText)
+      it.onTweetUrlChanged(tweetUrl = clipboard.content)
     }
   }
 
