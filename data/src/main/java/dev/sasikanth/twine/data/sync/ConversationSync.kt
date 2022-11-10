@@ -37,7 +37,11 @@ class ConversationSync @Inject constructor(
             )
 
             val conversationTweets = conversation?.data
-            val users = conversation?.includes?.users
+            val users = if (conversation?.includes?.users == null) {
+              conversationHead.includes?.users
+            } else {
+              conversation.includes.users
+            }
 
             sync(
               userPayloads = users,

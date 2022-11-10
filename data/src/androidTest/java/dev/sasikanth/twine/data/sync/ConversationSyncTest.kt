@@ -247,4 +247,65 @@ class ConversationSyncTest {
       )
     )
   }
+
+  @Test
+  fun syncing_a_tweet_without_conversation_should_sync_tweet_and_users() = runTest {
+    // given
+    val tweetLookupPayload = TweetLookupPayload(
+      data = TweetPayload(
+        id = "7735261120010996230",
+        authorId = "280595048",
+        conversationId = "2050090618859903104",
+        text = "Tweet 1 in the thread",
+        attachments = null,
+        entities = null,
+        inReplyToUserId = null,
+        referencedTweets = null,
+        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+      ),
+      includes = IncludesPayload(
+        tweets = null,
+        media = null,
+        users = listOf(
+          UserPayload(
+            id = "280595048",
+            name = "Sasikanth",
+            username = "its_sasikanth",
+            profileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg"
+          )
+        ),
+        polls = null
+      )
+    )
+
+    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+
+    // when
+    val result = conversationSync.trySync(tweetId = "7735261120010996230")
+
+    val recentConversationsPage = tweetsRepository.recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      ) as Page<Int, RecentConversation>
+
+    // then
+    assertThat(result).isEqualTo(Response.Success)
+    assertThat(recentConversationsPage.data).isEqualTo(
+      listOf(
+        RecentConversation(
+          conversationId = "2050090618859903104",
+          conversationPreviewText = "Tweet 1 in the thread",
+          conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          username = "its_sasikanth",
+          userFullName = "Sasikanth",
+          userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
+          numberOfTweetsInConversation = 1
+        )
+      )
+    )
+  }
 }
