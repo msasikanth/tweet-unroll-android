@@ -20,7 +20,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -54,7 +54,7 @@ class TwitterRemoteSourceIntegrationTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = LocalDateTime.parse("2022-07-23T16:03:15")
+          createdAt = Instant.parse("2022-07-23T16:03:15Z")
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -120,7 +120,7 @@ class TwitterRemoteSourceIntegrationTest {
           ),
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = LocalDateTime.parse("2020-05-03T19:35:42")
+          createdAt = Instant.parse("2020-05-03T19:35:42Z")
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -166,7 +166,7 @@ class TwitterRemoteSourceIntegrationTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = LocalDateTime.parse("2022-07-24T03:56:50")
+          createdAt = Instant.parse("2022-07-24T03:56:50Z")
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -232,7 +232,7 @@ class TwitterRemoteSourceIntegrationTest {
               type = ReferenceTypePayload.Quoted
             )
           ),
-          createdAt = LocalDateTime.parse("2022-07-22T08:42:44")
+          createdAt = Instant.parse("2022-07-22T08:42:44Z")
         ),
         includes = IncludesPayload(
           tweets = listOf(
@@ -257,7 +257,7 @@ class TwitterRemoteSourceIntegrationTest {
               ),
               inReplyToUserId = null,
               referencedTweets = null,
-              createdAt = LocalDateTime.parse("2022-07-21T15:01:32")
+              createdAt = Instant.parse("2022-07-21T15:01:32Z")
             )
           ),
           media = null,

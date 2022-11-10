@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
+import java.time.Instant
 
 @Entity(
   indices = [
@@ -22,7 +22,7 @@ data class Tweet(
   val inReplyToUserId: String?,
   val text: String,
   @ColumnInfo(name = "created_at")
-  val createdAt: LocalDateTime
+  val createdAt: Instant
 ) {
   companion object
 }

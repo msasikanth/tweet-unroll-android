@@ -2,7 +2,7 @@ package dev.sasikanth.twine.data.api.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.time.LocalDateTime
+import java.time.Instant
 
 @JsonClass(generateAdapter = true)
 data class TweetPayload(
@@ -13,7 +13,7 @@ data class TweetPayload(
   @Json(name = "conversation_id")
   val conversationId: String,
   @Json(name = "created_at")
-  val createdAt: LocalDateTime,
+  val createdAt: Instant,
   @Json(name = "entities")
   val entities: TweetEntitiesPayload?,
   @Json(name = "in_reply_to_user_id")

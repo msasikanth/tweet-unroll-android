@@ -22,7 +22,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -240,7 +240,7 @@ class ConversationSyncQueueIntegrationTest {
           attachments = null,
           authorId = "280595048",
           conversationId = successfullySyncedTweet,
-          createdAt = LocalDateTime.parse("2022-01-01T10:00:00"),
+          createdAt = Instant.parse("2022-01-01T10:00:00Z"),
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,

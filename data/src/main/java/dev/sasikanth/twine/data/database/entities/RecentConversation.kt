@@ -1,7 +1,7 @@
 package dev.sasikanth.twine.data.database.entities
 
 import androidx.room.DatabaseView
-import java.time.LocalDateTime
+import java.time.Instant
 
 @DatabaseView(
   """
@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 data class RecentConversation(
   val conversationId: String,
   val conversationPreviewText: String,
-  val conversationStartedAt: LocalDateTime,
+  val conversationStartedAt: Instant,
   val username: String,
   val userFullName: String,
   val userProfileImage: String,

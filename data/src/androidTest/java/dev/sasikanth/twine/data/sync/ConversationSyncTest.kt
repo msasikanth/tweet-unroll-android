@@ -20,7 +20,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -68,7 +68,7 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = LocalDateTime.parse("2022-07-23T16:03:15")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z")
       ),
       includes = IncludesPayload(
         tweets = null,
@@ -96,7 +96,7 @@ class ConversationSyncTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = LocalDateTime.parse("2022-07-23T16:10:15")
+          createdAt = Instant.parse("2022-07-23T16:10:15Z")
         )
       ),
       includes = IncludesPayload(
@@ -137,7 +137,7 @@ class ConversationSyncTest {
         RecentConversation(
           conversationId = "1550874190793674753",
           conversationPreviewText = "Tweet 1 in the thread",
-          conversationStartedAt = LocalDateTime.parse("2022-07-23T16:03:15"),
+          conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
           username = "its_sasikanth",
           userFullName = "Sasikanth",
           userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
@@ -169,7 +169,7 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = LocalDateTime.parse("2022-07-23T16:03:15")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z")
       ),
       includes = IncludesPayload(
         tweets = null,

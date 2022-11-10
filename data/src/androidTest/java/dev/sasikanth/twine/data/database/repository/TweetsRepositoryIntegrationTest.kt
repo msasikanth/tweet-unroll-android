@@ -15,7 +15,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -73,7 +73,7 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation1Id,
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 1",
-        createdAt = LocalDateTime.parse("2022-01-01T10:00:00")
+        createdAt = Instant.parse("2022-01-01T10:00:00Z")
       ),
       Tweet(
         id = "9025201324322053244",
@@ -81,7 +81,7 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation1Id,
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 1",
-        createdAt = LocalDateTime.parse("2022-01-01T10:05:00")
+        createdAt = Instant.parse("2022-01-01T10:05:00Z")
       )
     )
 
@@ -92,7 +92,7 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 2",
-        createdAt = LocalDateTime.parse("2022-02-01T10:00:00")
+        createdAt = Instant.parse("2022-02-01T10:00:00Z")
       ),
       Tweet(
         id = "6288716957019134084",
@@ -100,7 +100,7 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 2",
-        createdAt = LocalDateTime.parse("2022-02-01T10:05:00")
+        createdAt = Instant.parse("2022-02-01T10:05:00Z")
       ),
       Tweet(
         id = "1756291676301077873",
@@ -108,7 +108,7 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 3 from conversation 2",
-        createdAt = LocalDateTime.parse("2022-02-01T10:11:00")
+        createdAt = Instant.parse("2022-02-01T10:11:00Z")
       )
     )
 
@@ -133,7 +133,7 @@ class TweetsRepositoryIntegrationTest {
         RecentConversation(
           conversationId = conversation2Id,
           conversationPreviewText = "Tweet 1 from conversation 2",
-          conversationStartedAt = LocalDateTime.parse("2022-02-01T10:00:00"),
+          conversationStartedAt = Instant.parse("2022-02-01T10:00:00Z"),
           username = "its_a_random",
           userFullName = "Random User",
           userProfileImage = "https://twitter.com/image/random_user.png",
@@ -142,7 +142,7 @@ class TweetsRepositoryIntegrationTest {
         RecentConversation(
           conversationId = conversation1Id,
           conversationPreviewText = "Tweet 1 from conversation 1",
-          conversationStartedAt = LocalDateTime.parse("2022-01-01T10:00:00"),
+          conversationStartedAt = Instant.parse("2022-01-01T10:00:00Z"),
           username = "its_sasikanth",
           userFullName = "Sasikanth",
           userProfileImage = "https://twitter.com/image/its_sasikanth.png",
@@ -164,7 +164,7 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation1,
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 1",
-      createdAt = LocalDateTime.parse("2022-01-01T10:00:00")
+      createdAt = Instant.parse("2022-01-01T10:00:00Z")
     )
 
     val tweet2FromConversation1 = Tweet(
@@ -173,7 +173,7 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation1,
       inReplyToUserId = null,
       text = "Tweet 2 from conversation 1",
-      createdAt = LocalDateTime.parse("2022-01-01T10:05:00")
+      createdAt = Instant.parse("2022-01-01T10:05:00Z")
     )
 
     val tweet1FromConversation2 = Tweet(
@@ -182,7 +182,7 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation2,
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 2",
-      createdAt = LocalDateTime.parse("2022-01-01T10:00:00")
+      createdAt = Instant.parse("2022-01-01T10:00:00Z")
     )
 
     tweetsRepository.saveTweets(
