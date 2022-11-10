@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sasikanth.twine.common.utils.Constants.BASE_API_URL
 import dev.sasikanth.twine.data.api.TwitterApi
+import dev.sasikanth.twine.data.util.InstantMoshiAdapter
 import dev.sasikanth.twine.data.util.LocalDateTimeMoshiAdapter
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,6 +25,7 @@ object ApiModule {
   fun providesMoshi(): Moshi {
     return Moshi.Builder()
       .add(LocalDateTimeMoshiAdapter())
+      .add(InstantMoshiAdapter())
       .build()
   }
 
