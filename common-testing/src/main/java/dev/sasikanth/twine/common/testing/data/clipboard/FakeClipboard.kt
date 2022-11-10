@@ -9,10 +9,6 @@ class FakeClipboard : Clipboard {
   override val content: String?
     get() = text
 
-  override fun getText(): String? {
-    return text
-  }
-
   fun setText(text: String) {
     this.text = text
   }
