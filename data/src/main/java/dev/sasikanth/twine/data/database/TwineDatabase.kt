@@ -10,7 +10,6 @@ import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
 import dev.sasikanth.twine.data.util.InstantRoomConverter
-import dev.sasikanth.twine.data.util.LocalDatetimeConverter
 
 @Database(
   version = 1,
@@ -23,7 +22,6 @@ import dev.sasikanth.twine.data.util.LocalDatetimeConverter
   ]
 )
 @TypeConverters(
-  LocalDatetimeConverter::class,
   InstantRoomConverter::class
 )
 abstract class TwineDatabase : RoomDatabase() {
