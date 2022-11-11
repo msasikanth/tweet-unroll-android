@@ -3,9 +3,11 @@ package dev.sasikanth.twine.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dev.sasikanth.twine.data.database.dao.MediaDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
+import dev.sasikanth.twine.data.database.entities.Media
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
@@ -15,7 +17,8 @@ import dev.sasikanth.twine.data.util.InstantRoomConverter
   version = 1,
   entities = [
     Tweet::class,
-    User::class
+    User::class,
+    Media::class
   ],
   views = [
     RecentConversation::class
@@ -31,4 +34,6 @@ abstract class TwineDatabase : RoomDatabase() {
   abstract fun usersDao(): UsersDao
 
   abstract fun recentConversationsDao(): RecentConversationsDao
+
+  abstract fun mediaDao(): MediaDao
 }

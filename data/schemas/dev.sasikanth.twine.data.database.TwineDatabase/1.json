@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "59601621ce2a7de9f7234a6db99e2fc4",
+    "identityHash": "e84c4c78a03b03cf269b7d0f8a111d19",
     "entities": [
       {
         "tableName": "Tweet",
@@ -107,17 +107,83 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Media",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, PRIMARY KEY(`media_key`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mediaKey",
+            "columnName": "media_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previewImage",
+            "columnName": "preview_image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tweetId",
+            "columnName": "tweet_id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "media_key"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Media_tweet_id",
+            "unique": false,
+            "columnNames": [
+              "tweet_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Media_tweet_id` ON `${TABLE_NAME}` (`tweet_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Tweet",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "tweet_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [
       {
         "viewName": "RecentConversation",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    GROUP BY conversation_id HAVING MIN(created_at)"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    GROUP BY T.conversation_id HAVING MIN(T.created_at)\n    ORDER BY T.device_created_at DESC"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '59601621ce2a7de9f7234a6db99e2fc4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e84c4c78a03b03cf269b7d0f8a111d19')"
     ]
   }
 }
