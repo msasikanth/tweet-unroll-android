@@ -29,4 +29,6 @@ data class Poll(
   val votes: Int,
   @ColumnInfo(name = "tweet_id")
   val tweetId: String
-)
+) {
+  companion object
+}
