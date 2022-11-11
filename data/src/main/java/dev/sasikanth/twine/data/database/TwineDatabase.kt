@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import dev.sasikanth.twine.data.database.dao.MediaDao
 import dev.sasikanth.twine.data.database.dao.PollDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
+import dev.sasikanth.twine.data.database.dao.ReferencedTweetDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
 import dev.sasikanth.twine.data.database.entities.Media
@@ -43,4 +44,6 @@ abstract class TwineDatabase : RoomDatabase() {
   abstract fun mediaDao(): MediaDao
 
   abstract fun pollDao(): PollDao
+
+  abstract fun referencedTweetDao(): ReferencedTweetDao
 }
