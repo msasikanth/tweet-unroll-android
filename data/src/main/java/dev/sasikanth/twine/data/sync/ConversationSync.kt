@@ -1,6 +1,7 @@
 package dev.sasikanth.twine.data.sync
 
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
+import dev.sasikanth.twine.common.utils.UserClock
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
@@ -11,6 +12,7 @@ import dev.sasikanth.twine.data.database.entities.from
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import dev.sasikanth.twine.data.database.repository.UsersRepository
 import kotlinx.coroutines.withContext
+import java.time.Instant
 import javax.inject.Inject
 
 class ConversationSync @Inject constructor(
@@ -18,6 +20,7 @@ class ConversationSync @Inject constructor(
   private val tweetsRepository: TweetsRepository,
   private val usersRepository: UsersRepository,
   private val dispatchers: CoroutineDispatchers,
+  private val userClock: UserClock
 ) {
 
   suspend fun trySync(tweetId: String): Response {
@@ -82,9 +85,18 @@ class ConversationSync @Inject constructor(
     conversationHeadTweet: TweetPayload,
     conversationTweets: List<TweetPayload>?,
   ) {
-    val tweetDbModel = Tweet.from(conversationHeadTweet)
+    val now = Instant.now(userClock)
+    val tweetDbModel = Tweet.from(
+      payload = conversationHeadTweet,
+      deviceCreatedAt = now
+    )
     val tweetsInConversation = conversationTweets
-      ?.map(Tweet::from)
+      ?.map { payload ->
+        Tweet.from(
+          payload = payload,
+          deviceCreatedAt = now
+        )
+      }
       ?.filterTweetsByAuthorOnly(authorId)
       .orEmpty()
 

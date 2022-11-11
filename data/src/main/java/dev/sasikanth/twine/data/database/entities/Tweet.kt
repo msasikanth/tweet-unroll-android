@@ -22,7 +22,9 @@ data class Tweet(
   val inReplyToUserId: String?,
   val text: String,
   @ColumnInfo(name = "created_at")
-  val createdAt: Instant
+  val createdAt: Instant,
+  @ColumnInfo(name = "device_created_at")
+  val deviceCreatedAt: Instant
 ) {
   companion object
 }

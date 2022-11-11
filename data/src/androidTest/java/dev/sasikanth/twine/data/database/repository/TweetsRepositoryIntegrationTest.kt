@@ -73,7 +73,8 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation1Id,
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 1",
-        createdAt = Instant.parse("2022-01-01T10:00:00Z")
+        createdAt = Instant.parse("2022-01-01T10:00:00Z"),
+        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
       ),
       Tweet(
         id = "9025201324322053244",
@@ -81,7 +82,8 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation1Id,
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 1",
-        createdAt = Instant.parse("2022-01-01T10:05:00Z")
+        createdAt = Instant.parse("2022-01-01T10:05:00Z"),
+        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
       )
     )
 
@@ -92,7 +94,8 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 2",
-        createdAt = Instant.parse("2022-02-01T10:00:00Z")
+        createdAt = Instant.parse("2022-02-01T10:00:00Z"),
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
       ),
       Tweet(
         id = "6288716957019134084",
@@ -100,7 +103,8 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 2",
-        createdAt = Instant.parse("2022-02-01T10:05:00Z")
+        createdAt = Instant.parse("2022-02-01T10:05:00Z"),
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
       ),
       Tweet(
         id = "1756291676301077873",
@@ -108,7 +112,8 @@ class TweetsRepositoryIntegrationTest {
         conversationId = conversation2Id,
         inReplyToUserId = null,
         text = "Tweet 3 from conversation 2",
-        createdAt = Instant.parse("2022-02-01T10:11:00Z")
+        createdAt = Instant.parse("2022-02-01T10:11:00Z"),
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
       )
     )
 
@@ -164,7 +169,8 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation1,
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 1",
-      createdAt = Instant.parse("2022-01-01T10:00:00Z")
+      createdAt = Instant.parse("2022-01-01T10:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
     )
 
     val tweet2FromConversation1 = Tweet(
@@ -173,7 +179,8 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation1,
       inReplyToUserId = null,
       text = "Tweet 2 from conversation 1",
-      createdAt = Instant.parse("2022-01-01T10:05:00Z")
+      createdAt = Instant.parse("2022-01-01T10:05:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
     )
 
     val tweet1FromConversation2 = Tweet(
@@ -182,7 +189,8 @@ class TweetsRepositoryIntegrationTest {
       conversationId = conversation2,
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 2",
-      createdAt = Instant.parse("2022-01-01T10:00:00Z")
+      createdAt = Instant.parse("2022-01-01T10:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
     )
 
     tweetsRepository.saveTweets(
