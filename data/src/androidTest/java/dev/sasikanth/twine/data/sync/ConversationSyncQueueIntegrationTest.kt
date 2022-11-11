@@ -17,6 +17,7 @@ import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
+import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.sync.Status.Enqueued
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -44,6 +45,9 @@ class ConversationSyncQueueIntegrationTest {
 
   @Inject
   lateinit var hiltWorkerFactory: HiltWorkerFactory
+
+  @Inject
+  lateinit var appDatabase: TwineDatabase
 
   private lateinit var workManager: WorkManager
   private var testDriver: TestDriver? = null
@@ -77,6 +81,7 @@ class ConversationSyncQueueIntegrationTest {
     workManager.pruneWork()
 
     fakeTwitterRemoteSource.clearAll()
+    appDatabase.clearAllTables()
   }
 
   @Test
