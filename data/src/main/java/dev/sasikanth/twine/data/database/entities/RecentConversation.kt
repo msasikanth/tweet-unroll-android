@@ -15,7 +15,8 @@ import java.time.Instant
       ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation
     FROM Tweet T
     INNER JOIN User U ON U.id = T.author_id
-    GROUP BY conversation_id HAVING MIN(created_at)
+    GROUP BY T.conversation_id HAVING MIN(T.created_at)
+    ORDER BY T.device_created_at DESC
   """
 )
 data class RecentConversation(
