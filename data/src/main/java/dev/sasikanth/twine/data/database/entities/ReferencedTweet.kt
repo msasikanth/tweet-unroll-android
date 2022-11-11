@@ -9,7 +9,9 @@ import androidx.room.PrimaryKey
 
 enum class ReferenceType {
   RepliedTo,
-  Quoted
+  Quoted;
+
+  companion object
 }
 
 @Entity(
@@ -31,4 +33,6 @@ data class ReferencedTweet(
   val type: ReferenceType,
   @ColumnInfo(name = "tweet_id")
   val tweetId: String
-)
+) {
+  companion object
+}
