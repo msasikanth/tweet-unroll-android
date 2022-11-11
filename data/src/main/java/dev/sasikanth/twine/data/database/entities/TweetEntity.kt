@@ -29,4 +29,6 @@ data class TweetEntity(
   val displayUrl: String,
   @ColumnInfo(name = "expanded_url")
   val expandedUrl: String,
-)
+) {
+  companion object
+}
