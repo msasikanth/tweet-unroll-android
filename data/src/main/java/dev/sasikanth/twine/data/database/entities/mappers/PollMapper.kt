@@ -1,6 +1,7 @@
-package dev.sasikanth.twine.data.database.entities
+package dev.sasikanth.twine.data.database.entities.mappers
 
 import dev.sasikanth.twine.data.api.models.PollOptionPayload
+import dev.sasikanth.twine.data.database.entities.Poll
 
 fun Poll.Companion.from(
   tweetId: String,

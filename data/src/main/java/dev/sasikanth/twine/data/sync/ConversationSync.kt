@@ -8,7 +8,7 @@ import dev.sasikanth.twine.data.api.models.TweetPayload
 import dev.sasikanth.twine.data.api.models.UserPayload
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
-import dev.sasikanth.twine.data.database.entities.from
+import dev.sasikanth.twine.data.database.entities.mappers.from
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import dev.sasikanth.twine.data.database.repository.UsersRepository
 import kotlinx.coroutines.withContext

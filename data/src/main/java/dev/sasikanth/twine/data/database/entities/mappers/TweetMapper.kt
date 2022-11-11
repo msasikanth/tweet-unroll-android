@@ -1,6 +1,7 @@
-package dev.sasikanth.twine.data.database.entities
+package dev.sasikanth.twine.data.database.entities.mappers
 
 import dev.sasikanth.twine.data.api.models.TweetPayload
+import dev.sasikanth.twine.data.database.entities.Tweet
 import java.time.Instant
 
 fun Tweet.Companion.from(

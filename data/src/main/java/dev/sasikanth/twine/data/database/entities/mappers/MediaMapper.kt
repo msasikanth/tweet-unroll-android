@@ -2,7 +2,9 @@ package dev.sasikanth.twine.data.database.entities
 
 import dev.sasikanth.twine.data.api.models.MediaPayload
 import dev.sasikanth.twine.data.api.models.MediaTypePayload
-import dev.sasikanth.twine.data.api.models.MediaTypePayload.*
+import dev.sasikanth.twine.data.api.models.MediaTypePayload.AnimatedGif
+import dev.sasikanth.twine.data.api.models.MediaTypePayload.Photo
+import dev.sasikanth.twine.data.api.models.MediaTypePayload.Video
 
 fun Media.Companion.from(
   tweetId: String,
