@@ -26,14 +26,10 @@ class HomeViewModel @Inject constructor(
   }
 
   fun pasteUrl() {
-    _homeUiState.update {
-      it.onTweetUrlChanged(tweetUrl = clipboard.content)
-    }
+    tweetUrlChanged(tweetUrl = clipboard.content)
   }
 
   fun clearUrl() {
-    _homeUiState.update {
-      it.onTweetUrlChanged(tweetUrl = null)
-    }
+    tweetUrlChanged(tweetUrl = null)
   }
 }
