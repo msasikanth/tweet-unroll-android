@@ -1,4 +1,4 @@
-package dev.sasikanth.twine.di.modules
+package dev.sasikanth.twine.common.di.modules
 
 import dagger.Module
 import dagger.Provides
