@@ -13,3 +13,5 @@ tasks.register("clean") {
     delete(rootProject.buildDir)
   }
 }
+
+apply(plugin = "android-reporting")
