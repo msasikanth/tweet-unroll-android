@@ -11,6 +11,7 @@ import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.dao.MediaDao
 import dev.sasikanth.twine.data.database.dao.PollDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
+import dev.sasikanth.twine.data.database.dao.ReferencedTweetDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
 import javax.inject.Singleton
@@ -58,5 +59,10 @@ object DatabaseModule {
   @Provides
   fun providesPollDao(database: TwineDatabase): PollDao {
     return database.pollDao()
+  }
+
+  @Provides
+  fun providesReferencedTweetDao(database: TwineDatabase): ReferencedTweetDao {
+    return database.referencedTweetDao()
   }
 }
