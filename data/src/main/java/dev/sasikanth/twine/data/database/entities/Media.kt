@@ -7,6 +7,14 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+enum class MediaType {
+  Photo,
+  Video,
+  AnimatedGif;
+
+  companion object
+}
+
 @Entity(
   indices = [
     Index("tweet_id")
