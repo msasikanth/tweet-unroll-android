@@ -7,7 +7,7 @@ import java.time.Instant
   """
     SELECT
       T.conversation_id conversationId, T.text conversationPreviewText, 
-      T.created_at conversationStartedAt,
+      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,
       
       U.name userFullName, U.username username,
       U.profile_image_url userProfileImage,
@@ -22,6 +22,7 @@ data class RecentConversation(
   val conversationId: String,
   val conversationPreviewText: String,
   val conversationStartedAt: Instant,
+  val conversationCreatedAt: Instant,
   val username: String,
   val userFullName: String,
   val userProfileImage: String,

@@ -5,6 +5,7 @@ import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dev.sasikanth.twine.common.testing.util.TestUserClock
 import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
@@ -21,6 +22,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -41,12 +43,17 @@ class ConversationSyncTest {
   @Inject
   lateinit var appDatabase: TwineDatabase
 
+  @Inject
+  lateinit var testUserClock: TestUserClock
+
   private val fakeTwitterRemoteSource
     get() = (twitterRemoteSource as FakeTwitterRemoteSource)
 
   @Before
   fun setup() {
     hiltRule.inject()
+
+    testUserClock.setDate(LocalDate.parse("2022-08-01"))
   }
 
   @After
@@ -138,6 +145,7 @@ class ConversationSyncTest {
           conversationId = "1550874190793674753",
           conversationPreviewText = "Tweet 1 in the thread",
           conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          conversationCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
           username = "its_sasikanth",
           userFullName = "Sasikanth",
           userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
@@ -239,6 +247,7 @@ class ConversationSyncTest {
           conversationId = "1550874190793674753",
           conversationPreviewText = "Tweet 3 in the thread",
           conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          conversationCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
           username = "its_sasikanth",
           userFullName = "Sasikanth",
           userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
@@ -300,6 +309,7 @@ class ConversationSyncTest {
           conversationId = "2050090618859903104",
           conversationPreviewText = "Tweet 1 in the thread",
           conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          conversationCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
           username = "its_sasikanth",
           userFullName = "Sasikanth",
           userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
