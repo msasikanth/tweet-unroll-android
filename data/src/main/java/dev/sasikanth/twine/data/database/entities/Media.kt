@@ -30,4 +30,6 @@ data class Media(
   val previewImage: String?,
   @ColumnInfo(name = "tweet_id")
   val tweetId: String
-)
+) {
+  companion object
+}
