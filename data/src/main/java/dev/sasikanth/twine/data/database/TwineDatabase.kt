@@ -8,6 +8,7 @@ import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
 import dev.sasikanth.twine.data.database.entities.Media
+import dev.sasikanth.twine.data.database.entities.Poll
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.User
@@ -18,7 +19,8 @@ import dev.sasikanth.twine.data.util.InstantRoomConverter
   entities = [
     Tweet::class,
     User::class,
-    Media::class
+    Media::class,
+    Poll::class
   ],
   views = [
     RecentConversation::class
