@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.sasikanth.twine.data.database.TwineDatabase
+import dev.sasikanth.twine.data.database.dao.MediaDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.dao.UsersDao
@@ -46,5 +47,10 @@ object DatabaseModule {
   @Provides
   fun providesRecentConversationsDao(database: TwineDatabase): RecentConversationsDao {
     return database.recentConversationsDao()
+  }
+
+  @Provides
+  fun providesMediaDao(database: TwineDatabase): MediaDao {
+    return database.mediaDao()
   }
 }

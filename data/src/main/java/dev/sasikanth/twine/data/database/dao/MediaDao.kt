@@ -9,5 +9,5 @@ import dev.sasikanth.twine.data.database.entities.Media
 interface MediaDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun save(media: List<Media>)
+  suspend fun save(media: List<Media>)
 }
