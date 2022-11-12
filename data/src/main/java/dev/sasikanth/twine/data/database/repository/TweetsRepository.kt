@@ -3,9 +3,11 @@ package dev.sasikanth.twine.data.database.repository
 import androidx.paging.PagingSource
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
+import dev.sasikanth.twine.data.database.dao.ReferencedTweetDao
 import dev.sasikanth.twine.data.database.dao.TweetEntityDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.entities.RecentConversation
+import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetEntity
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +18,7 @@ class TweetsRepository @Inject constructor(
   private val tweetsDao: TweetsDao,
   private val recentConversationDao: RecentConversationsDao,
   private val tweetEntityDao: TweetEntityDao,
+  private val referencedTweetDao: ReferencedTweetDao,
   private val dispatchers: CoroutineDispatchers
 ) {
 
@@ -36,6 +39,12 @@ class TweetsRepository @Inject constructor(
   suspend fun saveTweetEntities(tweetEntities: List<TweetEntity>) {
     withContext(dispatchers.io) {
       tweetEntityDao.save(tweetEntities)
+    }
+  }
+
+  suspend fun saveReferencedTweets(referencedTweets: List<ReferencedTweet>) {
+    withContext(dispatchers.io) {
+      referencedTweetDao.save(referencedTweets)
     }
   }
 }
