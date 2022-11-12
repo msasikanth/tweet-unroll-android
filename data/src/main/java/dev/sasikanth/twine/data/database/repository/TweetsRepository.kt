@@ -3,9 +3,11 @@ package dev.sasikanth.twine.data.database.repository
 import androidx.paging.PagingSource
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
+import dev.sasikanth.twine.data.database.dao.TweetEntityDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
+import dev.sasikanth.twine.data.database.entities.TweetEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class TweetsRepository @Inject constructor(
   private val tweetsDao: TweetsDao,
   private val recentConversationDao: RecentConversationsDao,
+  private val tweetEntityDao: TweetEntityDao,
   private val dispatchers: CoroutineDispatchers
 ) {
 
@@ -28,5 +31,11 @@ class TweetsRepository @Inject constructor(
 
   fun tweetsInConversation(conversationId: String): Flow<List<Tweet>> {
     return tweetsDao.tweetsInConversation(conversationId)
+  }
+
+  suspend fun saveTweetEntities(tweetEntities: List<TweetEntity>) {
+    withContext(dispatchers.io) {
+      tweetEntityDao.save(tweetEntities)
+    }
   }
 }
