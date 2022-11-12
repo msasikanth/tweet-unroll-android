@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d00d382b61d7c2b8a4cba8a244fd5d6a",
+    "identityHash": "7addfca94c0937b362201b11e74d1613",
     "entities": [
       {
         "tableName": "Tweet",
@@ -293,6 +293,74 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "TweetEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "tweetId",
+            "columnName": "tweet_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayUrl",
+            "columnName": "display_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expandedUrl",
+            "columnName": "expanded_url",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tweet_id",
+            "start",
+            "end"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_TweetEntity_tweet_id",
+            "unique": false,
+            "columnNames": [
+              "tweet_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TweetEntity_tweet_id` ON `${TABLE_NAME}` (`tweet_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Tweet",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "tweet_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [
@@ -303,7 +371,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd00d382b61d7c2b8a4cba8a244fd5d6a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7addfca94c0937b362201b11e74d1613')"
     ]
   }
 }
