@@ -14,6 +14,7 @@ import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetEntity
+import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -38,7 +39,7 @@ class TweetsRepository @Inject constructor(
     }
   }
 
-  fun tweetsInConversation(conversationId: String): Flow<List<Tweet>> {
+  fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>> {
     return tweetsDao.tweetsInConversation(conversationId)
   }
 

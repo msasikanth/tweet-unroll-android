@@ -1,12 +1,12 @@
 package dev.sasikanth.twine.data.database.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.sasikanth.twine.data.database.entities.RecentConversation
+import androidx.room.Transaction
 import dev.sasikanth.twine.data.database.entities.Tweet
+import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,5 +22,6 @@ interface TweetsDao {
       ORDER BY created_at ASC
     """
   )
-  fun tweetsInConversation(conversationId: String): Flow<List<Tweet>>
+  @Transaction
+  fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>>
 }

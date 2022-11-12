@@ -8,6 +8,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.Tweet
+import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import dev.sasikanth.twine.data.database.entities.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -209,8 +210,20 @@ class TweetsRepositoryIntegrationTest {
     // then
     assertThat(tweetsInConversation).isEqualTo(
       listOf(
-        tweet1FromConversation1,
-        tweet2FromConversation1
+        TweetWithContent(
+          tweet = tweet1FromConversation1,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        ),
+        TweetWithContent(
+          tweet = tweet2FromConversation1,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        )
       )
     )
   }
