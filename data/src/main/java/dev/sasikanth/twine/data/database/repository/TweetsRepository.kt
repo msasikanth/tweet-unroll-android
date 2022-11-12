@@ -3,11 +3,13 @@ package dev.sasikanth.twine.data.database.repository
 import androidx.paging.PagingSource
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.data.database.dao.MediaDao
+import dev.sasikanth.twine.data.database.dao.PollDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.ReferencedTweetDao
 import dev.sasikanth.twine.data.database.dao.TweetEntityDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
 import dev.sasikanth.twine.data.database.entities.Media
+import dev.sasikanth.twine.data.database.entities.Poll
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
@@ -22,6 +24,7 @@ class TweetsRepository @Inject constructor(
   private val tweetEntityDao: TweetEntityDao,
   private val referencedTweetDao: ReferencedTweetDao,
   private val mediaDao: MediaDao,
+  private val pollDao: PollDao,
   private val dispatchers: CoroutineDispatchers
 ) {
 
@@ -54,6 +57,12 @@ class TweetsRepository @Inject constructor(
   suspend fun saveMedia(media: List<Media>) {
     withContext(dispatchers.io) {
       mediaDao.save(media)
+    }
+  }
+
+  suspend fun savePolls(polls: List<Poll>) {
+    withContext(dispatchers.io) {
+      pollDao.save(polls)
     }
   }
 }
