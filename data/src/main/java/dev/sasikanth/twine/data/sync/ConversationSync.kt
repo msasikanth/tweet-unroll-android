@@ -3,6 +3,7 @@ package dev.sasikanth.twine.data.sync
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.common.utils.UserClock
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
+import dev.sasikanth.twine.data.api.models.IncludesPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
 import dev.sasikanth.twine.data.api.models.UserPayload
@@ -34,22 +35,9 @@ class ConversationSync @Inject constructor(
           }
 
           else -> {
-            val conversation = twitterRemoteSource.conversationsLookup(
-              conversationId = conversationHeadTweet.conversationId,
-              authorId = conversationHeadTweet.authorId
-            )
-
-            val conversationTweets = conversation?.data
-            val users = if (conversation?.includes?.users == null) {
-              conversationHead.includes?.users
-            } else {
-              conversation.includes.users
-            }
-
-            sync(
-              userPayloads = users,
-              conversationHeadTweet = conversationHeadTweet,
-              conversationTweets = conversationTweets
+            syncConversation(
+              conversationHeadTweetPayload = conversationHeadTweet,
+              includesPayload = conversationHead.includes
             )
 
             Response.Success
@@ -63,49 +51,46 @@ class ConversationSync @Inject constructor(
     }
   }
 
-  // TODO: Once we add other sync resources, this function might have a lot of dependencies
-  //  need to break it down then
-  private suspend fun sync(
-    userPayloads: List<UserPayload>?,
-    conversationHeadTweet: TweetPayload,
-    conversationTweets: List<TweetPayload>?
+  private suspend fun syncConversation(
+    conversationHeadTweetPayload: TweetPayload,
+    includesPayload: IncludesPayload?
   ) {
-    syncTweets(
-      authorId = conversationHeadTweet.authorId,
-      conversationHeadTweet = conversationHeadTweet,
-      conversationTweets = conversationTweets
+    val conversationId = conversationHeadTweetPayload.conversationId
+    val authorId = conversationHeadTweetPayload.authorId
+
+    val conversation = twitterRemoteSource.conversationsLookup(
+      conversationId = conversationId,
+      authorId = authorId
     )
-    syncUsers(
-      userPayloads = userPayloads
-    )
+    val conversationTweets = conversation?.data
+
+    val tweets = conversationTweets.orEmpty() + conversationHeadTweetPayload
+    val includes = listOf(includesPayload, conversation?.includes)
+
+    val users = includes
+      .filterNotNull()
+      .flatMap { it.users.orEmpty() }
+
+    syncTweets(tweets = tweets)
+    syncUsers(users = users)
   }
 
-  private suspend fun syncTweets(
-    authorId: String,
-    conversationHeadTweet: TweetPayload,
-    conversationTweets: List<TweetPayload>?,
-  ) {
+  private suspend fun syncTweets(tweets: List<TweetPayload>) {
     val now = Instant.now(userClock)
-    val tweetDbModel = Tweet.from(
-      payload = conversationHeadTweet,
-      deviceCreatedAt = now
-    )
-    val tweetsInConversation = conversationTweets
-      ?.map { payload ->
+    val tweetsInConversation = tweets
+      .map { payload ->
         Tweet.from(
           payload = payload,
           deviceCreatedAt = now
         )
       }
-      ?.filterTweetsByAuthorOnly(authorId)
-      .orEmpty()
 
-    tweetsRepository.saveTweets(listOf(tweetDbModel) + tweetsInConversation)
+    tweetsRepository.saveTweets(tweetsInConversation)
   }
 
-  private suspend fun syncUsers(userPayloads: List<UserPayload>?) {
-    val users = userPayloads?.map(User::from).orEmpty()
-    usersRepository.saveUsers(users)
+  private suspend fun syncUsers(users: List<UserPayload>) {
+    val usersInConversation = users.map(User::from)
+    usersRepository.saveUsers(usersInConversation)
   }
 
   private suspend fun fetchConversationHead(tweetId: String): TweetLookupPayload? {
@@ -120,14 +105,6 @@ class ConversationSync @Inject constructor(
 
     return conversationHead
   }
-
-  /**
-   * Ignore all the tweets that are not a direct reply to the author. Some of the
-   * replies may contain author mention, but we don't want to include those. We only want
-   * to include tweets from original thread
-   */
-  private fun List<Tweet>.filterTweetsByAuthorOnly(authorId: String): List<Tweet> =
-    filter { it.inReplyToUserId == null || it.inReplyToUserId == authorId }
 }
 
 sealed interface Response {
