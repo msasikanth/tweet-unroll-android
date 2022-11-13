@@ -46,6 +46,14 @@ internal fun HeroInput(
       text = stringResource(id = R.string.home_hero_input_heading)
     )
 
+    val keyboardActions = if (text.isNotBlank()) {
+      KeyboardActions(
+        onGo = { onGoClick.invoke() }
+      )
+    } else {
+      KeyboardActions()
+    }
+
     InputField(
       modifier = Modifier.fillMaxWidth(),
       text = text,
@@ -59,9 +67,7 @@ internal fun HeroInput(
         )
       },
       onClearTextClick = onClearTextClick,
-      keyboardActions = KeyboardActions(
-        onGo = { onGoClick.invoke() }
-      ),
+      keyboardActions = keyboardActions,
       keyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Go,
         keyboardType = KeyboardType.Uri
