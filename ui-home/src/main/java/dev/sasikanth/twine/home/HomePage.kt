@@ -63,9 +63,7 @@ fun HomePage(
         onPasteClick = viewModel::pasteUrl,
         onTextChange = viewModel::tweetUrlChanged,
         onClearTextClick = viewModel::clearUrl,
-        onGoClick = {
-          // TODO: Validate URL and sync thread
-        }
+        onGoClick = viewModel::validateUrl
       )
     }
   }

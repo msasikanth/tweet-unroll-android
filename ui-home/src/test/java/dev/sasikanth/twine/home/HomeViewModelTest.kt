@@ -2,6 +2,7 @@ package dev.sasikanth.twine.home
 
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
+import dev.sasikanth.twine.common.utils.TweetLinkParser
 import org.junit.Test
 
 class HomeViewModelTest {
@@ -9,7 +10,8 @@ class HomeViewModelTest {
   private val fakeClipboard = FakeClipboard()
   private val defaultUiState = HomeUiState.DEFAULT
   private val viewModel = HomeViewModel(
-    clipboard = fakeClipboard
+    clipboard = fakeClipboard,
+    tweetLinkParser = TweetLinkParser()
   )
 
   @Test
@@ -50,6 +52,20 @@ class HomeViewModelTest {
 
     // then
     val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl = null)
+    assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
+  }
+
+  @Test
+  fun `when go button is clicked and tweet link is invalid, then update the state`() {
+    // given
+    val tweetUrl = "https://twitter.com/status/1588742946387824644"
+    viewModel.tweetUrlChanged(tweetUrl)
+
+    // when
+    viewModel.validateUrl()
+
+    // then
+    val expectedUiState = viewModel.homeUiState.value.invalidUrl()
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
   }
 }

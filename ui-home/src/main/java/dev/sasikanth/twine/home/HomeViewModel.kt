@@ -2,6 +2,7 @@ package dev.sasikanth.twine.home
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.clipboard.Clipboard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-  private val clipboard: Clipboard
+  private val clipboard: Clipboard,
+  private val tweetLinkParser: TweetLinkParser
 ) : ViewModel() {
 
   private val defaultUiState = HomeUiState.DEFAULT
@@ -31,5 +33,14 @@ class HomeViewModel @Inject constructor(
 
   fun clearUrl() {
     tweetUrlChanged(tweetUrl = null)
+  }
+
+  fun validateUrl() {
+    val tweetLink = _homeUiState.value.tweetUrl.orEmpty()
+    val isAValidTweetLink = tweetLinkParser.isAValidTweetUrl(tweetLink = tweetLink)
+
+    if (!isAValidTweetLink) {
+      _homeUiState.update { it.invalidUrl() }
+    }
   }
 }
