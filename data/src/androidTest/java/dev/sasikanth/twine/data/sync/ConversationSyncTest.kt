@@ -8,14 +8,26 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.common.testing.util.TestUserClock
 import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
+import dev.sasikanth.twine.data.api.models.AttachmentsPayload
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.IncludesPayload
+import dev.sasikanth.twine.data.api.models.MediaPayload
+import dev.sasikanth.twine.data.api.models.MediaTypePayload
+import dev.sasikanth.twine.data.api.models.ReferenceTypePayload
+import dev.sasikanth.twine.data.api.models.ReferencedTweetPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
 import dev.sasikanth.twine.data.api.models.UserPayload
 import dev.sasikanth.twine.data.database.TwineDatabase
+import dev.sasikanth.twine.data.database.entities.Media
+import dev.sasikanth.twine.data.database.entities.MediaType
 import dev.sasikanth.twine.data.database.entities.RecentConversation
+import dev.sasikanth.twine.data.database.entities.ReferenceType
+import dev.sasikanth.twine.data.database.entities.ReferencedTweet
+import dev.sasikanth.twine.data.database.entities.Tweet
+import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -71,7 +83,12 @@ class ConversationSyncTest {
         authorId = "280595048",
         conversationId = "1550874190793674753",
         text = "Tweet 1 in the thread",
-        attachments = null,
+        attachments = AttachmentsPayload(
+          mediaKeys = listOf(
+            "3_7291856149861120695"
+          ),
+          pollIds = null
+        ),
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
@@ -79,7 +96,14 @@ class ConversationSyncTest {
       ),
       includes = IncludesPayload(
         tweets = null,
-        media = null,
+        media = listOf(
+          MediaPayload(
+            mediaKey = "3_7291856149861120695",
+            type = MediaTypePayload.Photo,
+            url = "https://twitter.com/img/photo.jpg",
+            previewImage = "https://twitter.com/img/photo_preview.jpg"
+          )
+        ),
         users = listOf(
           UserPayload(
             id = "280595048",
@@ -102,12 +126,29 @@ class ConversationSyncTest {
           attachments = null,
           entities = null,
           inReplyToUserId = null,
-          referencedTweets = null,
+          referencedTweets = listOf(
+            ReferencedTweetPayload(
+              id = "2387730861057376900",
+              type = ReferenceTypePayload.Quoted
+            )
+          ),
           createdAt = Instant.parse("2022-07-23T16:10:15Z")
         )
       ),
       includes = IncludesPayload(
-        tweets = null,
+        tweets = listOf(
+          TweetPayload(
+            id = "2387730861057376900",
+            authorId = "280595048",
+            conversationId = "1550874190793674758",
+            text = "Quoted tweet",
+            attachments = null,
+            entities = null,
+            inReplyToUserId = null,
+            referencedTweets = null,
+            createdAt = Instant.parse("2022-06-23T16:10:15Z")
+          )
+        ),
         media = null,
         users = listOf(
           UserPayload(
@@ -137,6 +178,10 @@ class ConversationSyncTest {
         )
       ) as Page<Int, RecentConversation>
 
+    val tweetsInConversation = tweetsRepository.tweetsInConversation(
+      conversationId = "1550874190793674753"
+    ).first()
+
     // then
     assertThat(result).isEqualTo(Response.Success)
     assertThat(recentConversationsPage.data).isEqualTo(
@@ -150,6 +195,54 @@ class ConversationSyncTest {
           userFullName = "Sasikanth",
           userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
           numberOfTweetsInConversation = 2
+        )
+      )
+    )
+    assertThat(tweetsInConversation).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = Tweet(
+            id = "1550874190793674753",
+            authorId = "280595048",
+            conversationId = "1550874190793674753",
+            inReplyToUserId = null,
+            text = "Tweet 1 in the thread",
+            createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+          ),
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = listOf(
+            Media(
+              mediaKey = "3_7291856149861120695",
+              type = MediaType.Photo,
+              url = "https://twitter.com/img/photo.jpg",
+              previewImage = "https://twitter.com/img/photo_preview.jpg",
+              tweetId = "1550874190793674753"
+            )
+          ),
+          polls = emptyList()
+        ),
+        TweetWithContent(
+          tweet = Tweet(
+            id = "1550874190793674756",
+            authorId = "280595048",
+            conversationId = "1550874190793674753",
+            inReplyToUserId = null,
+            text = "Tweet 2 in the thread",
+            createdAt = Instant.parse("2022-07-23T16:10:15Z"),
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+          ),
+          entities = emptyList(),
+          referencedTweets = listOf(
+            ReferencedTweet(
+              id = "2387730861057376900",
+              type = ReferenceType.Quoted,
+              tweetId = "1550874190793674756"
+            )
+          ),
+          media = emptyList(),
+          polls = emptyList()
         )
       )
     )
