@@ -71,7 +71,9 @@ class HomeViewModelTest {
     viewModel.validateAndSync()
 
     // then
-    val expectedUiState = viewModel.homeUiState.value.invalidUrl()
+    val expectedUiState = defaultUiState
+      .onTweetUrlChanged(tweetUrl)
+      .invalidUrl()
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
   }
 
@@ -87,7 +89,7 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = viewModel.homeUiState.value.onTweetUrlChanged(tweetUrl)
+    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
     assertThat(syncQueue.first()).isEqualTo(
       listOf(
@@ -111,7 +113,7 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = viewModel.homeUiState.value.onTweetUrlChanged(tweetUrl)
+    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
     assertThat(syncQueue.first()).isEqualTo(
       listOf(
@@ -133,7 +135,9 @@ class HomeViewModelTest {
     viewModel.pasteUrl()
 
     // then
-    val expectedUiState = viewModel.homeUiState.value.invalidUrl()
+    val expectedUiState = defaultUiState
+      .onTweetUrlChanged(tweetUrl)
+      .invalidUrl()
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
   }
 }
