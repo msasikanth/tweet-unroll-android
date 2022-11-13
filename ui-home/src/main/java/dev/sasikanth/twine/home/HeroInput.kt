@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -90,19 +91,22 @@ private fun Tooltip(
   modifier: Modifier = Modifier,
   inputErrors: List<InputError>
 ) {
-  when {
-    inputErrors.any { it == InvalidUrl } -> ErrorLabel()
+  Box(
+    modifier = modifier
+      .fillMaxWidth()
+      .padding(horizontal = 16.dp)
+      .padding(top = 8.dp)
+  ) {
+    when {
+      inputErrors.any { it == InvalidUrl } -> ErrorLabel()
 
-    else -> {
-      Text(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(horizontal = 16.dp)
-          .padding(top = 8.dp),
-        text = stringResource(id = R.string.home_hero_input_tooltip),
-        style = TwineTheme.typography.bodySmall,
-        color = TwineTheme.colorScheme.onSurfaceVariant
-      )
+      else -> {
+        Text(
+          text = stringResource(id = R.string.home_hero_input_tooltip),
+          style = TwineTheme.typography.bodySmall,
+          color = TwineTheme.colorScheme.onSurfaceVariant
+        )
+      }
     }
   }
 }
@@ -112,10 +116,7 @@ private fun ErrorLabel(
   modifier: Modifier = Modifier
 ) {
   Row(
-    modifier = modifier
-      .fillMaxWidth()
-      .padding(horizontal = 16.dp)
-      .padding(top = 8.dp),
+    modifier = modifier,
     verticalAlignment = Alignment.CenterVertically
   ) {
     Icon(
