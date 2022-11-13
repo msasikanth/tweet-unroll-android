@@ -60,6 +60,7 @@ fun HomePage(
     ) {
       HeroInput(
         text = homeUiState.tweetUrl.orEmpty(),
+        inputErrors = homeUiState.errors,
         onPasteClick = viewModel::pasteUrl,
         onTextChange = viewModel::tweetUrlChanged,
         onClearTextClick = viewModel::clearUrl,

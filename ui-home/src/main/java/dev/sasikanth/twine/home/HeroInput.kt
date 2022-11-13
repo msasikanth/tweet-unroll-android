@@ -1,16 +1,22 @@
 package dev.sasikanth.twine.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -27,6 +33,7 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 internal fun HeroInput(
   modifier: Modifier = Modifier,
   text: String,
+  inputErrors: List<InputError> = emptyList(),
   onPasteClick: () -> Unit,
   onGoClick: () -> Unit,
   onTextChange: (String) -> Unit,
@@ -74,14 +81,56 @@ internal fun HeroInput(
       )
     )
 
+    Tooltip(inputErrors = inputErrors)
+  }
+}
+
+@Composable
+private fun Tooltip(
+  modifier: Modifier = Modifier,
+  inputErrors: List<InputError>
+) {
+  when {
+    inputErrors.any { it == InvalidUrl } -> ErrorLabel()
+
+    else -> {
+      Text(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp)
+          .padding(top = 8.dp),
+        text = stringResource(id = R.string.home_hero_input_tooltip),
+        style = TwineTheme.typography.bodySmall,
+        color = TwineTheme.colorScheme.onSurfaceVariant
+      )
+    }
+  }
+}
+
+@Composable
+private fun ErrorLabel(
+  modifier: Modifier = Modifier
+) {
+  Row(
+    modifier = modifier
+      .fillMaxWidth()
+      .padding(horizontal = 16.dp)
+      .padding(top = 8.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Icon(
+      modifier = Modifier.size(16.dp),
+      imageVector = Icons.Filled.ErrorOutline,
+      contentDescription = null,
+      tint = TwineTheme.colorScheme.error
+    )
+
+    Spacer(modifier = Modifier.width(4.dp))
+
     Text(
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-        .padding(top = 16.dp),
-      text = stringResource(id = R.string.home_hero_input_tooltip),
-      style = TwineTheme.typography.bodySmall,
-      color = TwineTheme.colorScheme.onSurfaceVariant
+      text = stringResource(id = R.string.home_hero_input_invalid_url),
+      style = TwineTheme.typography.labelMedium,
+      color = TwineTheme.colorScheme.error
     )
   }
 }
@@ -134,6 +183,23 @@ private fun HeroInputWithTextPreview() {
     Surface {
       HeroInput(
         text = "https://twitter.com/",
+        onPasteClick = {},
+        onTextChange = {},
+        onClearTextClick = {},
+        onGoClick = {}
+      )
+    }
+  }
+}
+
+@Preview
+@Composable
+private fun HeroInputWithInvalidTextPreview() {
+  TwineTheme {
+    Surface {
+      HeroInput(
+        text = "https://twitter.com/",
+        inputErrors = listOf(InvalidUrl),
         onPasteClick = {},
         onTextChange = {},
         onClearTextClick = {},
