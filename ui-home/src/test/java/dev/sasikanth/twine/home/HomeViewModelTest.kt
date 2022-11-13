@@ -8,6 +8,7 @@ import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 import java.util.UUID
 
@@ -22,11 +23,16 @@ class HomeViewModelTest {
       Pair(id, syncQueueItem)
     }
   )
-  private val viewModel = HomeViewModel(
-    clipboard = fakeClipboard,
-    tweetLinkParser = TweetLinkParser(),
-    conversationSyncQueue = conversationSyncQueue,
-  )
+  private lateinit var viewModel: HomeViewModel
+
+  @Before
+  fun setup() {
+    viewModel = HomeViewModel(
+      clipboard = fakeClipboard,
+      tweetLinkParser = TweetLinkParser(),
+      conversationSyncQueue = conversationSyncQueue,
+    )
+  }
 
   @Test
   fun `when tweet url is changed, then update the state`() {
