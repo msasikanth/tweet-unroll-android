@@ -42,20 +42,6 @@ class HomeViewModelTest {
   }
 
   @Test
-  fun `when paste button is clicked, then fetch the text from clipboard and update model`() {
-    // given
-    val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
-    fakeClipboard.setText(tweetUrl)
-
-    // when
-    viewModel.pasteUrl()
-
-    // then
-    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
-    assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
-  }
-
-  @Test
   fun `when clear button is clicked, then clear the text`() {
     // given
     val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
