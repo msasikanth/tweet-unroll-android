@@ -2,21 +2,21 @@ package dev.sasikanth.twine.home
 
 data class HomeUiState(
   val tweetUrl: String?,
-  val inputErrors: List<InputError>
+  val errors: List<InputError>
 ) {
 
   companion object {
     val DEFAULT = HomeUiState(
       tweetUrl = null,
-      inputErrors = emptyList()
+      errors = emptyList()
     )
   }
 
   fun onTweetUrlChanged(tweetUrl: String?): HomeUiState {
-    return copy(tweetUrl = tweetUrl, inputErrors = emptyList())
+    return copy(tweetUrl = tweetUrl, errors = emptyList())
   }
 
   fun invalidUrl(): HomeUiState {
-    return copy(inputErrors = listOf(InvalidUrl))
+    return copy(errors = listOf(InvalidUrl))
   }
 }
