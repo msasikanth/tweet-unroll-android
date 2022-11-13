@@ -7,6 +7,8 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.entities.RecentConversation
+import dev.sasikanth.twine.data.database.entities.ReferenceType
+import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import dev.sasikanth.twine.data.database.entities.User
@@ -223,6 +225,93 @@ class TweetsRepositoryIntegrationTest {
           referencedTweets = emptyList(),
           media = emptyList(),
           polls = emptyList()
+        )
+      )
+    )
+  }
+
+  @Test
+  fun filter_tweets_if_they_are_referenced_tweets_when_fetching_recent_conversations() = runTest {
+    // given
+    val tweet1 = Tweet(
+      id = "5826750211618182376",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread, with quoted tweet",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z")
+    )
+
+    val tweet2 = Tweet(
+      id = "5826750211618182378",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 2 in the thread",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z")
+    )
+
+    val quotedTweet = Tweet(
+      id = "2384818331972948098",
+      authorId = "393780059",
+      conversationId = "2384818331972948098",
+      inReplyToUserId = null,
+      text = "Quoted tweet",
+      createdAt = Instant.parse("2022-01-06T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-06T00:00:00Z")
+    )
+
+    val referencedTweet = ReferencedTweet(
+      id = "2384818331972948098",
+      type = ReferenceType.Quoted,
+      tweetId = "5826750211618182376"
+    )
+
+    val user1 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png"
+    )
+
+    val user2 = User(
+      id = "393780059",
+      name = "Ramesh",
+      username = "ramesh_prasad",
+      profileImage = "https://twitter.com/image/ramesh_prasad.png"
+    )
+
+    tweetsRepository.saveTweets(listOf(tweet1, tweet2, quotedTweet))
+    tweetsRepository.saveReferencedTweets(listOf(referencedTweet))
+    usersRepository.saveUsers(listOf(user1, user2))
+
+    // when
+    val recentTweetsLoadResult = tweetsRepository
+      .recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      ) as Page<Int, RecentConversation>
+
+    val recentTweets = recentTweetsLoadResult.data
+
+    // then
+    assertThat(recentTweets).isEqualTo(
+      listOf(
+        RecentConversation(
+          conversationId = "5826750211618182376",
+          conversationPreviewText = "Tweet 1 in thread, with quoted tweet",
+          conversationStartedAt = Instant.parse("2022-01-07T00:00:00Z"),
+          conversationCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+          username = "its_sasikanth",
+          userFullName = "Sasikanth",
+          userProfileImage = "https://twitter.com/image/its_sasikanth.png",
+          numberOfTweetsInConversation = 2
         )
       )
     )
