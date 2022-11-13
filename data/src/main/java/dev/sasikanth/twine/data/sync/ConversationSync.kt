@@ -75,10 +75,12 @@ class ConversationSync @Inject constructor(
     val conversationTweets = conversation?.data
 
     val tweetsInConversation = conversationTweets.orEmpty() + conversationHeadTweetPayload
+
+    val referencedTweets = referencedTweetsInConversation(tweetsInConversation)
     // We are fetching referenced tweets contents as the Twitter API doesn't include
-    // nested includes content.
+    // nested includes content (depth = 1).
     val (referencedTweetsInConversation, referencedTweetsIncludes) = fetchReferencedTweets(
-      tweets = tweetsInConversation
+      referencedTweets = referencedTweets
     )
 
     val tweets = tweetsInConversation + referencedTweetsInConversation
@@ -93,14 +95,15 @@ class ConversationSync @Inject constructor(
     syncMedia(tweets = tweets, mediaPayloads = media)
     syncTweetEntities(tweets = tweets)
     syncPolls(tweets = tweets, pollsPayloads = polls)
-    syncReferencedTweets(tweets = tweets)
+    syncReferencedTweets(referencedTweets = referencedTweets)
   }
 
-  private suspend fun syncReferencedTweets(tweets: List<TweetPayload>) {
-    val referencedTweets = tweets
+  private fun referencedTweetsInConversation(tweetsInConversation: List<TweetPayload>) =
+    tweetsInConversation
       .flatMap { payload ->
         payload
           .referencedTweets
+          ?.filter { rt -> isReferencedTweetInConversation(tweetsInConversation, rt.id) }
           ?.map { referencedTweetPayload ->
             ReferencedTweet.from(
               tweetId = payload.id,
@@ -110,6 +113,12 @@ class ConversationSync @Inject constructor(
           .orEmpty()
       }
 
+  private fun isReferencedTweetInConversation(
+    tweetsInConversation: List<TweetPayload>,
+    referencedTweetId: String
+  ) = !tweetsInConversation.any { it.id == referencedTweetId }
+
+  private suspend fun syncReferencedTweets(referencedTweets: List<ReferencedTweet>) {
     tweetsRepository.saveReferencedTweets(referencedTweets)
   }
 
@@ -198,11 +207,10 @@ class ConversationSync @Inject constructor(
   }
 
   private suspend fun fetchReferencedTweets(
-    tweets: List<TweetPayload>
+    referencedTweets: List<ReferencedTweet>
   ): Pair<List<TweetPayload>, List<IncludesPayload>> {
     val tweetReferencedInConversation = coroutineScope {
-      tweets
-        .flatMap { it.referencedTweets.orEmpty() }
+      referencedTweets
         .map { referencedTweet ->
           async(dispatchers.io) { twitterRemoteSource.tweetLookup(referencedTweet.id) }
         }

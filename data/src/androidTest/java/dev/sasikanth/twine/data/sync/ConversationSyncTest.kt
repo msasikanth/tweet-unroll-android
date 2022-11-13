@@ -411,4 +411,128 @@ class ConversationSyncTest {
       )
     )
   }
+
+  @Test
+  fun ignore_referenced_tweets_that_are_already_in_the_conversation() = runTest {
+    // given
+    val tweetLookupPayload = TweetLookupPayload(
+      data = TweetPayload(
+        id = "1550874190793674753",
+        authorId = "280595048",
+        conversationId = "1550874190793674753",
+        text = "Tweet 1 in the thread",
+        attachments = null,
+        entities = null,
+        inReplyToUserId = null,
+        referencedTweets = null,
+        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+      ),
+      includes = IncludesPayload(
+        tweets = null,
+        media = null,
+        users = listOf(
+          UserPayload(
+            id = "280595048",
+            name = "Sasikanth",
+            username = "its_sasikanth",
+            profileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg"
+          )
+        ),
+        polls = null
+      )
+    )
+
+    val conversationLookupPayload = ConversationsLookupPayload(
+      data = listOf(
+        TweetPayload(
+          id = "1550874190793674756",
+          authorId = "280595048",
+          conversationId = "1550874190793674753",
+          text = "Tweet 2 in the thread",
+          attachments = null,
+          entities = null,
+          inReplyToUserId = null,
+          referencedTweets = listOf(
+            ReferencedTweetPayload(
+              id = "1550874190793674753",
+              type = ReferenceTypePayload.RepliedTo
+            )
+          ),
+          createdAt = Instant.parse("2022-07-23T16:10:15Z")
+        )
+      ),
+      includes = null,
+      meta = null
+    )
+
+    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
+
+    // when
+    val result = conversationSync.trySync(tweetId = "1550874190793674753")
+
+    val recentConversationsPage = tweetsRepository.recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      ) as Page<Int, RecentConversation>
+
+    val tweetsInConversation = tweetsRepository.tweetsInConversation(
+      conversationId = "1550874190793674753"
+    ).first()
+
+    // then
+    assertThat(result).isEqualTo(Response.Success)
+    assertThat(recentConversationsPage.data).isEqualTo(
+      listOf(
+        RecentConversation(
+          conversationId = "1550874190793674753",
+          conversationPreviewText = "Tweet 1 in the thread",
+          conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+          conversationCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+          username = "its_sasikanth",
+          userFullName = "Sasikanth",
+          userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
+          numberOfTweetsInConversation = 2
+        )
+      )
+    )
+    assertThat(tweetsInConversation).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = Tweet(
+            id = "1550874190793674753",
+            authorId = "280595048",
+            conversationId = "1550874190793674753",
+            inReplyToUserId = null,
+            text = "Tweet 1 in the thread",
+            createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+          ),
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        ),
+        TweetWithContent(
+          tweet = Tweet(
+            id = "1550874190793674756",
+            authorId = "280595048",
+            conversationId = "1550874190793674753",
+            inReplyToUserId = null,
+            text = "Tweet 2 in the thread",
+            createdAt = Instant.parse("2022-07-23T16:10:15Z"),
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+          ),
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        )
+      )
+    )
+  }
 }
