@@ -64,12 +64,10 @@ class ConversationSync @Inject constructor(
     )
     val conversationTweets = conversation?.data
 
-    val tweets = conversationTweets.orEmpty() + conversationHeadTweetPayload
-    val includes = listOf(includesPayload, conversation?.includes)
+    val tweets = (conversationTweets.orEmpty() + conversationHeadTweetPayload)
+    val includes = listOfNotNull(includesPayload, conversation?.includes)
 
-    val users = includes
-      .filterNotNull()
-      .flatMap { it.users.orEmpty() }
+    val users = includes.flatMap { it.users.orEmpty() }
 
     syncTweets(tweets = tweets)
     syncUsers(users = users)
