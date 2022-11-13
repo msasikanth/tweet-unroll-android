@@ -106,4 +106,42 @@ class HomeViewModelTest {
       )
     )
   }
+
+  @Test
+  fun `when url is pasted and is valid, then add to sync queue`() = runTest {
+    // given
+    val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
+    fakeClipboard.setText(tweetUrl)
+
+    // when
+    viewModel.pasteUrl()
+
+    val syncQueue = conversationSyncQueue.queue()
+
+    // then
+    val expectedUiState = viewModel.homeUiState.value.onTweetUrlChanged(tweetUrl)
+    assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
+    assertThat(syncQueue.first()).isEqualTo(
+      listOf(
+        ConversationSyncQueueItem(
+          tweetId = "1588742946387824644",
+          tweetBy = "its_sasikanth"
+        )
+      )
+    )
+  }
+
+  @Test
+  fun `when url is pasted and is not valid, then update state to show errors`() = runTest {
+    // given
+    val tweetUrl = "https://twitter.com/status/1588742946387824644"
+    fakeClipboard.setText(tweetUrl)
+
+    // when
+    viewModel.pasteUrl()
+
+    // then
+    val expectedUiState = viewModel.homeUiState.value.invalidUrl()
+    assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
+  }
 }

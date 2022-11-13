@@ -32,6 +32,7 @@ class HomeViewModel @Inject constructor(
 
   fun pasteUrl() {
     tweetUrlChanged(tweetUrl = clipboard.content)
+    validateAndSync()
   }
 
   fun clearUrl() {
