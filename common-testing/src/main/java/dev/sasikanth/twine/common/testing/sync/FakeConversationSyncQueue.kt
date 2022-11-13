@@ -3,7 +3,7 @@ package dev.sasikanth.twine.common.testing.sync
 import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import java.util.UUID
 
 class FakeConversationSyncQueue(
@@ -26,6 +26,6 @@ class FakeConversationSyncQueue(
   }
 
   override fun queue(): Flow<List<ConversationSyncQueueItem>> {
-    return flow { items.values.toList() }
+    return flowOf(items.values.toList())
   }
 }
