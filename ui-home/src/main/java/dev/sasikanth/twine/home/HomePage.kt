@@ -63,7 +63,7 @@ fun HomePage(
         onPasteClick = viewModel::pasteUrl,
         onTextChange = viewModel::tweetUrlChanged,
         onClearTextClick = viewModel::clearUrl,
-        onGoClick = viewModel::validateUrl
+        onGoClick = viewModel::validateAndSync
       )
     }
   }

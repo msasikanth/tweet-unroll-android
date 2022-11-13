@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.clipboard.Clipboard
+import dev.sasikanth.twine.data.sync.ConversationSyncQueue
+import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
   private val clipboard: Clipboard,
-  private val tweetLinkParser: TweetLinkParser
+  private val tweetLinkParser: TweetLinkParser,
+  private val conversationSyncQueue: ConversationSyncQueue,
 ) : ViewModel() {
 
   private val defaultUiState = HomeUiState.DEFAULT
@@ -35,12 +38,22 @@ class HomeViewModel @Inject constructor(
     tweetUrlChanged(tweetUrl = null)
   }
 
-  fun validateUrl() {
+  fun validateAndSync() {
     val tweetLink = _homeUiState.value.tweetUrl.orEmpty()
     val isAValidTweetLink = tweetLinkParser.isAValidTweetUrl(tweetLink = tweetLink)
 
     if (!isAValidTweetLink) {
       _homeUiState.update { it.invalidUrl() }
+    } else {
+      val tweetId = tweetLinkParser.getId(tweetLink)!!
+      val tweetBy = tweetLinkParser.getUserName(tweetLink)!!
+
+      val conversationSyncQueueItem = ConversationSyncQueueItem(
+        tweetId = tweetId,
+        tweetBy = tweetBy
+      )
+
+      conversationSyncQueue.add(conversationSyncQueueItem)
     }
   }
 }
