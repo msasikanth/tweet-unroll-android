@@ -13,7 +13,7 @@ android {
     minSdk = libs.versions.sdk.min.get().toInt()
     targetSdk = libs.versions.sdk.target.get().toInt()
     versionCode = 1
-    versionName = "1.0.0"
+    versionName = "1.0.0-pre-alpha-01"
 
     testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     vectorDrawables {
