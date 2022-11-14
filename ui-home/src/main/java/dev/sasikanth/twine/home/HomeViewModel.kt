@@ -31,8 +31,11 @@ class HomeViewModel @Inject constructor(
   }
 
   fun pasteUrl() {
-    tweetUrlChanged(tweetUrl = clipboard.content)
-    validateAndSync()
+    val clipboardContent = clipboard.content
+    if (!clipboardContent.isNullOrBlank()) {
+      tweetUrlChanged(tweetUrl = clipboardContent)
+      validateAndSync()
+    }
   }
 
   fun clearUrl() {

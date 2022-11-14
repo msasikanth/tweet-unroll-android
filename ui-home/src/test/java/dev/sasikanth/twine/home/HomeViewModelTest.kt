@@ -140,4 +140,17 @@ class HomeViewModelTest {
       .invalidUrl()
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
   }
+
+  @Test
+  fun `when paste is clicked and url is null or blank, then do nothing`() = runTest {
+    val tweetUrl = ""
+    fakeClipboard.setText(tweetUrl)
+
+    // when
+    viewModel.pasteUrl()
+
+    // then
+    assertThat(fakeClipboard.content).isEqualTo("")
+    assertThat(viewModel.homeUiState.value).isEqualTo(defaultUiState)
+  }
 }
