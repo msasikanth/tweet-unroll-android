@@ -24,7 +24,7 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 
 @Composable
-fun BackgroundPattern(
+fun AnimatedStripePattern(
   modifier: Modifier = Modifier,
   animationSpec: InfiniteRepeatableSpec<Float>
 ) {
@@ -73,7 +73,7 @@ fun BackgroundPattern(
 @Composable
 private fun BackgroundPatternPreview() {
   TwineTheme {
-    BackgroundPattern(
+    AnimatedStripePattern(
       animationSpec = infiniteRepeatable(
         tween(
           1000,
