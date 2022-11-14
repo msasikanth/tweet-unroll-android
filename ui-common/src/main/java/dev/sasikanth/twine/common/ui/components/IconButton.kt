@@ -55,10 +55,13 @@ fun IconButton(
     TwineTheme.colorScheme.primary
   }
 
+  val newBackgroundColor = containerBackgroundColor(backgroundColor, enabled)
+  val newContentColor = contentColor(enabled, contentColor)
+
   Box(
     modifier = modifier
       .clip(TwineTheme.shapes.medium)
-      .background(backgroundColor)
+      .background(newBackgroundColor)
       .size(IconButtonSize)
       .clickable(
         onClick = onClick,
@@ -69,7 +72,7 @@ fun IconButton(
       ),
     contentAlignment = Alignment.Center
   ) {
-    CompositionLocalProvider(LocalContentColor provides contentColor) {
+    CompositionLocalProvider(LocalContentColor provides newContentColor) {
       val iconModifier = if (backgroundColor != Color.Unspecified) {
         Modifier.size(IconSizeSmall)
       } else {
@@ -81,6 +84,32 @@ fun IconButton(
       }
     }
   }
+}
+
+@Composable
+private fun contentColor(
+  enabled: Boolean,
+  contentColor: Color
+) = if (enabled) {
+  contentColor
+} else {
+  TwineTheme.colorScheme.onSurface.copy(
+    alpha = TwineTheme.opacity.fgDisabled
+  )
+}
+
+@Composable
+private fun containerBackgroundColor(
+  backgroundColor: Color,
+  enabled: Boolean
+): Color {
+  if (backgroundColor != Color.Unspecified && !enabled) {
+    return TwineTheme.colorScheme.onSurface.copy(
+      alpha = TwineTheme.opacity.bgDisabled
+    )
+  }
+
+  return backgroundColor
 }
 
 internal object IconButtonDefaults {
@@ -107,10 +136,47 @@ private fun IconButtonPreview() {
 
 @Preview
 @Composable
+private fun IconButtonPreview_Disabled() {
+  TwineTheme {
+    IconButton(
+      enabled = false,
+      onClick = {
+        // Handle clicks
+      }
+    ) {
+      Icon(
+        imageVector = Icons.Filled.ArrowBack,
+        contentDescription = null
+      )
+    }
+  }
+}
+
+@Preview
+@Composable
 private fun IconButtonPreview_Filled() {
   TwineTheme {
     IconButton(
       backgroundColor = TwineTheme.colorScheme.brand,
+      onClick = {
+        // Handle clicks
+      }
+    ) {
+      Icon(
+        imageVector = Icons.Filled.ArrowBack,
+        contentDescription = null
+      )
+    }
+  }
+}
+
+@Preview
+@Composable
+private fun IconButtonPreview_Filled_Disabled() {
+  TwineTheme {
+    IconButton(
+      backgroundColor = TwineTheme.colorScheme.brand,
+      enabled = false,
       onClick = {
         // Handle clicks
       }
