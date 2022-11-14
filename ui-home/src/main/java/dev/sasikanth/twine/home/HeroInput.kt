@@ -73,7 +73,7 @@ internal fun HeroInput(
       hint = stringResource(id = R.string.home_hero_input_hint),
       onValueChange = onTextChange,
       endSlot = {
-        inputFieldEndSlot(
+        InputFieldEndSlot(
           hasText = text.isNotBlank(),
           hasInputErrors = hasInputErrors,
           onPasteClick = onPasteClick,
@@ -145,7 +145,7 @@ private fun ErrorLabel(
 }
 
 @Composable
-private fun inputFieldEndSlot(
+private fun InputFieldEndSlot(
   hasText: Boolean,
   hasInputErrors: Boolean,
   onPasteClick: () -> Unit,
