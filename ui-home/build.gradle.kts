@@ -65,6 +65,8 @@ dependencies {
 
   implementation(libs.bundles.paging)
 
+  implementation(libs.coil.compose)
+
   testImplementation(libs.junit)
   testImplementation(projects.commonTesting)
 
