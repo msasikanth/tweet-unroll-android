@@ -1,13 +1,17 @@
 package dev.sasikanth.twine.home
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
@@ -27,6 +31,9 @@ class HomeViewModelTest {
 
   @Before
   fun setup() {
+    val testDispatcher = UnconfinedTestDispatcher()
+    Dispatchers.setMain(testDispatcher)
+
     viewModel = HomeViewModel(
       clipboard = fakeClipboard,
       tweetLinkParser = TweetLinkParser(),
@@ -81,6 +88,11 @@ class HomeViewModelTest {
   fun `when go button is clicked and tweet link is valid, then add to sync queue`() = runTest {
     // given
     val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
+    val syncQueueItem = ConversationSyncQueueItem(
+      tweetId = "1588742946387824644",
+      tweetBy = "its_sasikanth"
+    )
+
     viewModel.tweetUrlChanged(tweetUrl)
 
     // when
@@ -89,22 +101,23 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
+    val expectedUiState = defaultUiState
+      .onTweetUrlChanged(tweetUrl)
+      .onSyncQueueLoaded(listOf(syncQueueItem))
+
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
-    assertThat(syncQueue.first()).isEqualTo(
-      listOf(
-        ConversationSyncQueueItem(
-          tweetId = "1588742946387824644",
-          tweetBy = "its_sasikanth"
-        )
-      )
-    )
+    assertThat(syncQueue.first()).isEqualTo(listOf(syncQueueItem))
   }
 
   @Test
   fun `when url is pasted and is valid, then add to sync queue`() = runTest {
     // given
     val tweetUrl = "https://twitter.com/its_sasikanth/status/1588742946387824644"
+    val syncQueueItem = ConversationSyncQueueItem(
+      tweetId = "1588742946387824644",
+      tweetBy = "its_sasikanth"
+    )
+
     fakeClipboard.setText(tweetUrl)
 
     // when
@@ -113,16 +126,12 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = defaultUiState.onTweetUrlChanged(tweetUrl)
+    val expectedUiState = defaultUiState
+      .onTweetUrlChanged(tweetUrl)
+      .onSyncQueueLoaded(listOf(syncQueueItem))
+
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
-    assertThat(syncQueue.first()).isEqualTo(
-      listOf(
-        ConversationSyncQueueItem(
-          tweetId = "1588742946387824644",
-          tweetBy = "its_sasikanth"
-        )
-      )
-    )
+    assertThat(syncQueue.first()).isEqualTo(listOf(syncQueueItem))
   }
 
   @Test
@@ -152,5 +161,29 @@ class HomeViewModelTest {
     // then
     assertThat(fakeClipboard.content).isEqualTo("")
     assertThat(viewModel.homeUiState.value).isEqualTo(defaultUiState)
+  }
+
+  @Test
+  fun `when screen is created, then observe sync queue`() = runTest {
+    // given
+    val syncQueueItem = ConversationSyncQueueItem(
+      tweetId = "1588742946387824644",
+      tweetBy = "its_sasikanth"
+    )
+
+    assertThat(conversationSyncQueue.queue().first()).isEmpty()
+
+    // when & then
+    val expectedUiState = defaultUiState
+      .onSyncQueueLoaded(listOf(syncQueueItem))
+
+    viewModel.homeUiState.test {
+      assertThat(awaitItem()).isEqualTo(defaultUiState)
+
+      conversationSyncQueue.add(syncQueueItem)
+
+      assertThat(awaitItem()).isEqualTo(expectedUiState)
+      cancelAndIgnoreRemainingEvents()
+    }
   }
 }
