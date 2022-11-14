@@ -41,6 +41,10 @@ internal fun HeroInput(
   onTextChange: (String) -> Unit,
   onClearTextClick: () -> Unit,
 ) {
+  val hasInputErrors = inputErrors.any {
+    it == InvalidUrl
+  }
+
   Column(
     modifier = modifier
       .fillMaxWidth()
@@ -71,6 +75,7 @@ internal fun HeroInput(
       endSlot = {
         inputFieldEndSlot(
           hasText = text.isNotBlank(),
+          hasInputErrors = hasInputErrors,
           onPasteClick = onPasteClick,
           onGoClick = onGoClick
         )
@@ -83,14 +88,14 @@ internal fun HeroInput(
       )
     )
 
-    Tooltip(inputErrors = inputErrors)
+    Tooltip(hasInputErrors = hasInputErrors)
   }
 }
 
 @Composable
 private fun Tooltip(
   modifier: Modifier = Modifier,
-  inputErrors: List<InputError>
+  hasInputErrors: Boolean,
 ) {
   Box(
     modifier = modifier
@@ -98,9 +103,6 @@ private fun Tooltip(
       .padding(horizontal = 16.dp)
       .padding(top = 8.dp)
   ) {
-    val hasInputErrors = inputErrors.any {
-      it == InvalidUrl
-    }
     val tooltipAlpha = if (hasInputErrors) 0f else 1f
 
     Text(
@@ -145,12 +147,14 @@ private fun ErrorLabel(
 @Composable
 private fun inputFieldEndSlot(
   hasText: Boolean,
+  hasInputErrors: Boolean,
   onPasteClick: () -> Unit,
   onGoClick: () -> Unit
 ) {
   if (hasText) {
     IconButton(
       backgroundColor = TwineTheme.colorScheme.brand,
+      enabled = !hasInputErrors,
       content = {
         Icon(
           imageVector = Icons.Filled.ArrowForward,
