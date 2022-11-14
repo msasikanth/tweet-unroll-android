@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -97,16 +98,21 @@ private fun Tooltip(
       .padding(horizontal = 16.dp)
       .padding(top = 8.dp)
   ) {
-    when {
-      inputErrors.any { it == InvalidUrl } -> ErrorLabel()
+    val hasInputErrors = inputErrors.any {
+      it == InvalidUrl
+    }
+    val tooltipAlpha = if (hasInputErrors) 0f else 1f
 
-      else -> {
-        Text(
-          text = stringResource(id = R.string.home_hero_input_tooltip),
-          style = TwineTheme.typography.bodySmall,
-          color = TwineTheme.colorScheme.onSurfaceVariant
-        )
-      }
+    Text(
+      modifier = Modifier
+        .alpha(tooltipAlpha),
+      text = stringResource(id = R.string.home_hero_input_tooltip),
+      style = TwineTheme.typography.bodySmall,
+      color = TwineTheme.colorScheme.onSurfaceVariant
+    )
+
+    if (hasInputErrors) {
+      ErrorLabel()
     }
   }
 }
