@@ -5,6 +5,7 @@ import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dev.sasikanth.twine.data.api.models.PublicMetrics
 import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.ReferenceType
@@ -77,7 +78,13 @@ class TweetsRepositoryIntegrationTest {
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 1",
         createdAt = Instant.parse("2022-01-01T10:00:00Z"),
-        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
+        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 4,
+          likeCount = 15,
+          quoteCount = 2
+        )
       ),
       Tweet(
         id = "9025201324322053244",
@@ -86,7 +93,13 @@ class TweetsRepositoryIntegrationTest {
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 1",
         createdAt = Instant.parse("2022-01-01T10:05:00Z"),
-        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
+        deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 4,
+          likeCount = 15,
+          quoteCount = 2
+        )
       )
     )
 
@@ -98,7 +111,13 @@ class TweetsRepositoryIntegrationTest {
         inReplyToUserId = null,
         text = "Tweet 1 from conversation 2",
         createdAt = Instant.parse("2022-02-01T10:00:00Z"),
-        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 4,
+          likeCount = 15,
+          quoteCount = 2
+        )
       ),
       Tweet(
         id = "6288716957019134084",
@@ -107,7 +126,13 @@ class TweetsRepositoryIntegrationTest {
         inReplyToUserId = null,
         text = "Tweet 2 from conversation 2",
         createdAt = Instant.parse("2022-02-01T10:05:00Z"),
-        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 4,
+          likeCount = 15,
+          quoteCount = 2
+        )
       ),
       Tweet(
         id = "1756291676301077873",
@@ -116,7 +141,13 @@ class TweetsRepositoryIntegrationTest {
         inReplyToUserId = null,
         text = "Tweet 3 from conversation 2",
         createdAt = Instant.parse("2022-02-01T10:11:00Z"),
-        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z")
+        deviceCreatedAt = Instant.parse("2022-02-02T00:00:00Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 4,
+          likeCount = 15,
+          quoteCount = 2
+        )
       )
     )
 
@@ -175,7 +206,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 1",
       createdAt = Instant.parse("2022-01-01T10:00:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     val tweet2FromConversation1 = Tweet(
@@ -185,7 +222,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Tweet 2 from conversation 1",
       createdAt = Instant.parse("2022-01-01T10:05:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     val tweet1FromConversation2 = Tweet(
@@ -195,7 +238,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Tweet 1 from conversation 2",
       createdAt = Instant.parse("2022-01-01T10:00:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-02T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     tweetsRepository.saveTweets(
@@ -240,7 +289,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Tweet 1 in thread, with quoted tweet",
       createdAt = Instant.parse("2022-01-07T00:00:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     val tweet2 = Tweet(
@@ -250,7 +305,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Tweet 2 in the thread",
       createdAt = Instant.parse("2022-01-07T00:00:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     val quotedTweet = Tweet(
@@ -260,7 +321,13 @@ class TweetsRepositoryIntegrationTest {
       inReplyToUserId = null,
       text = "Quoted tweet",
       createdAt = Instant.parse("2022-01-06T00:00:00Z"),
-      deviceCreatedAt = Instant.parse("2022-01-06T00:00:00Z")
+      deviceCreatedAt = Instant.parse("2022-01-06T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
     )
 
     val referencedTweet = ReferencedTweet(

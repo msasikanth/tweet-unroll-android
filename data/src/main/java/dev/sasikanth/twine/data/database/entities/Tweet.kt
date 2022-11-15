@@ -1,9 +1,11 @@
 package dev.sasikanth.twine.data.database.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import dev.sasikanth.twine.data.api.models.PublicMetrics
 import java.time.Instant
 
 @Entity(
@@ -24,7 +26,9 @@ data class Tweet(
   @ColumnInfo(name = "created_at")
   val createdAt: Instant,
   @ColumnInfo(name = "device_created_at")
-  val deviceCreatedAt: Instant
+  val deviceCreatedAt: Instant,
+  @Embedded
+  val publicMetrics: PublicMetrics
 ) {
   companion object
 }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7addfca94c0937b362201b11e74d1613",
+    "identityHash": "82d7db8ea46448addd0c020df3c1abd8",
     "entities": [
       {
         "tableName": "Tweet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `author_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, `in_reply_to_user_id` TEXT, `text` TEXT NOT NULL, `created_at` TEXT NOT NULL, `device_created_at` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `author_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, `in_reply_to_user_id` TEXT, `text` TEXT NOT NULL, `created_at` TEXT NOT NULL, `device_created_at` TEXT NOT NULL, `retweetCount` INTEGER NOT NULL, `replyCount` INTEGER NOT NULL, `likeCount` INTEGER NOT NULL, `quoteCount` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -48,6 +48,30 @@
             "fieldPath": "deviceCreatedAt",
             "columnName": "device_created_at",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicMetrics.retweetCount",
+            "columnName": "retweetCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicMetrics.replyCount",
+            "columnName": "replyCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicMetrics.likeCount",
+            "columnName": "likeCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicMetrics.quoteCount",
+            "columnName": "quoteCount",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -366,12 +390,12 @@
     "views": [
       {
         "viewName": "RecentConversation",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    GROUP BY T.conversation_id HAVING MIN(T.created_at)\n    ORDER BY T.device_created_at DESC"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    WHERE T.id NOT IN ( SELECT RT.id FROM ReferencedTweet RT )\n    GROUP BY T.conversation_id HAVING MIN(T.created_at)\n    ORDER BY T.device_created_at DESC"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7addfca94c0937b362201b11e74d1613')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82d7db8ea46448addd0c020df3c1abd8')"
     ]
   }
 }

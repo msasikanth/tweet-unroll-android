@@ -227,7 +227,13 @@ class ConversationSyncTest {
             inReplyToUserId = null,
             text = "Tweet 1 in the thread",
             createdAt = Instant.parse("2022-07-23T16:03:15Z"),
-            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+            publicMetrics = PublicMetrics(
+              retweetCount = 0,
+              replyCount = 10,
+              likeCount = 25,
+              quoteCount = 0
+            )
           ),
           entities = emptyList(),
           referencedTweets = emptyList(),
@@ -250,7 +256,13 @@ class ConversationSyncTest {
             inReplyToUserId = null,
             text = "Tweet 2 in the thread",
             createdAt = Instant.parse("2022-07-23T16:10:15Z"),
-            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+            publicMetrics = PublicMetrics(
+              retweetCount = 0,
+              replyCount = 10,
+              likeCount = 25,
+              quoteCount = 0
+            )
           ),
           entities = emptyList(),
           referencedTweets = listOf(
@@ -559,7 +571,13 @@ class ConversationSyncTest {
             inReplyToUserId = null,
             text = "Tweet 1 in the thread",
             createdAt = Instant.parse("2022-07-23T16:03:15Z"),
-            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+            publicMetrics = PublicMetrics(
+              retweetCount = 0,
+              replyCount = 10,
+              likeCount = 25,
+              quoteCount = 0
+            )
           ),
           entities = emptyList(),
           referencedTweets = emptyList(),
@@ -574,7 +592,13 @@ class ConversationSyncTest {
             inReplyToUserId = null,
             text = "Tweet 2 in the thread",
             createdAt = Instant.parse("2022-07-23T16:10:15Z"),
-            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z")
+            deviceCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+            publicMetrics = PublicMetrics(
+              retweetCount = 0,
+              replyCount = 10,
+              likeCount = 25,
+              quoteCount = 0
+            )
           ),
           entities = emptyList(),
           referencedTweets = emptyList(),

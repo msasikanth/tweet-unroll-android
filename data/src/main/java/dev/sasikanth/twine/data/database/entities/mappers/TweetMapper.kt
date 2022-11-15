@@ -14,5 +14,6 @@ fun Tweet.Companion.from(
   inReplyToUserId = payload.inReplyToUserId,
   text = payload.text,
   createdAt = payload.createdAt,
-  deviceCreatedAt = deviceCreatedAt
+  deviceCreatedAt = deviceCreatedAt,
+  publicMetrics = payload.publicMetrics
 )
