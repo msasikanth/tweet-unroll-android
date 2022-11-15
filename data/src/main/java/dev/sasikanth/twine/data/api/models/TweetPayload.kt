@@ -20,5 +20,7 @@ data class TweetPayload(
   val inReplyToUserId: String?,
   @Json(name = "referenced_tweets")
   val referencedTweets: List<ReferencedTweetPayload>?,
-  val text: String
+  val text: String,
+  @Json(name = "public_metrics")
+  val publicMetrics: PublicMetrics
 )

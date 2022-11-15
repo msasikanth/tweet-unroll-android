@@ -13,6 +13,7 @@ import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.IncludesPayload
 import dev.sasikanth.twine.data.api.models.MediaPayload
 import dev.sasikanth.twine.data.api.models.MediaTypePayload
+import dev.sasikanth.twine.data.api.models.PublicMetrics
 import dev.sasikanth.twine.data.api.models.ReferenceTypePayload
 import dev.sasikanth.twine.data.api.models.ReferencedTweetPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
@@ -92,7 +93,13 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 10,
+          likeCount = 25,
+          quoteCount = 0
+        )
       ),
       includes = IncludesPayload(
         tweets = null,
@@ -132,7 +139,13 @@ class ConversationSyncTest {
               type = ReferenceTypePayload.Quoted
             )
           ),
-          createdAt = Instant.parse("2022-07-23T16:10:15Z")
+          createdAt = Instant.parse("2022-07-23T16:10:15Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 10,
+            likeCount = 25,
+            quoteCount = 0
+          )
         )
       ),
       includes = IncludesPayload(
@@ -146,7 +159,13 @@ class ConversationSyncTest {
             entities = null,
             inReplyToUserId = null,
             referencedTweets = null,
-            createdAt = Instant.parse("2022-06-23T16:10:15Z")
+            createdAt = Instant.parse("2022-06-23T16:10:15Z"),
+            publicMetrics = PublicMetrics(
+              retweetCount = 0,
+              replyCount = 10,
+              likeCount = 25,
+              quoteCount = 0
+            )
           )
         ),
         media = null,
@@ -270,7 +289,13 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 10,
+          likeCount = 25,
+          quoteCount = 0
+        )
       ),
       includes = IncludesPayload(
         tweets = null,
@@ -298,7 +323,13 @@ class ConversationSyncTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = Instant.parse("2022-07-23T16:10:15Z")
+          createdAt = Instant.parse("2022-07-23T16:10:15Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 10,
+            likeCount = 25,
+            quoteCount = 0
+          )
         )
       ),
       includes = IncludesPayload(
@@ -363,7 +394,13 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 10,
+          likeCount = 25,
+          quoteCount = 0
+        )
       ),
       includes = IncludesPayload(
         tweets = null,
@@ -425,7 +462,13 @@ class ConversationSyncTest {
         entities = null,
         inReplyToUserId = null,
         referencedTweets = null,
-        createdAt = Instant.parse("2022-07-23T16:03:15Z")
+        createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+        publicMetrics = PublicMetrics(
+          retweetCount = 0,
+          replyCount = 10,
+          likeCount = 25,
+          quoteCount = 0
+        )
       ),
       includes = IncludesPayload(
         tweets = null,
@@ -458,7 +501,13 @@ class ConversationSyncTest {
               type = ReferenceTypePayload.RepliedTo
             )
           ),
-          createdAt = Instant.parse("2022-07-23T16:10:15Z")
+          createdAt = Instant.parse("2022-07-23T16:10:15Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 10,
+            likeCount = 25,
+            quoteCount = 0
+          )
         )
       ),
       includes = null,

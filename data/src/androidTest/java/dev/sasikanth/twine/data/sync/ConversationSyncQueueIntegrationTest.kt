@@ -15,6 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
+import dev.sasikanth.twine.data.api.models.PublicMetrics
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
 import dev.sasikanth.twine.data.database.TwineDatabase
@@ -250,7 +251,13 @@ class ConversationSyncQueueIntegrationTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          text = "Test tweet 1"
+          text = "Test tweet 1",
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 10,
+            likeCount = 25,
+            quoteCount = 0
+          )
         ),
         includes = null
       )

@@ -9,6 +9,7 @@ import dev.sasikanth.twine.data.api.models.MediaPayload
 import dev.sasikanth.twine.data.api.models.MediaTypePayload
 import dev.sasikanth.twine.data.api.models.PollOptionPayload
 import dev.sasikanth.twine.data.api.models.PollPayload
+import dev.sasikanth.twine.data.api.models.PublicMetrics
 import dev.sasikanth.twine.data.api.models.ReferenceTypePayload
 import dev.sasikanth.twine.data.api.models.ReferencedTweetPayload
 import dev.sasikanth.twine.data.api.models.TweetEntitiesPayload
@@ -54,7 +55,13 @@ class TwitterRemoteSourceIntegrationTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = Instant.parse("2022-07-23T16:03:15Z")
+          createdAt = Instant.parse("2022-07-23T16:03:15Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 0,
+            likeCount = 2,
+            quoteCount = 0
+          )
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -120,7 +127,13 @@ class TwitterRemoteSourceIntegrationTest {
           ),
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = Instant.parse("2020-05-03T19:35:42Z")
+          createdAt = Instant.parse("2020-05-03T19:35:42Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 29,
+            replyCount = 13,
+            likeCount = 122,
+            quoteCount = 7
+          )
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -166,7 +179,13 @@ class TwitterRemoteSourceIntegrationTest {
           entities = null,
           inReplyToUserId = null,
           referencedTweets = null,
-          createdAt = Instant.parse("2022-07-24T03:56:50Z")
+          createdAt = Instant.parse("2022-07-24T03:56:50Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 1,
+            likeCount = 0,
+            quoteCount = 0
+          )
         ),
         includes = IncludesPayload(
           tweets = null,
@@ -232,7 +251,13 @@ class TwitterRemoteSourceIntegrationTest {
               type = ReferenceTypePayload.Quoted
             )
           ),
-          createdAt = Instant.parse("2022-07-22T08:42:44Z")
+          createdAt = Instant.parse("2022-07-22T08:42:44Z"),
+          publicMetrics = PublicMetrics(
+            retweetCount = 0,
+            replyCount = 0,
+            likeCount = 4,
+            quoteCount = 0
+          )
         ),
         includes = IncludesPayload(
           tweets = listOf(
@@ -257,7 +282,13 @@ class TwitterRemoteSourceIntegrationTest {
               ),
               inReplyToUserId = null,
               referencedTweets = null,
-              createdAt = Instant.parse("2022-07-21T15:01:32Z")
+              createdAt = Instant.parse("2022-07-21T15:01:32Z"),
+              publicMetrics = PublicMetrics(
+                retweetCount = 100,
+                replyCount = 24,
+                likeCount = 1966,
+                quoteCount = 9
+              )
             )
           ),
           media = null,
