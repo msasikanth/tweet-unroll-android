@@ -6,4 +6,5 @@
     <string name="home_hero_input_action">Paste</string>
     <string name="home_hero_input_tooltip">You can also view threads by sharing tweet links with Twine from your share menu.</string>
     <string name="home_hero_input_invalid_url">Not a valid tweet link.</string>
+    <string name="home_recent_conversation_syncing">Loading thread…</string>
 </resources>
