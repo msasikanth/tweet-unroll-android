@@ -80,8 +80,9 @@ fun HomePage(
 
       LazyColumn(
         contentPadding = PaddingValues(
-          horizontal = 24.dp,
-          vertical = 24.dp
+          start = 24.dp,
+          end = 24.dp,
+          bottom = 24.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
       ) {
