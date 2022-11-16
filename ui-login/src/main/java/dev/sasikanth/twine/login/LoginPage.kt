@@ -59,6 +59,7 @@ private fun LoginPageContent(
   onLoginClick: () -> Unit,
 ) {
   AnimatedStripeBackground(
+    modifier = Modifier.fillMaxSize(),
     animationSpec = infiniteRepeatable(
       tween(
         1000,

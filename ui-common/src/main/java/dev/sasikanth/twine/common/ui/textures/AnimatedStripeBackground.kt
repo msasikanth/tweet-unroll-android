@@ -54,7 +54,6 @@ fun AnimatedStripeBackground(
 
   Box(
     modifier = modifier
-      .fillMaxSize()
       .background(backgroundColor)
       .drawBehind {
         val brush = Brush.linearGradient(
@@ -77,6 +76,7 @@ fun AnimatedStripeBackground(
 private fun BackgroundPatternPreview() {
   TwineTheme {
     AnimatedStripeBackground(
+      modifier = Modifier.fillMaxSize(),
       animationSpec = infiniteRepeatable(
         tween(
           1000,
