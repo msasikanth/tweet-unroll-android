@@ -7,6 +7,7 @@ import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.clipboard.Clipboard
 import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
+import dev.sasikanth.twine.data.sync.Status
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -77,5 +78,10 @@ class HomeViewModel @Inject constructor(
 
   fun cancelSync(item: ConversationSyncQueueItem) {
     conversationSyncQueue.remove(item)
+  }
+
+  fun retrySync(item: ConversationSyncQueueItem) {
+    conversationSyncQueue.remove(item)
+    conversationSyncQueue.add(item.updateStatus(Status.Enqueued))
   }
 }

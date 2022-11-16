@@ -6,6 +6,7 @@ import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
+import dev.sasikanth.twine.data.sync.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -209,6 +210,35 @@ class HomeViewModelTest {
       assertThat(awaitItem()).isEqualTo(
         defaultUiState
           .onSyncQueueLoaded(emptyList())
+      )
+
+      cancelAndIgnoreRemainingEvents()
+    }
+  }
+
+  @Test
+  fun `when retry sync button is clicked, then retry sync`() = runTest {
+    // given
+    val syncQueueItem = ConversationSyncQueueItem(
+      tweetId = "1588742946387824644",
+      tweetBy = "its_sasikanth",
+      status = Status.Failure
+    )
+
+    conversationSyncQueue.add(syncQueueItem)
+
+    // when & then
+    viewModel.homeUiState.test {
+      assertThat(awaitItem()).isEqualTo(
+        defaultUiState
+          .onSyncQueueLoaded(listOf(syncQueueItem))
+      )
+
+      viewModel.retrySync(syncQueueItem)
+
+      assertThat(awaitItem()).isEqualTo(
+        defaultUiState
+          .onSyncQueueLoaded(listOf(syncQueueItem.updateStatus(Status.Enqueued)))
       )
 
       cancelAndIgnoreRemainingEvents()
