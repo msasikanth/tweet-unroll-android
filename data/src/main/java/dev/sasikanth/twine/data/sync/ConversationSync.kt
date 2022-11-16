@@ -91,11 +91,11 @@ class ConversationSync @Inject constructor(
     val polls = includes.flatMap { it.polls.orEmpty() }
 
     syncTweets(tweets = tweets)
-    syncUsers(users = users)
     syncMedia(tweets = tweets, mediaPayloads = media)
     syncTweetEntities(tweets = tweets)
     syncPolls(tweets = tweets, pollsPayloads = polls)
     syncReferencedTweets(referencedTweets = referencedTweets)
+    syncUsers(users = users)
   }
 
   private fun referencedTweetsInConversation(tweetsInConversation: List<TweetPayload>) =
