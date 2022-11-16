@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.sasikanth.twine.common.ui.textures.AnimatedStripePattern
+import dev.sasikanth.twine.common.ui.textures.AnimatedStripeBackground
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -45,7 +45,7 @@ fun LoginPage(
       }
     }
 
-    AnimatedStripePattern(
+    AnimatedStripeBackground(
       animationSpec = infiniteRepeatable(
         tween(
           1000,
