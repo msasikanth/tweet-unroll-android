@@ -45,15 +45,6 @@ fun LoginPage(
       }
     }
 
-    AnimatedStripeBackground(
-      animationSpec = infiniteRepeatable(
-        tween(
-          1000,
-          easing = LinearEasing
-        )
-      )
-    )
-
     if (!uiState.isCheckingLoginStatus && !uiState.isUserLoggedIn) {
       LoginPageContent {
         launcher.launch(Unit)
@@ -67,16 +58,25 @@ private fun LoginPageContent(
   modifier: Modifier = Modifier,
   onLoginClick: () -> Unit,
 ) {
-  Column(
-    modifier = modifier
-      .systemBarsPadding()
-      .fillMaxSize()
-      .padding(40.dp),
-    verticalArrangement = Arrangement.SpaceBetween,
-    horizontalAlignment = Alignment.CenterHorizontally,
+  AnimatedStripeBackground(
+    animationSpec = infiniteRepeatable(
+      tween(
+        1000,
+        easing = LinearEasing
+      )
+    )
   ) {
-    Greeting()
-    SignInButtonContainer(onLoginClick = onLoginClick)
+    Column(
+      modifier = modifier
+        .systemBarsPadding()
+        .fillMaxSize()
+        .padding(40.dp),
+      verticalArrangement = Arrangement.SpaceBetween,
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      Greeting()
+      SignInButtonContainer(onLoginClick = onLoginClick)
+    }
   }
 }
 
