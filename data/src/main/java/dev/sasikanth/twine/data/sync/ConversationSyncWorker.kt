@@ -50,7 +50,6 @@ class ConversationSyncWorker @AssistedInject constructor(
       tweetBy: String
     ): OneTimeWorkRequest {
       val constraints = Constraints.Builder()
-        .setRequiresBatteryNotLow(true)
         .setRequiredNetworkType(CONNECTED)
         .build()
 
