@@ -8,4 +8,5 @@
     <string name="home_hero_input_invalid_url">Not a valid tweet link.</string>
     <string name="home_recent_conversation_syncing">Loading thread…</string>
     <string name="home_recent_conversations_sub_head">Your Threads</string>
+    <string name="home_recent_conversation_sync_failed">Loading failed. Please try again.</string>
 </resources>
