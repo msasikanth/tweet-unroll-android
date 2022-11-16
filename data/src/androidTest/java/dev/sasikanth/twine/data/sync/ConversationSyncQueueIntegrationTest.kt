@@ -296,4 +296,46 @@ class ConversationSyncQueueIntegrationTest {
       cancelAndIgnoreRemainingEvents()
     }
   }
+
+  @Test
+  fun adding_same_item_to_sync_queue_should_not_create_duplicates() = runTest {
+    // given
+    val tweetId = "3088649298172857728"
+    val queueItem = ConversationSyncQueueItem(
+      tweetId = tweetId,
+      tweetBy = "its_sasikanth",
+      status = Enqueued
+    )
+
+    // when & then
+    conversationSyncQueue.queue().test {
+      assertThat(awaitItem()).isEmpty()
+
+      conversationSyncQueue.add(queueItem)
+
+      assertThat(awaitItem()).isEqualTo(
+        listOf(
+          ConversationSyncQueueItem(
+            tweetId = tweetId,
+            tweetBy = "its_sasikanth",
+            status = Enqueued
+          )
+        )
+      )
+
+      conversationSyncQueue.add(queueItem)
+
+      assertThat(awaitItem()).isEqualTo(
+        listOf(
+          ConversationSyncQueueItem(
+            tweetId = tweetId,
+            tweetBy = "its_sasikanth",
+            status = Enqueued
+          )
+        )
+      )
+
+      cancelAndIgnoreRemainingEvents()
+    }
+  }
 }

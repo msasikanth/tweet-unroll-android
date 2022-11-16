@@ -1,6 +1,7 @@
 package dev.sasikanth.twine.data.sync
 
 import androidx.lifecycle.asFlow
+import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkInfo.State.BLOCKED
 import androidx.work.WorkInfo.State.CANCELLED
@@ -31,12 +32,20 @@ class AndroidConversationSyncQueue @Inject constructor(
 ) : ConversationSyncQueue {
 
   override fun add(item: ConversationSyncQueueItem): UUID {
+    val tweetId = item.tweetId
+    val tweetBy = item.tweetBy
+
     val workRequest = ConversationSyncWorker.createWorkRequest(
-      tweetId = item.tweetId,
-      tweetBy = item.tweetBy
+      tweetId = tweetId,
+      tweetBy = tweetBy
     )
 
-    workManager.enqueue(workRequest)
+    val workName = "sync_$tweetId"
+    workManager.enqueueUniqueWork(
+      workName,
+      ExistingWorkPolicy.REPLACE,
+      workRequest
+    )
 
     return workRequest.id
   }
