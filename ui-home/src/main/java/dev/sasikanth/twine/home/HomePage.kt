@@ -1,7 +1,6 @@
 package dev.sasikanth.twine.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -101,8 +100,10 @@ fun HomePage(
               onCancelClick = viewModel::cancelSync
             )
 
-            // TODO: Replace with failure item composable
-            Failure -> Box {}
+            Failure -> ConversationSyncFailedListItem(
+              item = item,
+              onRetryClick = viewModel::retrySync
+            )
           }
         }
       }
