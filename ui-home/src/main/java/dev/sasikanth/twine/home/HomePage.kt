@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -25,9 +27,8 @@ import dev.sasikanth.twine.common.ui.components.AppBarActionButton
 import dev.sasikanth.twine.common.ui.components.SubHeader
 import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
-import dev.sasikanth.twine.data.sync.Status.Enqueued
-import dev.sasikanth.twine.data.sync.Status.Failure
-import dev.sasikanth.twine.data.sync.Status.InProgress
+import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
+import dev.sasikanth.twine.data.sync.Status
 import dev.sasikanth.twine.common.ui.R as commonR
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
@@ -89,26 +90,42 @@ fun HomePage(
           SubHeader(text = stringResource(id = R.string.home_recent_conversations_sub_head))
         }
 
-        items(
-          items = syncQueueItems,
-          key = { item -> item.tweetId }
-        ) { item ->
-          when (item.status) {
-            Enqueued,
-            InProgress -> ConversationSyncingListItem(
-              item = item,
-              onCancelClick = viewModel::cancelSync
-            )
-
-            Failure -> ConversationSyncFailedListItem(
-              item = item,
-              onRetryClick = viewModel::retrySync
-            )
-          }
+        if (syncQueueItems.isNotEmpty()) {
+          SyncQueue(
+            syncQueueItems = syncQueueItems,
+            onCancelClick = viewModel::cancelSync,
+            onRetryClick = viewModel::retrySync
+          )
         }
       }
     }
   }
+}
+
+private fun LazyListScope.SyncQueue(
+  syncQueueItems: List<ConversationSyncQueueItem>,
+  onCancelClick: (item: ConversationSyncQueueItem) -> Unit,
+  onRetryClick: (item: ConversationSyncQueueItem) -> Unit
+) {
+  items(
+    items = syncQueueItems,
+    key = { item -> item.tweetId }
+  ) { item ->
+    when (item.status) {
+      Status.Enqueued,
+      Status.InProgress -> ConversationSyncingListItem(
+        item = item,
+        onCancelClick = onCancelClick
+      )
+
+      Status.Failure -> ConversationSyncFailedListItem(
+        item = item,
+        onRetryClick = onRetryClick
+      )
+    }
+  }
+
+  item { Spacer(modifier = Modifier.height(16.dp)) }
 }
 
 @Preview
