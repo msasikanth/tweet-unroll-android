@@ -74,4 +74,8 @@ class HomeViewModel @Inject constructor(
       conversationSyncQueue.add(conversationSyncQueueItem)
     }
   }
+
+  fun cancelSync(item: ConversationSyncQueueItem) {
+    conversationSyncQueue.remove(item)
+  }
 }

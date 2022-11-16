@@ -186,4 +186,32 @@ class HomeViewModelTest {
       cancelAndIgnoreRemainingEvents()
     }
   }
+
+  @Test
+  fun `when cancel sync button is clicked, then remove the item from sync queue`() = runTest {
+    // given
+    val syncQueueItem = ConversationSyncQueueItem(
+      tweetId = "1588742946387824644",
+      tweetBy = "its_sasikanth"
+    )
+
+    conversationSyncQueue.add(syncQueueItem)
+
+    // when & then
+    viewModel.homeUiState.test {
+      assertThat(awaitItem()).isEqualTo(
+        defaultUiState
+          .onSyncQueueLoaded(listOf(syncQueueItem))
+      )
+
+      viewModel.cancelSync(syncQueueItem)
+
+      assertThat(awaitItem()).isEqualTo(
+        defaultUiState
+          .onSyncQueueLoaded(emptyList())
+      )
+
+      cancelAndIgnoreRemainingEvents()
+    }
+  }
 }
