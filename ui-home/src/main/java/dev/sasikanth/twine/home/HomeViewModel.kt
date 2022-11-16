@@ -73,6 +73,7 @@ class HomeViewModel @Inject constructor(
       )
 
       conversationSyncQueue.add(conversationSyncQueueItem)
+      clearUrl()
     }
   }
 

@@ -102,9 +102,7 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = defaultUiState
-      .onTweetUrlChanged(tweetUrl)
-      .onSyncQueueLoaded(listOf(syncQueueItem))
+    val expectedUiState = defaultUiState.onSyncQueueLoaded(listOf(syncQueueItem))
 
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
     assertThat(syncQueue.first()).isEqualTo(listOf(syncQueueItem))
@@ -127,9 +125,7 @@ class HomeViewModelTest {
     val syncQueue = conversationSyncQueue.queue()
 
     // then
-    val expectedUiState = defaultUiState
-      .onTweetUrlChanged(tweetUrl)
-      .onSyncQueueLoaded(listOf(syncQueueItem))
+    val expectedUiState = defaultUiState.onSyncQueueLoaded(listOf(syncQueueItem))
 
     assertThat(viewModel.homeUiState.value).isEqualTo(expectedUiState)
     assertThat(syncQueue.first()).isEqualTo(listOf(syncQueueItem))
