@@ -40,7 +40,7 @@ fun ConversationSyncFailedListItem(
     .surfaceColorAtElevation(ElevationTokens.Level2)
 
   Row(
-    modifier = Modifier
+    modifier = modifier
       .fillMaxWidth()
       .clip(TwineTheme.shapes.large)
       .background(backgroundColor)
