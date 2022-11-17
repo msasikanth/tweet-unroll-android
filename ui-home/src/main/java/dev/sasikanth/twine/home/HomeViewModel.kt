@@ -2,12 +2,15 @@ package dev.sasikanth.twine.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.clipboard.Clipboard
+import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
+import dev.sasikanth.twine.home.usecase.PagedSourceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,12 +23,17 @@ class HomeViewModel @Inject constructor(
   private val clipboard: Clipboard,
   private val tweetLinkParser: TweetLinkParser,
   private val conversationSyncQueue: ConversationSyncQueue,
+  pagedRecentConversationsUseCase: PagedSourceUseCase<RecentConversation>
 ) : ViewModel() {
 
   private val defaultUiState = HomeUiState.DEFAULT
   private val _homeUiState = MutableStateFlow(defaultUiState)
   val homeUiState: StateFlow<HomeUiState>
     get() = _homeUiState.asStateFlow()
+
+  val recentConversations = pagedRecentConversationsUseCase
+    .invoke()
+    .cachedIn(viewModelScope)
 
   init {
     viewModelScope.launch {

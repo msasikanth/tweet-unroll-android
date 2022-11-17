@@ -1,19 +1,25 @@
 package dev.sasikanth.twine.home
 
+import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
 import dev.sasikanth.twine.common.testing.rules.MainDispatcherRule
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
+import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
+import dev.sasikanth.twine.home.usecase.FakePagedSourceUseCase
+import dev.sasikanth.twine.home.util.collectDataForTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.Instant
 import java.util.UUID
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -27,6 +33,7 @@ class HomeViewModelTest {
       Pair(id, syncQueueItem)
     }
   )
+  private val fakePagedSourceUseCase = FakePagedSourceUseCase()
   private lateinit var viewModel: HomeViewModel
 
   @get:Rule
@@ -38,7 +45,13 @@ class HomeViewModelTest {
       clipboard = fakeClipboard,
       tweetLinkParser = TweetLinkParser(),
       conversationSyncQueue = conversationSyncQueue,
+      pagedRecentConversationsUseCase = fakePagedSourceUseCase
     )
+  }
+
+  @After
+  fun tearDown() {
+    fakePagedSourceUseCase.clear()
   }
 
   @Test
@@ -179,6 +192,35 @@ class HomeViewModelTest {
       conversationSyncQueue.add(syncQueueItem)
 
       assertThat(awaitItem()).isEqualTo(expectedUiState)
+      cancelAndIgnoreRemainingEvents()
+    }
+  }
+
+  @Test
+  fun `when screen is created, then observe recent conversations`() = runTest {
+    // given
+    val items = listOf(
+      RecentConversation(
+        conversationId = "1550874190793674753",
+        conversationPreviewText = "Tweet 1 in the thread",
+        conversationStartedAt = Instant.parse("2022-07-23T16:03:15Z"),
+        conversationCreatedAt = Instant.parse("2022-08-01T00:00:00Z"),
+        username = "its_sasikanth",
+        userFullName = "Sasikanth",
+        userProfileImage = "https://pbs.twimg.com/profile_images/1535630758777602050/q1qaITTW_normal.jpg",
+        numberOfTweetsInConversation = 2
+      )
+    )
+    val pagingData = PagingData.from(items)
+
+    // when & then
+    viewModel.recentConversations.test {
+      assertThat(awaitItem().collectDataForTest()).isEqualTo(emptyList<RecentConversation>())
+
+      fakePagedSourceUseCase.addPagingData(pagingData)
+
+      assertThat(awaitItem().collectDataForTest()).isEqualTo(items)
+
       cancelAndIgnoreRemainingEvents()
     }
   }
