@@ -17,6 +17,7 @@ android {
     targetSdk = libs.versions.sdk.target.get().toInt()
 
     testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
+    testInstrumentationRunnerArguments["notAnnotation"] = "androidx.test.filters.FlakyTest"
     consumerProguardFiles("consumer-rules.pro")
 
     val testTwineBearerToken = System.getenv("TWINE_DEV_BEARER_TOKEN")
