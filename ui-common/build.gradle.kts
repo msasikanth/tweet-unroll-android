@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+  implementation(projects.common)
+
   implementation(libs.androidx.core)
   implementation(libs.bundles.compose)
 

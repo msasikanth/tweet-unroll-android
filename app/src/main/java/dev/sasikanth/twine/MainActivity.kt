@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
@@ -15,12 +16,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
+import dev.sasikanth.twine.common.ui.utils.LocalTwineDateFormatter
+import dev.sasikanth.twine.common.utils.TwineDateFormatter
 import dev.sasikanth.twine.data.prefrences.Theme.DARK
 import dev.sasikanth.twine.data.prefrences.Theme.LIGHT
 import dev.sasikanth.twine.data.prefrences.Theme.SYSTEM
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+  @Inject
+  lateinit var twineDateFormatter: TwineDateFormatter
 
   @OptIn(ExperimentalLifecycleComposeApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,21 +45,25 @@ class MainActivity : ComponentActivity() {
         SYSTEM -> isSystemInDarkTheme()
       }
 
-      TwineTheme(
-        useDynamicColors = uiState.useDynamicColors,
-        useDarkTheme = useDarkTheme
+      CompositionLocalProvider(
+        LocalTwineDateFormatter provides twineDateFormatter
       ) {
-        Surface(
-          modifier = Modifier.fillMaxSize(),
-          color = TwineTheme.colorScheme.surface
+        TwineTheme(
+          useDynamicColors = uiState.useDynamicColors,
+          useDarkTheme = useDarkTheme
         ) {
-          AppNavigation(
-            navController = rememberNavController(),
-            theme = uiState.theme,
-            useDynamicColors = uiState.useDynamicColors,
-            onThemeChange = viewModel::setTheme,
-            toggleDynamicColors = viewModel::setDynamicColors
-          )
+          Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = TwineTheme.colorScheme.surface
+          ) {
+            AppNavigation(
+              navController = rememberNavController(),
+              theme = uiState.theme,
+              useDynamicColors = uiState.useDynamicColors,
+              onThemeChange = viewModel::setTheme,
+              toggleDynamicColors = viewModel::setDynamicColors
+            )
+          }
         }
       }
     }
