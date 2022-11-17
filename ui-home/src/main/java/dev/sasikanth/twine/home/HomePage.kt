@@ -1,6 +1,6 @@
 package dev.sasikanth.twine.home
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import dev.sasikanth.twine.common.ui.components.AppBarActionButton
 import dev.sasikanth.twine.common.ui.components.SubHeader
 import dev.sasikanth.twine.common.ui.components.TopAppBar
@@ -31,7 +33,11 @@ import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
 import dev.sasikanth.twine.common.ui.R as commonR
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(
+  ExperimentalMaterial3Api::class,
+  ExperimentalLifecycleComposeApi::class,
+  ExperimentalFoundationApi::class
+)
 @Composable
 fun HomePage(
   modifier: Modifier = Modifier,
@@ -40,6 +46,7 @@ fun HomePage(
   viewModel: HomeViewModel = hiltViewModel()
 ) {
   val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+  val recentConversations = viewModel.recentConversations.collectAsLazyPagingItems()
 
   Scaffold(
     topBar = {
@@ -79,12 +86,12 @@ fun HomePage(
       val syncQueueItems = homeUiState.syncQueue
 
       LazyColumn(
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
           start = 24.dp,
           end = 24.dp,
           bottom = 24.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        )
       ) {
         item {
           SubHeader(text = stringResource(id = R.string.home_recent_conversations_sub_head))
@@ -96,6 +103,22 @@ fun HomePage(
             onCancelClick = viewModel::cancelSync,
             onRetryClick = viewModel::retrySync
           )
+        }
+
+        items(
+          items = recentConversations,
+          key = { item -> "rc-${item.conversationId}" }
+        ) { recentConversation ->
+          recentConversation?.let {
+            RecentConversationListItem(
+              modifier = Modifier
+                .animateItemPlacement()
+                .padding(bottom = 8.dp),
+              recentConversation = recentConversation
+            ) {
+              // Handle clicks
+            }
+          }
         }
       }
     }
@@ -109,16 +132,18 @@ private fun LazyListScope.SyncQueue(
 ) {
   items(
     items = syncQueueItems,
-    key = { item -> item.tweetId }
+    key = { item -> "sync-${item.tweetId}" }
   ) { item ->
     when (item.status) {
       Status.Enqueued,
       Status.InProgress -> ConversationSyncingListItem(
+        modifier = Modifier.padding(bottom = 8.dp),
         item = item,
         onCancelClick = onCancelClick
       )
 
       Status.Failure -> ConversationSyncFailedListItem(
+        modifier = Modifier.padding(bottom = 8.dp),
         item = item,
         onRetryClick = onRetryClick
       )

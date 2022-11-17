@@ -9,4 +9,5 @@
     <string name="home_recent_conversation_syncing">Loading thread…</string>
     <string name="home_recent_conversations_sub_head">Your threads</string>
     <string name="home_recent_conversation_sync_failed">Loading failed. Please try again.</string>
+    <string name="home_recent_conversation_header_separator">•</string>
 </resources>
