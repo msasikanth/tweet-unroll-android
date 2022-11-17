@@ -69,6 +69,7 @@ dependencies {
 
   testImplementation(libs.junit)
   testImplementation(projects.commonTesting)
+  testImplementation(libs.paging.common)
 
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)

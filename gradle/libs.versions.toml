@@ -89,6 +89,7 @@ work-hilt = { module = "androidx.hilt:hilt-work", version.ref = "work-hilt" }
 work-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "work-hilt" }
 
 paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
+paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
 paging-compose = "androidx.paging:paging-compose:1.0.0-alpha17"
 
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.9.1"
