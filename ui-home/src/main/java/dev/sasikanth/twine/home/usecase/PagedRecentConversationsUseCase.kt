@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class PagedRecentConversationsUseCase @Inject constructor(
   private val tweetsRepository: TweetsRepository
-) {
+) : PagedSourceUseCase<RecentConversation> {
 
   companion object {
     private val PAGING_CONFIG = PagingConfig(
@@ -19,7 +19,7 @@ class PagedRecentConversationsUseCase @Inject constructor(
     )
   }
 
-  operator fun invoke(): Flow<PagingData<RecentConversation>> {
+  override operator fun invoke(): Flow<PagingData<RecentConversation>> {
     return Pager(
       config = PAGING_CONFIG,
       pagingSourceFactory = { tweetsRepository.recentConversations() }
