@@ -3,17 +3,16 @@ package dev.sasikanth.twine.home
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
+import dev.sasikanth.twine.common.testing.rules.MainDispatcherRule
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
 
@@ -30,11 +29,11 @@ class HomeViewModelTest {
   )
   private lateinit var viewModel: HomeViewModel
 
+  @get:Rule
+  val mainDispatcherRule = MainDispatcherRule()
+
   @Before
   fun setup() {
-    val testDispatcher = UnconfinedTestDispatcher()
-    Dispatchers.setMain(testDispatcher)
-
     viewModel = HomeViewModel(
       clipboard = fakeClipboard,
       tweetLinkParser = TweetLinkParser(),
