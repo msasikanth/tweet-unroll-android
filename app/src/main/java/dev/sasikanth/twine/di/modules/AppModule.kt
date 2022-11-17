@@ -1,6 +1,7 @@
 package dev.sasikanth.twine.di.modules
 
 import android.content.Context
+import androidx.core.os.ConfigurationCompat
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
@@ -8,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.sasikanth.twine.BuildConfig
+import java.util.Locale
 import javax.inject.Named
 
 @Module
@@ -26,4 +28,12 @@ object AppModule {
   fun providesWorkManager(
     @ApplicationContext context: Context
   ) = WorkManager.getInstance(context)
+
+  @Provides
+  fun providesAppLocale(
+    @ApplicationContext context: Context
+  ): Locale {
+    return ConfigurationCompat.getLocales(context.resources.configuration)
+      .get(0) ?: Locale.getDefault()
+  }
 }
