@@ -256,7 +256,7 @@ internal fun lightColorScheme(
   inverseSurface: Color = md_theme_light_inverseSurface,
   inversePrimary: Color = md_theme_light_inversePrimary,
   surfaceTint: Color = md_theme_light_surfaceTint,
-  deleteButton: Color = md_theme_error_20,
+  deleteButton: Color = md_theme_error_80,
   onDeleteButton: Color = md_theme_error_20,
   scrim: Color = md_theme_light_scrim,
 ): TwineColorScheme = TwineColorScheme(
