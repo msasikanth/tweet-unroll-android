@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "82d7db8ea46448addd0c020df3c1abd8",
+    "identityHash": "2a1e8587570df179ecc2ab4aa9742957",
     "entities": [
       {
         "tableName": "Tweet",
@@ -385,6 +385,53 @@
             ]
           }
         ]
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "Tweet",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_TweetFts_BEFORE_UPDATE BEFORE UPDATE ON `Tweet` BEGIN DELETE FROM `TweetFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_TweetFts_BEFORE_DELETE BEFORE DELETE ON `Tweet` BEGIN DELETE FROM `TweetFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_TweetFts_AFTER_UPDATE AFTER UPDATE ON `Tweet` BEGIN INSERT INTO `TweetFts`(`docid`, `id`, `conversation_id`, `text`) VALUES (NEW.`rowid`, NEW.`id`, NEW.`conversation_id`, NEW.`text`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_TweetFts_AFTER_INSERT AFTER INSERT ON `Tweet` BEGIN INSERT INTO `TweetFts`(`docid`, `id`, `conversation_id`, `text`) VALUES (NEW.`rowid`, NEW.`id`, NEW.`conversation_id`, NEW.`text`); END"
+        ],
+        "tableName": "TweetFts",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, `text` TEXT NOT NULL, content=`Tweet`)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conversationId",
+            "columnName": "conversation_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tweet",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [
@@ -395,7 +442,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82d7db8ea46448addd0c020df3c1abd8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a1e8587570df179ecc2ab4aa9742957')"
     ]
   }
 }
