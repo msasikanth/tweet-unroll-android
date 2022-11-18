@@ -64,7 +64,7 @@ fun HomePage(
             icon = commonR.drawable.ic_settings,
             onClick = navigateToSettings
           )
-        },
+        }
       )
     }
   ) {
@@ -160,8 +160,10 @@ private fun HomePagePreview() {
     HomePage(
       navigateToSearch = {
         // Handle navigation
-      }, navigateToSettings = {
+      },
+      navigateToSettings = {
         // Handle navigation
-      })
+      }
+    )
   }
 }

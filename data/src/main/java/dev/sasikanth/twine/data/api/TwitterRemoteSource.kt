@@ -3,7 +3,6 @@ package dev.sasikanth.twine.data.api
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import javax.inject.Inject
-import javax.inject.Singleton
 
 interface TwitterRemoteSource {
 

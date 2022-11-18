@@ -64,7 +64,7 @@ fun Switch(
   modifier: Modifier = Modifier,
   checked: Boolean,
   enabled: Boolean = true,
-  onValueChange: (Boolean) -> Unit,
+  onValueChange: (Boolean) -> Unit
 ) {
   val rippleColor = if (checked) {
     TwineTheme.colorScheme.onBrand
@@ -84,7 +84,7 @@ fun Switch(
         interactionSource = remember { MutableInteractionSource() },
         indication = rememberRipple(color = rippleColor),
         role = Role.Switch,
-        onValueChange = onValueChange,
+        onValueChange = onValueChange
       )
       .testTag("Switch"),
     checked = checked,
@@ -96,7 +96,7 @@ fun Switch(
 private fun SwitchContainer(
   modifier: Modifier = Modifier,
   checked: Boolean,
-  enabled: Boolean,
+  enabled: Boolean
 ) {
   Box(modifier = modifier) {
     val transition = updateTransition(
@@ -181,7 +181,7 @@ private fun SwitchOff(
   modifier: Modifier = Modifier,
   checked: Boolean,
   enabled: Boolean,
-  thumbOffsetProvider: () -> Float,
+  thumbOffsetProvider: () -> Float
 ) {
   val switchColors = SwitchDefaults.colors()
   val uncheckedTrackColor by switchColors.uncheckedTrackColor(enabled = enabled)
@@ -204,7 +204,7 @@ fun SwitchOn(
   checked: Boolean,
   thumbOffsetProvider: () -> Float,
   revealProgressProvider: () -> Float,
-  revealOffsetProvider: () -> Float,
+  revealOffsetProvider: () -> Float
 ) {
   SwitchImpl(
     modifier = modifier
@@ -231,7 +231,7 @@ private fun SwitchImpl(
   trackColor: Color,
   thumbColor: Color,
   iconTint: Color,
-  thumbOffsetProvider: () -> Float,
+  thumbOffsetProvider: () -> Float
 ) {
   Box(
     modifier = modifier
@@ -252,7 +252,7 @@ private fun SwitchImpl(
           color = thumbColor,
           shape = SwitchDefaults.ThumbShape
         ),
-      contentAlignment = Alignment.Center,
+      contentAlignment = Alignment.Center
     ) {
       Icon(
         modifier = Modifier.requiredSize(16.dp),
@@ -270,26 +270,28 @@ private fun SwitchImpl(
 
 private class CircularRevealShape(
   @FloatRange(from = 0.0, to = 1.0) private val progress: Float,
-  private val offset: Float,
+  private val offset: Float
 ) : Shape {
 
   override fun createOutline(
     size: Size,
     layoutDirection: LayoutDirection,
-    density: Density,
+    density: Density
   ): Outline {
     val radius = with(density) { SwitchDefaults.RevealRadius.toPx() } * progress
 
     val yCenter = size.height / 2
 
-    return Outline.Generic(Path().apply {
-      addCircle(
-        offset,
-        yCenter,
-        radius,
-        Path.Direction.CW
-      )
-    }.asComposePath())
+    return Outline.Generic(
+      Path().apply {
+        addCircle(
+          offset,
+          yCenter,
+          radius,
+          Path.Direction.CW
+        )
+      }.asComposePath()
+    )
   }
 }
 
@@ -316,34 +318,37 @@ private class SwitchColors {
   @Composable
   fun uncheckedTrackColor(enabled: Boolean): State<Color> {
     return rememberUpdatedState(
-      if (enabled)
+      if (enabled) {
         TwineTheme.colorScheme.surfaceColorAtElevation(ElevationTokens.Level5)
-      else
+      } else {
         TwineTheme.colorScheme.onSurface.copy(
           alpha = TwineTheme.opacity.bgDisabled
         )
+      }
     )
   }
 
   @Composable
   fun uncheckedThumbColor(enabled: Boolean): State<Color> {
     return rememberUpdatedState(
-      if (enabled)
+      if (enabled) {
         TwineTheme.colorScheme.onSurfaceVariant
-      else
+      } else {
         TwineTheme.colorScheme.onSurface.copy(
           alpha = TwineTheme.opacity.bgDisabled
         )
+      }
     )
   }
 
   @Composable
   fun uncheckedIconTint(enabled: Boolean): State<Color> {
     return rememberUpdatedState(
-      if (enabled)
+      if (enabled) {
         TwineTheme.colorScheme.surfaceVariant
-      else
+      } else {
         TwineTheme.colorScheme.surface
+      }
     )
   }
 }
@@ -353,7 +358,7 @@ private class SwitchColors {
 private fun SwitchPreview_Unchecked() {
   TwineTheme {
     Switch(
-      checked = false,
+      checked = false
     ) {
       // Handle value changes
     }
@@ -366,7 +371,7 @@ private fun SwitchPreview_Unchecked_Disabled() {
   TwineTheme {
     Switch(
       checked = false,
-      enabled = false,
+      enabled = false
     ) {
       // Handle value changes
     }
@@ -378,7 +383,7 @@ private fun SwitchPreview_Unchecked_Disabled() {
 private fun SwitchPreview_Checked() {
   TwineTheme {
     Switch(
-      checked = true,
+      checked = true
     ) {
       // Handle value changes
     }
@@ -391,7 +396,7 @@ private fun SwitchPreview_Checked_Disabled() {
   TwineTheme {
     Switch(
       checked = true,
-      enabled = false,
+      enabled = false
     ) {
       // Handle value changes
     }

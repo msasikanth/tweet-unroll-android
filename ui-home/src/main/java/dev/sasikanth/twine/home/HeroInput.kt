@@ -39,7 +39,7 @@ internal fun HeroInput(
   onPasteClick: () -> Unit,
   onGoClick: () -> Unit,
   onTextChange: (String) -> Unit,
-  onClearTextClick: () -> Unit,
+  onClearTextClick: () -> Unit
 ) {
   val hasInputErrors = inputErrors.any {
     it == InvalidUrl
@@ -95,7 +95,7 @@ internal fun HeroInput(
 @Composable
 private fun Tooltip(
   modifier: Modifier = Modifier,
-  hasInputErrors: Boolean,
+  hasInputErrors: Boolean
 ) {
   Box(
     modifier = modifier

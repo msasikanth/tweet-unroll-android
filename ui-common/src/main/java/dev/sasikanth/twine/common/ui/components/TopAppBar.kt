@@ -71,7 +71,7 @@ fun TopAppBar(
   navigationIcon: @Composable (() -> Unit)? = null,
   actions: @Composable (RowScope.() -> Unit)? = null,
   backgroundColor: Color = TwineTheme.colorScheme.surface,
-  contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
+  contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor)
 ) {
   val configuration = LocalConfiguration.current
   val insetsModifier = when (configuration.orientation) {
@@ -105,12 +105,12 @@ fun TopAppBar(
         .padding(
           start = AppBarDefaults.TitlePadding,
           end = AppBarDefaults.TitlePadding
-        ),
+        )
     ) {
       Text(
         text = title,
         style = TwineTheme.typography.headlineMedium,
-        color = contentColor,
+        color = contentColor
       )
     }
 
@@ -120,7 +120,7 @@ fun TopAppBar(
           .fillMaxHeight()
           .testTag("TopAppBar:Actions"),
         horizontalArrangement = Arrangement.End,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
       ) {
         Spacer(modifier = Modifier.width(AppBarDefaults.ActionsStartPadding))
         actions.invoke(this)
@@ -172,7 +172,7 @@ private fun AppBarIconButton(
   backgroundColor: Color,
   contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
   rippleColor: Color = TwineTheme.colorScheme.primary,
-  onClick: () -> Unit,
+  onClick: () -> Unit
 ) {
   Box(
     modifier = modifier

@@ -458,7 +458,7 @@ class TweetsRepositoryIntegrationTest {
           referencedTweets = emptyList(),
           media = listOf(tweet2Media),
           polls = emptyList()
-        ),
+        )
       )
     )
 

@@ -2,7 +2,7 @@ package dev.sasikanth.twine.login
 
 internal data class LoginUiState(
   val isCheckingLoginStatus: Boolean = true,
-  val isUserLoggedIn: Boolean = false,
+  val isUserLoggedIn: Boolean = false
 ) {
 
   fun checkingUserLoginStatus(): LoginUiState {

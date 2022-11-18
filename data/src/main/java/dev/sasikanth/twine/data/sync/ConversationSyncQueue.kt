@@ -65,8 +65,8 @@ class AndroidConversationSyncQueue @Inject constructor(
         workInfos
           .filter { workInfo ->
             workInfo.state != SUCCEEDED &&
-                workInfo.state != CANCELLED &&
-                workInfo.state != BLOCKED
+              workInfo.state != CANCELLED &&
+              workInfo.state != BLOCKED
           }
           .map(::mapToQueueItems)
       }

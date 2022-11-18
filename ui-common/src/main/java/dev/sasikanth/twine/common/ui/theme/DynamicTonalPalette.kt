@@ -37,7 +37,7 @@ fun dynamicLightColorScheme(context: Context): TwineColorScheme {
     inverseOnSurface = materialDynamicLightColorScheme.inverseOnSurface,
     inverseSurface = materialDynamicLightColorScheme.inverseSurface,
     inversePrimary = materialDynamicLightColorScheme.inversePrimary,
-    surfaceTint = materialDynamicLightColorScheme.surfaceTint,
+    surfaceTint = materialDynamicLightColorScheme.surfaceTint
   )
 }
 
@@ -69,7 +69,7 @@ fun dynamicDarkColorScheme(context: Context): TwineColorScheme {
     inverseOnSurface = materialDynamicDarkColorScheme.inverseOnSurface,
     inverseSurface = materialDynamicDarkColorScheme.inverseSurface,
     inversePrimary = materialDynamicDarkColorScheme.inversePrimary,
-    surfaceTint = materialDynamicDarkColorScheme.surfaceTint,
+    surfaceTint = materialDynamicDarkColorScheme.surfaceTint
   )
 }
 

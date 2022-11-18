@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
   private val usersDao: UsersDao,
-  private val dispatchers: CoroutineDispatchers,
+  private val dispatchers: CoroutineDispatchers
 ) {
 
   suspend fun saveUsers(users: List<User>) {

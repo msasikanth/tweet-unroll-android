@@ -31,7 +31,8 @@ class CheckBoxTest {
           checked = checked,
           onValueChange = {
             checked = it
-          })
+          }
+        )
       }
     }
 
@@ -56,7 +57,8 @@ class CheckBoxTest {
           label = null,
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 
@@ -76,7 +78,8 @@ class CheckBoxTest {
           label = "Enable?",
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 
@@ -96,7 +99,8 @@ class CheckBoxTest {
           enabled = false,
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 
@@ -116,7 +120,8 @@ class CheckBoxTest {
           enabled = true,
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 

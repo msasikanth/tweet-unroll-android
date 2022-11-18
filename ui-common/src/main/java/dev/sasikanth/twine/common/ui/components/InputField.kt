@@ -82,7 +82,7 @@ fun InputField(
   startSlot: @Composable() (BoxScope.() -> Unit)? = null,
   endSlot: @Composable() (BoxScope.() -> Unit)? = null,
   onValueChange: (String) -> Unit,
-  onClearTextClick: () -> Unit,
+  onClearTextClick: () -> Unit
 ) {
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()
@@ -167,7 +167,7 @@ fun InputField(
             style = TwineTheme.typography.bodyLarge,
             color = TwineTheme.colorScheme.outline,
             maxLines = 1,
-            softWrap = false,
+            softWrap = false
           )
         }
 
@@ -189,7 +189,7 @@ fun InputField(
       ) {
         Icon(
           painter = painterResource(id = R.drawable.ic_clear),
-          contentDescription = null,
+          contentDescription = null
         )
       }
     }
@@ -218,7 +218,6 @@ private fun InputFieldPreview_EndSlot() {
       hint = "Label",
       endSlot = {
         TwineButton(text = "Action") {
-
         }
       },
       onValueChange = {
@@ -226,7 +225,7 @@ private fun InputFieldPreview_EndSlot() {
       },
       onClearTextClick = {
         // Handle clear text
-      },
+      }
     )
   }
 }
@@ -262,7 +261,7 @@ private fun InputFieldPreview_StartSlot_EndSlot() {
       },
       onClearTextClick = {
         // Handle clear text
-      },
+      }
     )
   }
 }

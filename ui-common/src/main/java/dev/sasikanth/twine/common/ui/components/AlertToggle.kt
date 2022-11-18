@@ -138,7 +138,7 @@ private fun Content(
 
   Box(
     modifier = modifier.size(InnerContainerSize),
-    contentAlignment = Alignment.Center,
+    contentAlignment = Alignment.Center
   ) {
     AnimatedVisibility(
       visible = isToggled,
@@ -152,7 +152,7 @@ private fun Content(
         animationSpec = spring(
           dampingRatio = Spring.DampingRatioNoBouncy,
           stiffness = TwineSpring.StiffnessMedium
-        ),
+        )
       ),
       exit = scaleOut(
         animationSpec = spring(
@@ -165,7 +165,7 @@ private fun Content(
           dampingRatio = Spring.DampingRatioNoBouncy,
           stiffness = Spring.StiffnessMedium
         )
-      ),
+      )
     ) {
       Box(
         modifier = Modifier
@@ -195,7 +195,6 @@ private fun AlertTogglePreview_isToggled() {
     AlertToggle(
       isToggled = true
     ) {
-
     }
   }
 }
@@ -207,7 +206,6 @@ private fun AlertTogglePreview_isUnToggled() {
     AlertToggle(
       isToggled = false
     ) {
-
     }
   }
 }

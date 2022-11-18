@@ -61,7 +61,7 @@ fun AnimatedStripeBackground(
           stripeStart to backgroundPatternColor,
           start = Offset(offset, offset),
           end = Offset(offset + brushSizePx, offset + brushSizePx),
-          tileMode = TileMode.Repeated,
+          tileMode = TileMode.Repeated
         )
 
         drawRect(brush)

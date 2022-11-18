@@ -18,17 +18,17 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 @Composable
 internal fun SignInButtonContainer(
   modifier: Modifier = Modifier,
-  onLoginClick: () -> Unit,
+  onLoginClick: () -> Unit
 ) {
   Column(
     modifier = modifier.wrapContentSize(),
     horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.spacedBy(16.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
     Text(
       text = stringResource(id = R.string.login_ready_to_get_started),
       style = TwineTheme.typography.headlineSmall,
-      color = TwineTheme.colorScheme.onSurfaceVariant,
+      color = TwineTheme.colorScheme.onSurfaceVariant
     )
 
     SignInButton(onClick = onLoginClick)
@@ -50,17 +50,17 @@ private fun SignInButton(
       pressedElevation = 0.dp,
       focusedElevation = 0.dp,
       hoveredElevation = 0.dp
-    ),
+    )
   ) {
     Text(
       text = stringResource(id = R.string.login_sign_in_with_twitter),
-      style = TwineTheme.typography.labelLarge,
+      style = TwineTheme.typography.labelLarge
     )
   }
 }
 
 @Preview(
-  showBackground = true,
+  showBackground = true
 )
 @Composable
 fun SignInButtonContainerPreview() {
@@ -72,4 +72,3 @@ fun SignInButtonContainerPreview() {
     }
   }
 }
-

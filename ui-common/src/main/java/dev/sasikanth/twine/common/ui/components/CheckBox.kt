@@ -57,7 +57,7 @@ fun CheckBox(
   checked: Boolean,
   enabled: Boolean = true,
   label: String? = null,
-  onValueChange: (Boolean) -> Unit,
+  onValueChange: (Boolean) -> Unit
 ) {
   Row(
     modifier = modifier
@@ -66,10 +66,10 @@ fun CheckBox(
         value = checked,
         role = Role.Checkbox,
         enabled = enabled,
-        onValueChange = onValueChange,
+        onValueChange = onValueChange
       )
       .testTag("CheckBox"),
-    verticalAlignment = Alignment.CenterVertically,
+    verticalAlignment = Alignment.CenterVertically
   ) {
     CheckBoxBackgroundAndIcon(
       checked = checked,
@@ -85,7 +85,7 @@ fun CheckBox(
 @Composable
 private fun Label(
   modifier: Modifier = Modifier,
-  label: String,
+  label: String
 ) {
   Row(
     modifier = modifier.testTag("CheckBox:Label")
@@ -93,7 +93,7 @@ private fun Label(
     Text(
       text = label,
       color = TwineTheme.colorScheme.onSurface,
-      style = TwineTheme.typography.bodyMedium,
+      style = TwineTheme.typography.bodyMedium
     )
 
     Spacer(modifier = Modifier.width(CheckBoxDefaults.LabelEndSpacing))
@@ -105,7 +105,7 @@ private fun Label(
 private fun CheckBoxBackgroundAndIcon(
   modifier: Modifier = Modifier,
   checked: Boolean,
-  enabled: Boolean,
+  enabled: Boolean
 ) {
   val boxColor by boxColor(
     checked = checked,
@@ -156,7 +156,7 @@ private fun CheckBoxBackgroundAndIcon(
 @Composable
 private fun boxColor(
   enabled: Boolean,
-  checked: Boolean,
+  checked: Boolean
 ): State<Color> {
   val boxColor = if (enabled) {
     when {
@@ -175,7 +175,7 @@ private fun boxColor(
 
 @Composable
 private fun boxSize(
-  checked: Boolean,
+  checked: Boolean
 ): State<Dp> {
   val boxSize = if (checked) {
     CheckBoxDefaults.CheckBoxCheckedBoxSize

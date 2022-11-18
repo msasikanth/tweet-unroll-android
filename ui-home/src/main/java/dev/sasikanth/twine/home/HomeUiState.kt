@@ -5,7 +5,7 @@ import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 data class HomeUiState(
   val tweetUrl: String?,
   val errors: List<InputError>,
-  val syncQueue: List<ConversationSyncQueueItem>,
+  val syncQueue: List<ConversationSyncQueueItem>
 ) {
 
   companion object {

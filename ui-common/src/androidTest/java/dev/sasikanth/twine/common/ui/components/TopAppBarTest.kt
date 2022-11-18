@@ -18,7 +18,7 @@ class TopAppBarTest {
     composeTestRule.setContent {
       TwineTheme {
         TopAppBar(
-          title = "Twine",
+          title = "Twine"
         )
       }
     }

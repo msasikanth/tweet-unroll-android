@@ -71,7 +71,7 @@ fun TwineButton(
   modifier: Modifier = Modifier,
   text: String,
   icon: Painter? = null,
-  onClick: () -> Unit,
+  onClick: () -> Unit
 ) {
   CompositionLocalProvider(
     LocalRippleTheme provides ButtonRippleTheme
@@ -94,7 +94,7 @@ fun TwineButton(
             start = ButtonDefaults.HorizontalPaddingStart,
             end = ButtonDefaults.HorizontalPaddingEnd
           ),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
       ) {
         if (icon != null) {
           Icon(

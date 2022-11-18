@@ -63,7 +63,6 @@ object AuthModule {
     configuration: AuthorizationServiceConfiguration,
     @Named("auth_client_id") clientId: String
   ): AuthorizationRequest {
-
     val secureRandom = SecureRandom()
     val bytes = ByteArray(64)
     secureRandom.nextBytes(bytes)

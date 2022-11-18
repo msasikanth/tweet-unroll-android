@@ -51,7 +51,7 @@ class TwineColorScheme(
   outlineVariant: Color,
   deleteButton: Color,
   onDeleteButton: Color,
-  scrim: Color,
+  scrim: Color
 ) {
   var brand by mutableStateOf(brand, structuralEqualityPolicy())
     internal set
@@ -153,7 +153,7 @@ class TwineColorScheme(
     outlineVariant: Color = this.outlineVariant,
     deleteButton: Color = this.deleteButton,
     onDeleteButton: Color = this.onDeleteButton,
-    scrim: Color = this.scrim,
+    scrim: Color = this.scrim
   ): TwineColorScheme =
     TwineColorScheme(
       brand = brand,
@@ -188,7 +188,7 @@ class TwineColorScheme(
       outlineVariant = outlineVariant,
       deleteButton = deleteButton,
       onDeleteButton = onDeleteButton,
-      scrim = scrim,
+      scrim = scrim
     )
 
   fun toMaterialColorScheme(): MaterialColorScheme =
@@ -221,7 +221,7 @@ class TwineColorScheme(
       onErrorContainer = onErrorContainer,
       outline = outline,
       outlineVariant = outlineVariant,
-      scrim = scrim,
+      scrim = scrim
     )
 }
 
@@ -258,7 +258,7 @@ internal fun lightColorScheme(
   surfaceTint: Color = md_theme_light_surfaceTint,
   deleteButton: Color = md_theme_error_80,
   onDeleteButton: Color = md_theme_error_20,
-  scrim: Color = md_theme_light_scrim,
+  scrim: Color = md_theme_light_scrim
 ): TwineColorScheme = TwineColorScheme(
   brand = brand,
   onBrand = onBrand,
@@ -328,7 +328,7 @@ internal fun darkColorScheme(
   surfaceTint: Color = md_theme_dark_surfaceTint,
   deleteButton: Color = md_theme_error_80,
   onDeleteButton: Color = md_theme_error_20,
-  scrim: Color = md_theme_dark_scrim,
+  scrim: Color = md_theme_dark_scrim
 ): TwineColorScheme = TwineColorScheme(
   brand = brand,
   onBrand = onBrand,
@@ -362,7 +362,7 @@ internal fun darkColorScheme(
   outlineVariant = outlineVariant,
   deleteButton = deleteButton,
   onDeleteButton = onDeleteButton,
-  scrim = scrim,
+  scrim = scrim
 )
 
 fun TwineColorScheme.contentColorFor(backgroundColor: Color): Color = when (backgroundColor) {
@@ -392,7 +392,7 @@ fun TwineColorScheme.contentColorFor(backgroundColor: Color): Color = when (back
 
  */
 fun TwineColorScheme.surfaceColorAtElevation(
-  elevation: Dp,
+  elevation: Dp
 ): Color {
   if (elevation == 0.dp) return surface
   val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
