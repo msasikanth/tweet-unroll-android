@@ -27,6 +27,16 @@ TWINE_PROD_CLIENT_ID=""
 TWINE_PROD_CLIENT_SECRET=""
 ```
 
+## TODO
+
+- [x] Login
+- [ ] Home (Couple of things pending)
+- [ ] Detail view
+- [x] Settings
+- [ ] Search
+- [ ] Word filtering
+- [ ] Alerts
+
 ## Made by
 
 - [Sasikanth Miriyampalli](https://www.sasikanth.dev) / Development
