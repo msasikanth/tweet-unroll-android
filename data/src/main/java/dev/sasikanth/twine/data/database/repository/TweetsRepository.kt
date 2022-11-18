@@ -66,4 +66,10 @@ class TweetsRepository @Inject constructor(
       pollDao.save(polls)
     }
   }
+
+  suspend fun deleteConversation(conversationId: String) {
+    withContext(dispatchers.io) {
+      tweetsDao.deleteConversation(conversationId)
+    }
+  }
 }

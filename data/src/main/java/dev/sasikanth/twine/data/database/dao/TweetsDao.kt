@@ -24,4 +24,13 @@ interface TweetsDao {
   )
   @Transaction
   fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>>
+
+  @Query(
+    """
+      DELETE FROM Tweet
+      WHERE conversation_id = :conversationId
+    """
+  )
+  @Transaction
+  suspend fun deleteConversation(conversationId: String)
 }

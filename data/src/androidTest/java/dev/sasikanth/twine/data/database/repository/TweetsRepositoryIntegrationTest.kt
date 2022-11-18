@@ -7,6 +7,8 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.data.api.models.PublicMetrics
 import dev.sasikanth.twine.data.database.TwineDatabase
+import dev.sasikanth.twine.data.database.entities.Media
+import dev.sasikanth.twine.data.database.entities.MediaType
 import dev.sasikanth.twine.data.database.entities.RecentConversation
 import dev.sasikanth.twine.data.database.entities.ReferenceType
 import dev.sasikanth.twine.data.database.entities.ReferencedTweet
@@ -382,5 +384,91 @@ class TweetsRepositoryIntegrationTest {
         )
       )
     )
+  }
+
+  @Test
+  fun deleting_conversation_should_delete_all_tweets_associated_content_in_it() = runTest {
+    // given
+    val tweet1 = Tweet(
+      id = "5826750211618182376",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread, with quoted tweet",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweet2 = Tweet(
+      id = "5826750211618182378",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 2 in the thread",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweet2Media = Media(
+      mediaKey = "3_7291856149861120695",
+      type = MediaType.Photo,
+      url = "https://twitter.com/img/photo.jpg",
+      previewImage = "https://twitter.com/img/photo_preview.jpg",
+      tweetId = "5826750211618182378"
+    )
+
+    val user1 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png"
+    )
+
+    tweetsRepository.saveTweets(listOf(tweet1, tweet2))
+    tweetsRepository.saveMedia(listOf(tweet2Media))
+    usersRepository.saveUsers(listOf(user1))
+
+    val tweetsInConversationBeforeDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182376"
+    ).first()
+    assertThat(tweetsInConversationBeforeDelete).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = tweet1,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        ),
+        TweetWithContent(
+          tweet = tweet2,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = listOf(tweet2Media),
+          polls = emptyList()
+        ),
+      )
+    )
+
+    // when
+    tweetsRepository.deleteConversation(conversationId = "5826750211618182376")
+
+    // then
+    val tweetsInConversationAfterDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182376"
+    ).first()
+    assertThat(tweetsInConversationAfterDelete).isEmpty()
   }
 }
