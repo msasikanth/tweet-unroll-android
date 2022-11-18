@@ -18,13 +18,13 @@ from `Project & Apps > "Project" > "App" > Keys and tokens`
 
 ```
 // For integration tests
-export TWINE_DEV_BEARER_TOKEN=""
+TWINE_DEV_BEARER_TOKEN=""
 
-export TWINE_DEV_CLIENT_ID=""
-export TWINE_DEV_CLIENT_SECRET=""
+TWINE_DEV_CLIENT_ID=""
+TWINE_DEV_CLIENT_SECRET=""
 
-export TWINE_PROD_CLIENT_ID=""
-export TWINE_PROD_CLIENT_SECRET=""
+TWINE_PROD_CLIENT_ID=""
+TWINE_PROD_CLIENT_SECRET=""
 ```
 
 ## Made by
