@@ -3,6 +3,7 @@ package dev.sasikanth.twine.di.modules
 import android.content.Context
 import androidx.core.os.ConfigurationCompat
 import androidx.work.WorkManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Module
 import dagger.Provides
@@ -41,5 +42,12 @@ object AppModule {
   @Provides
   fun providesFirebaseCrashlytics(): FirebaseCrashlytics {
     return FirebaseCrashlytics.getInstance()
+  }
+
+  @Provides
+  fun providesFirebaseAnalytics(
+    @ApplicationContext context: Context
+  ): FirebaseAnalytics {
+    return FirebaseAnalytics.getInstance(context)
   }
 }
