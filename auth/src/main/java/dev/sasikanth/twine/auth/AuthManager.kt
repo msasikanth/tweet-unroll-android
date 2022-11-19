@@ -73,7 +73,7 @@ class TwineAuthManager @Inject constructor(
   private val requestProvider: Lazy<AuthorizationRequest>,
   private val clientAuth: Lazy<ClientAuthentication>,
   private val coroutineDispatchers: CoroutineDispatchers,
-  @Named("auth_pref") private val authPref: DataStore<Preferences>,
+  @Named("auth_pref") private val authPref: DataStore<Preferences>
 ) : AuthManager {
 
   private val authService = AuthorizationService(context)

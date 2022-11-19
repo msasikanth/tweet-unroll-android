@@ -25,5 +25,5 @@ data class TweetWithContent(
     parentColumn = "id",
     entityColumn = "tweet_id"
   )
-  val polls: List<Poll>,
+  val polls: List<Poll>
 )

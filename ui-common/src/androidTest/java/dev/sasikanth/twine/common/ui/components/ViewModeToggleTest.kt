@@ -62,7 +62,6 @@ class ViewModeToggleTest {
       setUi(state = viewModeToggleState)
     }
 
-
     // when
     composeTestRule
       .onNodeWithTag("ViewMode:Timeline")

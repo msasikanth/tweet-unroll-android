@@ -28,7 +28,7 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 fun LoginPage(
   modifier: Modifier = Modifier,
   viewModel: LoginViewModel = hiltViewModel(),
-  navigateToHome: () -> Unit,
+  navigateToHome: () -> Unit
 ) {
   Box(
     modifier = modifier.fillMaxSize()
@@ -56,7 +56,7 @@ fun LoginPage(
 @Composable
 private fun LoginPageContent(
   modifier: Modifier = Modifier,
-  onLoginClick: () -> Unit,
+  onLoginClick: () -> Unit
 ) {
   AnimatedStripeBackground(
     modifier = Modifier.fillMaxSize(),
@@ -73,7 +73,7 @@ private fun LoginPageContent(
         .fillMaxSize()
         .padding(40.dp),
       verticalArrangement = Arrangement.SpaceBetween,
-      horizontalAlignment = Alignment.CenterHorizontally,
+      horizontalAlignment = Alignment.CenterHorizontally
     ) {
       Greeting()
       SignInButtonContainer(onLoginClick = onLoginClick)

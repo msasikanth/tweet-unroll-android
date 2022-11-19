@@ -31,7 +31,8 @@ class SwitchTest {
           checked = checked,
           onValueChange = {
             checked = it
-          })
+          }
+        )
       }
     }
 
@@ -56,7 +57,8 @@ class SwitchTest {
           enabled = false,
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 
@@ -76,7 +78,8 @@ class SwitchTest {
           enabled = true,
           onValueChange = {
             // Handle value changes
-          })
+          }
+        )
       }
     }
 

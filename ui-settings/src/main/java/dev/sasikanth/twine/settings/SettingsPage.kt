@@ -47,7 +47,7 @@ fun SettingsPage(
   useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
   toggleDynamicColors: (Boolean) -> Unit,
-  navigateBack: () -> Unit,
+  navigateBack: () -> Unit
 ) {
   Scaffold(
     topBar = {
@@ -57,7 +57,7 @@ fun SettingsPage(
           AppBarBackButton(onClick = navigateBack)
         }
       )
-    },
+    }
   ) {
     Column(
       modifier = modifier
@@ -66,7 +66,6 @@ fun SettingsPage(
         .verticalScroll(rememberScrollState())
         .padding(horizontal = 24.dp)
     ) {
-
       ThemeSection(
         theme = theme,
         isDynamicColorsSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
@@ -90,7 +89,7 @@ private fun ThemeSection(
   Column(
     modifier = modifier
       .fillMaxWidth()
-      .wrapContentHeight(),
+      .wrapContentHeight()
   ) {
     SubHeader(text = stringResource(id = R.string.settings_header_theme))
 
@@ -108,7 +107,7 @@ private fun ThemeSection(
 
     SegmentedButtonGroup(
       items = items,
-      selectedItem = selectedTheme,
+      selectedItem = selectedTheme
     ) {
       val newTheme = when (it) {
         lightTheme -> LIGHT
@@ -165,7 +164,7 @@ private fun SettingsListItem(
     horizontalArrangement = Arrangement.SpaceBetween
   ) {
     Column(
-      modifier = Modifier.weight(1f),
+      modifier = Modifier.weight(1f)
     ) {
       Text(
         text = title,
@@ -202,7 +201,6 @@ private fun SettingsPagePreview() {
         // Handle theme changes
       },
       toggleDynamicColors = {
-
       }
     )
   }

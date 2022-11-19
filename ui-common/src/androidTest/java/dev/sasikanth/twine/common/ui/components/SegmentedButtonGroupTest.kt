@@ -30,7 +30,8 @@ class SegmentedButtonGroupTest {
           selectedItem = dark,
           onItemChange = {
             // Handle item changes
-          })
+          }
+        )
       }
     }
 
@@ -55,7 +56,8 @@ class SegmentedButtonGroupTest {
           selectedItem = dark,
           onItemChange = {
             // Handle item changes
-          })
+          }
+        )
       }
     }
 

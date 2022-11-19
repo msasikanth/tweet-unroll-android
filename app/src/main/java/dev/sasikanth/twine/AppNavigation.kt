@@ -22,7 +22,7 @@ internal fun AppNavigation(
   theme: Theme,
   useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
-  toggleDynamicColors: (Boolean) -> Unit,
+  toggleDynamicColors: (Boolean) -> Unit
 ) {
   NavHost(
     navController = navController,
@@ -84,6 +84,7 @@ internal fun NavGraphBuilder.addSettings(
       toggleDynamicColors = toggleDynamicColors,
       navigateBack = {
         navController.popBackStack()
-      })
+      }
+    )
   }
 }

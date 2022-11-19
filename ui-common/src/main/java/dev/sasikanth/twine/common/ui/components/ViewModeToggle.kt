@@ -149,8 +149,9 @@ fun ViewModeToggle(
     IconButtonRow(
       isAnimationRunning = swipeableState.isAnimationRunning,
       onViewModeChanged = {
-        if (!swipeableState.isAnimationRunning)
+        if (!swipeableState.isAnimationRunning) {
           onViewModeChanged(it)
+        }
       }
     )
 
@@ -159,7 +160,7 @@ fun ViewModeToggle(
         .onSizeChanged { size = it.toSize() }
         .testTag("ViewMode:SelectorLayout"),
       swipeableState = swipeableState,
-      anchors = anchors,
+      anchors = anchors
     )
   }
 }
@@ -175,7 +176,7 @@ fun ViewModeToggle(
 private fun SelectorLayout(
   modifier: Modifier = Modifier,
   swipeableState: SwipeableState<ViewModeToggle>,
-  anchors: Map<Float, ViewModeToggle>,
+  anchors: Map<Float, ViewModeToggle>
 ) {
   val offset = IntOffset(
     x = swipeableState.offset.value.roundToInt(),
@@ -194,7 +195,7 @@ private fun SelectorLayout(
           anchors = anchors.keys,
           factorAtMin = 0f,
           factorAtMax = 0f
-        ),
+        )
       ),
     horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing)
   ) {
@@ -225,7 +226,7 @@ private fun IconButtonRow(
   Row(
     modifier = modifier
       .clip(TwineTheme.shapes.large),
-    horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing),
+    horizontalArrangement = Arrangement.spacedBy(ViewModeToggleDefaults.buttonRowSpacing)
   ) {
     IconButton(
       modifier = Modifier
@@ -335,7 +336,7 @@ private fun ViewModeTogglePreview_Story() {
  * @param offset: horizontal offset used for moving shape on x-axis
  */
 private class SelectorShape(
-  private val offset: Offset,
+  private val offset: Offset
 ) : Shape {
 
   override fun createOutline(
