@@ -3,15 +3,27 @@ package dev.sasikanth.twine.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +31,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,10 +49,53 @@ import dev.sasikanth.twine.data.database.entities.RecentConversation
 import java.time.Instant
 import java.time.ZoneId
 import java.util.Locale
+import kotlin.math.absoluteValue
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecentConversationListItem(
   recentConversation: RecentConversation,
+  onDelete: (id: String) -> Unit,
+  modifier: Modifier = Modifier,
+  onClick: () -> Unit
+) {
+  val backgroundShape = TwineTheme.shapes.large
+
+  val dismissState = rememberDismissState(
+    confirmStateChange = {
+      onDelete.invoke(recentConversation.conversationId)
+      false
+    }
+  )
+
+  SwipeToDismiss(
+    modifier = modifier
+      .graphicsLayer {
+        this.clip = true
+        this.shape = backgroundShape
+      },
+    state = dismissState,
+    dismissThresholds = {
+      FractionalThreshold(0.5f)
+    },
+    background = {
+      SwipeBackground(
+        dismissStateProvider = { dismissState }
+      )
+    }
+  ) {
+    Content(
+      recentConversation = recentConversation,
+      backgroundShape = backgroundShape,
+      onClick = onClick
+    )
+  }
+}
+
+@Composable
+private fun Content(
+  recentConversation: RecentConversation,
+  backgroundShape: CornerBasedShape,
   modifier: Modifier = Modifier,
   onClick: () -> Unit
 ) {
@@ -49,7 +106,7 @@ fun RecentConversationListItem(
   Column(
     modifier = modifier
       .fillMaxWidth()
-      .clip(TwineTheme.shapes.large)
+      .clip(backgroundShape)
       .background(backgroundColor)
       .clickable(onClick = onClick)
       .padding(vertical = 12.dp),
@@ -90,6 +147,63 @@ fun RecentConversationListItem(
       maxLines = 3,
       overflow = TextOverflow.Ellipsis
     )
+  }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun SwipeBackground(
+  modifier: Modifier = Modifier,
+  dismissStateProvider: () -> DismissState
+) {
+  val dismissState = dismissStateProvider.invoke()
+  val dismissDirection = dismissState.dismissDirection
+  val dismissOffset = dismissState.offset.value
+
+  if (dismissDirection != null) {
+    val arrangement = when (dismissDirection) {
+      DismissDirection.StartToEnd -> Arrangement.Start
+      DismissDirection.EndToStart -> Arrangement.End
+    }
+
+    val paddingValues = when (dismissDirection) {
+      DismissDirection.StartToEnd -> PaddingValues(end = 8.dp)
+      DismissDirection.EndToStart -> PaddingValues(start = 8.dp)
+    }
+
+    val contentAlignment = when (dismissDirection) {
+      DismissDirection.StartToEnd -> Alignment.CenterEnd
+      DismissDirection.EndToStart -> Alignment.CenterStart
+    }
+
+    val density = LocalDensity.current
+    val backgroundWidth = with(density) {
+      dismissOffset.absoluteValue.toDp()
+    }
+
+    Row(
+      modifier = modifier.fillMaxSize(),
+      horizontalArrangement = arrangement
+    ) {
+      Box(
+        modifier = Modifier
+          .fillMaxHeight()
+          .width(backgroundWidth)
+          .padding(paddingValues)
+          .clip(TwineTheme.shapes.large)
+          .background(
+            color = TwineTheme.colorScheme.deleteButton
+          )
+          .padding(horizontal = 20.dp),
+        contentAlignment = contentAlignment
+      ) {
+        Icon(
+          painter = painterResource(id = R.drawable.ic_delete),
+          contentDescription = null,
+          tint = TwineTheme.colorScheme.onDeleteButton
+        )
+      }
+    }
   }
 }
 
@@ -200,10 +314,14 @@ private fun RecentConversationListItemPreview() {
           conversationStartedAt = Instant.parse("2018-02-01T00:00:00Z"),
           conversationCreatedAt = Instant.parse("2018-02-01T00:00:00Z"),
           numberOfTweetsInConversation = 5
-        )
-      ) {
-        // Handle clicks
-      }
+        ),
+        onClick = {
+          // Handle clicks
+        },
+        onDelete = {
+          // Handle delete
+        }
+      )
     }
   }
 }

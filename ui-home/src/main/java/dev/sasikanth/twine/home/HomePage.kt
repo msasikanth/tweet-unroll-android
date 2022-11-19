@@ -115,10 +115,14 @@ fun HomePage(
               modifier = Modifier
                 .animateItemPlacement()
                 .padding(bottom = 8.dp),
-              recentConversation = recentConversation
-            ) {
-              // Handle clicks
-            }
+              recentConversation = recentConversation,
+              onClick = {
+                // Handle clicks
+              },
+              onDelete = {
+                // Handle delete
+              }
+            )
           }
         }
       }
