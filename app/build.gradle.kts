@@ -95,6 +95,10 @@ dependencies {
 
   implementation(libs.work.hilt)
 
+  val firebaseBom = platform(libs.firebase.bom)
+  implementation(firebaseBom)
+  implementation(libs.firebase.analytics)
+
   debugImplementation(libs.leakCanary)
 
   testImplementation(libs.junit)
