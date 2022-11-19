@@ -37,6 +37,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version = "1.7.21-1.0.8" }
+google-services = { id = "com.google.gms.google-services", version = "4.3.14" }
 
 [libraries]
 androidx-activity = "androidx.activity:activity-compose:1.5.1"

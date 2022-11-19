@@ -111,3 +111,7 @@ dependencies {
 
   androidTestImplementation(projects.commonTesting)
 }
+
+if (file("google-services.json").exists()) {
+  apply(plugin = libs.plugins.google.services.get().pluginId)
+}
