@@ -23,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
 
@@ -54,6 +55,7 @@ class ConversationSync @Inject constructor(
           }
         }
       } catch (e: Exception) {
+        Timber.e("Failed to sync conversation", e)
         Response.Unknown(e)
       }
 

@@ -45,6 +45,8 @@ dependencies {
   api(libs.kotlinx.coroutines)
   implementation(libs.moshi)
 
+  api(libs.timber)
+
   coreLibraryDesugaring(libs.desugar.jdk.libs)
 
   testImplementation(projects.commonTesting)
