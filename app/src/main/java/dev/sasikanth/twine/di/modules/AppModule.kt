@@ -3,6 +3,7 @@ package dev.sasikanth.twine.di.modules
 import android.content.Context
 import androidx.core.os.ConfigurationCompat
 import androidx.work.WorkManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,5 +36,10 @@ object AppModule {
   ): Locale {
     return ConfigurationCompat.getLocales(context.resources.configuration)
       .get(0) ?: Locale.getDefault()
+  }
+
+  @Provides
+  fun providesFirebaseCrashlytics(): FirebaseCrashlytics {
+    return FirebaseCrashlytics.getInstance()
   }
 }
