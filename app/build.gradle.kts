@@ -98,6 +98,7 @@ dependencies {
   val firebaseBom = platform(libs.firebase.bom)
   implementation(firebaseBom)
   implementation(libs.firebase.analytics)
+  implementation(libs.firebase.crashlytics)
 
   debugImplementation(libs.leakCanary)
 
@@ -118,4 +119,5 @@ dependencies {
 
 if (file("google-services.json").exists()) {
   apply(plugin = libs.plugins.google.services.get().pluginId)
+  apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
 }
