@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("com.android.library")
-  id("org.jetbrains.kotlin.android")
-  kotlin("kapt")
-  id("dagger.hilt.android.plugin")
-  id("com.google.devtools.ksp")
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kotlin.android)
+  alias(libs.plugins.kotlin.kapt)
+  alias(libs.plugins.hilt)
+  alias(libs.plugins.ksp)
 }
 
 android {
