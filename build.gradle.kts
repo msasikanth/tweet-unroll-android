@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 @Suppress("DSL_SCOPE_VIOLATION")
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -21,6 +23,25 @@ buildscript {
 tasks.register("clean") {
   doFirst {
     delete(rootProject.buildDir)
+  }
+}
+
+subprojects {
+  tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+      if (project.findProperty("twine.enableComposeCompilerReports") == "true") {
+        freeCompilerArgs += listOf(
+          "-P",
+          "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+            project.buildDir.absolutePath + "/compose_metrics"
+        )
+        freeCompilerArgs += listOf(
+          "-P",
+          "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+            project.buildDir.absolutePath + "/compose_metrics"
+        )
+      }
+    }
   }
 }
 
