@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Twine"
         tools:targetApi="31">
+
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -25,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             android:exported="true"
@@ -48,6 +52,7 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+
             <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
@@ -55,4 +60,5 @@
                 tools:node="remove" />
         </provider>
     </application>
+
 </manifest>

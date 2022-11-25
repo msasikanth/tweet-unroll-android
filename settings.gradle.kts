@@ -28,4 +28,5 @@ include(
   ":ui-login",
   ":ui-home",
   ":ui-settings",
+  ":benchmark",
 )
