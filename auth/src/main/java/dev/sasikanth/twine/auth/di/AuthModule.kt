@@ -9,11 +9,13 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import dev.sasikanth.twine.auth.AuthConstants.AUTH_AUTHORIZE_URI
 import dev.sasikanth.twine.auth.AuthConstants.AUTH_PREF_FILE
 import dev.sasikanth.twine.auth.AuthConstants.AUTH_REDIRECT_URI
@@ -24,6 +26,9 @@ import dev.sasikanth.twine.auth.AuthConstants.SCOPE_OFFLINE_ACCESS
 import dev.sasikanth.twine.auth.AuthConstants.SCOPE_TWEET_READ
 import dev.sasikanth.twine.auth.AuthConstants.SCOPE_TWEET_WRITE
 import dev.sasikanth.twine.auth.AuthConstants.SCOPE_USERS_READ
+import dev.sasikanth.twine.auth.AuthManager
+import dev.sasikanth.twine.auth.TwineAuthInterceptor
+import dev.sasikanth.twine.auth.TwineAuthManager
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -32,6 +37,7 @@ import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ClientAuthentication
 import net.openid.appauth.ClientSecretBasic
 import net.openid.appauth.ResponseTypeValues
+import okhttp3.Interceptor
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.inject.Named
@@ -105,5 +111,17 @@ object AuthModule {
       scope = CoroutineScope(coroutineDispatchers.io + SupervisorJob()),
       produceFile = { context.preferencesDataStoreFile(AUTH_PREF_FILE) }
     )
+  }
+
+  @Module
+  @InstallIn(SingletonComponent::class)
+  internal interface BindsModule {
+
+    @Binds
+    @IntoSet
+    fun bindsAuthInterceptor(authInterceptor: TwineAuthInterceptor): Interceptor
+
+    @Binds
+    fun bindsAuthManager(twineAuthManager: TwineAuthManager): AuthManager
   }
 }
