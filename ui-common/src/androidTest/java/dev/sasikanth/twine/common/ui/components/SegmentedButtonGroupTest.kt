@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,7 +22,7 @@ class SegmentedButtonGroupTest {
     // given
     val light = SegmentedButtonItem(label = "Light")
     val dark = SegmentedButtonItem(label = "Dark")
-    val items = listOf(light, dark)
+    val items = persistentListOf(light, dark)
 
     composeTestRule.setContent {
       TwineTheme {
@@ -47,7 +48,7 @@ class SegmentedButtonGroupTest {
     // given
     val light = SegmentedButtonItem(label = "Light")
     val dark = SegmentedButtonItem(label = "Dark")
-    val items = listOf(light, dark)
+    val items = persistentListOf(light, dark)
 
     composeTestRule.setContent {
       TwineTheme {

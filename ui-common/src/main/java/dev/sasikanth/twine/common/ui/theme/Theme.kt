@@ -20,7 +20,8 @@ import androidx.core.view.WindowCompat
 fun TwineTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   useDynamicColors: Boolean = true,
-  content: @Composable() () -> Unit
+  content: @Composable()
+  () -> Unit
 ) {
   val colorScheme = when {
     useDynamicColors && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -28,6 +29,7 @@ fun TwineTheme(
 
       if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     }
+
     useDarkTheme -> darkColorScheme()
     else -> lightColorScheme()
   }

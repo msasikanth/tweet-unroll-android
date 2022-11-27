@@ -66,8 +66,8 @@ internal object AppBarDefaults {
  */
 @Composable
 fun TopAppBar(
-  modifier: Modifier = Modifier,
   title: String,
+  modifier: Modifier = Modifier,
   navigationIcon: @Composable (() -> Unit)? = null,
   actions: @Composable (RowScope.() -> Unit)? = null,
   backgroundColor: Color = TwineTheme.colorScheme.surface,
@@ -148,8 +148,8 @@ fun AppBarBackButton(
 
 @Composable
 fun AppBarActionButton(
-  modifier: Modifier = Modifier,
   @DrawableRes icon: Int,
+  modifier: Modifier = Modifier,
   onClick: () -> Unit
 ) {
   val backgroundColor = TwineTheme
@@ -167,9 +167,9 @@ fun AppBarActionButton(
 
 @Composable
 private fun AppBarIconButton(
-  modifier: Modifier = Modifier,
   @DrawableRes icon: Int,
   backgroundColor: Color,
+  modifier: Modifier = Modifier,
   contentColor: Color = TwineTheme.colorScheme.contentColorFor(backgroundColor),
   rippleColor: Color = TwineTheme.colorScheme.primary,
   onClick: () -> Unit

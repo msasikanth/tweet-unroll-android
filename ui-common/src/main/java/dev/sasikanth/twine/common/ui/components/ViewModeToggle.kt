@@ -58,6 +58,8 @@ import dev.sasikanth.twine.common.ui.components.ViewModeToggle.Timeline
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 import kotlin.math.roundToInt
 
 private object ViewModeToggleDefaults {
@@ -83,8 +85,8 @@ enum class ViewModeToggle {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ViewModeToggle(
-  modifier: Modifier = Modifier,
   viewModeToggle: ViewModeToggle,
+  modifier: Modifier = Modifier,
   onViewModeChanged: (ViewModeToggle) -> Unit
 ) {
   var size by remember { mutableStateOf(Size.Zero) }
@@ -126,7 +128,7 @@ fun ViewModeToggle(
     (size.width + buttonSpacingInPx) / 2
   }
 
-  val anchors = mapOf(
+  val anchors = persistentMapOf(
     0f to Timeline,
     selectedButtonWidth to Story
   )
@@ -174,9 +176,9 @@ fun ViewModeToggle(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SelectorLayout(
-  modifier: Modifier = Modifier,
   swipeableState: SwipeableState<ViewModeToggle>,
-  anchors: Map<Float, ViewModeToggle>
+  anchors: ImmutableMap<Float, ViewModeToggle>,
+  modifier: Modifier = Modifier
 ) {
   val offset = IntOffset(
     x = swipeableState.offset.value.roundToInt(),
@@ -213,8 +215,8 @@ private fun SelectorLayout(
 
 @Composable
 private fun IconButtonRow(
-  modifier: Modifier = Modifier,
   isAnimationRunning: Boolean,
+  modifier: Modifier = Modifier,
   onViewModeChanged: (ViewModeToggle) -> Unit
 ) {
   val iconTint = if (isAnimationRunning) {
@@ -254,9 +256,9 @@ private fun IconButtonRow(
 
 @Composable
 private fun IconButton(
-  modifier: Modifier = Modifier,
   @DrawableRes resource: Int,
   iconTint: Color,
+  modifier: Modifier = Modifier,
   contentDescription: String? = null,
   enabled: Boolean = true,
   onClick: () -> Unit
@@ -282,8 +284,8 @@ private fun IconButton(
 
 @Composable
 private fun TimelineIcon(
-  modifier: Modifier = Modifier,
-  iconTint: Color
+  iconTint: Color,
+  modifier: Modifier = Modifier
 ) {
   Icon(
     modifier = modifier.padding(ViewModeToggleDefaults.iconPadding),
@@ -295,8 +297,8 @@ private fun TimelineIcon(
 
 @Composable
 private fun StoryIcon(
-  modifier: Modifier = Modifier,
-  iconTint: Color
+  iconTint: Color,
+  modifier: Modifier = Modifier
 ) {
   Icon(
     modifier = modifier.padding(ViewModeToggleDefaults.iconPadding),

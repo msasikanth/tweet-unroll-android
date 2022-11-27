@@ -26,8 +26,8 @@ import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
 
 @Composable
 fun AnimatedStripeBackground(
-  modifier: Modifier = Modifier,
   animationSpec: InfiniteRepeatableSpec<Float>,
+  modifier: Modifier = Modifier,
   content: @Composable () -> Unit
 ) {
   val backgroundColor = TwineTheme

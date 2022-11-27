@@ -61,8 +61,8 @@ import kotlin.math.roundToInt
  */
 @Composable
 fun Switch(
-  modifier: Modifier = Modifier,
   checked: Boolean,
+  modifier: Modifier = Modifier,
   enabled: Boolean = true,
   onValueChange: (Boolean) -> Unit
 ) {
@@ -94,9 +94,9 @@ fun Switch(
 
 @Composable
 private fun SwitchContainer(
-  modifier: Modifier = Modifier,
   checked: Boolean,
-  enabled: Boolean
+  enabled: Boolean,
+  modifier: Modifier = Modifier
 ) {
   Box(modifier = modifier) {
     val transition = updateTransition(
@@ -178,9 +178,9 @@ private fun SwitchContainer(
 
 @Composable
 private fun SwitchOff(
-  modifier: Modifier = Modifier,
   checked: Boolean,
   enabled: Boolean,
+  modifier: Modifier = Modifier,
   thumbOffsetProvider: () -> Float
 ) {
   val switchColors = SwitchDefaults.colors()
@@ -200,10 +200,10 @@ private fun SwitchOff(
 
 @Composable
 fun SwitchOn(
-  modifier: Modifier = Modifier,
   checked: Boolean,
   thumbOffsetProvider: () -> Float,
   revealProgressProvider: () -> Float,
+  modifier: Modifier = Modifier,
   revealOffsetProvider: () -> Float
 ) {
   SwitchImpl(
@@ -226,11 +226,11 @@ fun SwitchOn(
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 private fun SwitchImpl(
-  modifier: Modifier = Modifier,
   checked: Boolean,
   trackColor: Color,
   thumbColor: Color,
   iconTint: Color,
+  modifier: Modifier = Modifier,
   thumbOffsetProvider: () -> Float
 ) {
   Box(

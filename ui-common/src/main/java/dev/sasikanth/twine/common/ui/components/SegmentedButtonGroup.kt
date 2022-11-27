@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import dev.sasikanth.twine.common.ui.theme.ElevationTokens
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.common.ui.theme.surfaceColorAtElevation
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class SegmentedButtonItem(val label: String)
 
@@ -34,9 +36,9 @@ data class SegmentedButtonItem(val label: String)
  */
 @Composable
 fun SegmentedButtonGroup(
-  modifier: Modifier = Modifier,
-  items: List<SegmentedButtonItem>,
+  items: ImmutableList<SegmentedButtonItem>,
   selectedItem: SegmentedButtonItem,
+  modifier: Modifier = Modifier,
   onItemChange: (SegmentedButtonItem) -> Unit
 ) {
   Row(
@@ -59,9 +61,9 @@ fun SegmentedButtonGroup(
 
 @Composable
 private fun SegmentedButton(
-  modifier: Modifier = Modifier,
   label: String,
   checked: Boolean,
+  modifier: Modifier = Modifier,
   onClick: () -> Unit
 ) {
   val buttonBackground = if (checked) {
@@ -145,7 +147,7 @@ private fun SegmentedButtonGroupPreview() {
   val dark = SegmentedButtonItem(label = "Dark")
   val system = SegmentedButtonItem(label = "System")
 
-  val items = listOf(light, dark, system)
+  val items = persistentListOf(light, dark, system)
 
   TwineTheme {
     SegmentedButtonGroup(

@@ -38,8 +38,8 @@ import java.util.Locale
 
 @Composable
 fun RecentConversationListItem(
-  modifier: Modifier = Modifier,
   recentConversation: RecentConversation,
+  modifier: Modifier = Modifier,
   onClick: () -> Unit
 ) {
   val backgroundColor = TwineTheme
@@ -95,11 +95,11 @@ fun RecentConversationListItem(
 
 @Composable
 private fun ConversationHeader(
-  modifier: Modifier = Modifier,
   username: String,
   userFullName: String,
   userProfileImage: String,
-  conversationRelativeTimeStamp: String
+  conversationRelativeTimeStamp: String,
+  modifier: Modifier = Modifier
 ) {
   Row(
     modifier = modifier,
@@ -148,8 +148,8 @@ private fun ConversationHeader(
 
 @Composable
 private fun ThreadCountPill(
-  modifier: Modifier = Modifier,
-  count: Int
+  count: Int,
+  modifier: Modifier = Modifier
 ) {
   Row(
     modifier = modifier

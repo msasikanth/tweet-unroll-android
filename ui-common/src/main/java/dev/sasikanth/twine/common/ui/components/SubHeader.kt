@@ -12,8 +12,8 @@ import dev.sasikanth.twine.common.ui.theme.TwineTheme
 
 @Composable
 fun SubHeader(
-  modifier: Modifier = Modifier,
-  text: String
+  text: String,
+  modifier: Modifier = Modifier
 ) {
   Box(
     modifier = modifier

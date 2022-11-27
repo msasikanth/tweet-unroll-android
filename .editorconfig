@@ -7,3 +7,6 @@ continuation_indent_size = 2
 insert_final_newline = true
 ij_kotlin_allow_trailing_comma = false
 ij_kotlin_allow_trailing_comma_on_call_site = false
+
+# Compose rules
+twitter_compose_allowed_composition_locals = LocalOpacity, LocalTwineColorScheme, LocalTwineDateFormatter

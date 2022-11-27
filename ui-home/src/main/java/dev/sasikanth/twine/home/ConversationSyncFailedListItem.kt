@@ -31,8 +31,8 @@ import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 
 @Composable
 fun ConversationSyncFailedListItem(
-  modifier: Modifier = Modifier,
   item: ConversationSyncQueueItem,
+  modifier: Modifier = Modifier,
   onRetryClick: (item: ConversationSyncQueueItem) -> Unit
 ) {
   val backgroundColor = TwineTheme

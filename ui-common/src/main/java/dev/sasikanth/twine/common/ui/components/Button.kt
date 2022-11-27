@@ -68,8 +68,8 @@ private object ButtonRippleTheme : RippleTheme {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TwineButton(
-  modifier: Modifier = Modifier,
   text: String,
+  modifier: Modifier = Modifier,
   icon: Painter? = null,
   onClick: () -> Unit
 ) {

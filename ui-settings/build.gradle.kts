@@ -59,6 +59,7 @@ dependencies {
   implementation(libs.androidx.activity)
 
   implementation(libs.kotlin.stdlib)
+  implementation(libs.kotlinx.collections.immutable)
 
   implementation(libs.hilt)
   implementation(libs.hilt.navigation.compose)

@@ -31,6 +31,7 @@ import dev.sasikanth.twine.common.ui.components.TopAppBar
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
+import kotlinx.collections.immutable.toImmutableList
 import dev.sasikanth.twine.common.ui.R as commonR
 
 @OptIn(
@@ -40,9 +41,9 @@ import dev.sasikanth.twine.common.ui.R as commonR
 )
 @Composable
 fun HomePage(
-  modifier: Modifier = Modifier,
   navigateToSearch: () -> Unit,
   navigateToSettings: () -> Unit,
+  modifier: Modifier = Modifier,
   viewModel: HomeViewModel = hiltViewModel()
 ) {
   val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
@@ -76,7 +77,7 @@ fun HomePage(
     ) {
       HeroInput(
         text = homeUiState.tweetUrl.orEmpty(),
-        inputErrors = homeUiState.errors,
+        inputErrors = homeUiState.errors.toImmutableList(),
         onPasteClick = viewModel::pasteUrl,
         onTextChange = viewModel::tweetUrlChanged,
         onClearTextClick = viewModel::clearUrl,

@@ -38,15 +38,16 @@ import dev.sasikanth.twine.data.prefrences.Theme
 import dev.sasikanth.twine.data.prefrences.Theme.DARK
 import dev.sasikanth.twine.data.prefrences.Theme.LIGHT
 import dev.sasikanth.twine.data.prefrences.Theme.SYSTEM
+import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsPage(
-  modifier: Modifier = Modifier,
   theme: Theme,
   useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
   toggleDynamicColors: (Boolean) -> Unit,
+  modifier: Modifier = Modifier,
   navigateBack: () -> Unit
 ) {
   Scaffold(
@@ -79,11 +80,11 @@ fun SettingsPage(
 
 @Composable
 private fun ThemeSection(
-  modifier: Modifier = Modifier,
   theme: Theme,
   isDynamicColorsSupported: Boolean,
   useDynamicColors: Boolean,
   onThemeChange: (Theme) -> Unit,
+  modifier: Modifier = Modifier,
   toggleDynamicColors: (Boolean) -> Unit
 ) {
   Column(
@@ -97,7 +98,7 @@ private fun ThemeSection(
     val darkTheme = SegmentedButtonItem(stringResource(id = R.string.theme_dark))
     val systemTheme = SegmentedButtonItem(stringResource(id = R.string.theme_system))
 
-    val items = listOf(lightTheme, darkTheme, systemTheme)
+    val items = persistentListOf(lightTheme, darkTheme, systemTheme)
 
     val selectedTheme = when (theme) {
       LIGHT -> lightTheme
@@ -140,8 +141,8 @@ private fun ThemeSection(
 
 @Composable
 private fun SettingsListItem(
-  modifier: Modifier = Modifier,
   title: String,
+  modifier: Modifier = Modifier,
   subtitle: String? = null,
   endSlot: (@Composable () -> Unit)? = null,
   onClick: () -> Unit

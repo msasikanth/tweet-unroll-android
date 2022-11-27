@@ -49,6 +49,7 @@ dependencies {
   implementation(libs.bundles.compose)
 
   implementation(libs.kotlin.stdlib)
+  implementation(libs.kotlinx.collections.immutable)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.junit)

@@ -61,8 +61,8 @@ private object AlertToggleDefaults {
  */
 @Composable
 fun AlertToggle(
-  modifier: Modifier = Modifier,
   isToggled: Boolean,
+  modifier: Modifier = Modifier,
   onAlertToggled: (Boolean) -> Unit
 ) {
   val rippleColor = if (isToggled) {
@@ -118,8 +118,8 @@ fun AlertToggle(
 @OptIn(ExperimentalAnimationGraphicsApi::class, ExperimentalAnimationApi::class)
 @Composable
 private fun Content(
-  modifier: Modifier = Modifier,
-  isToggled: Boolean
+  isToggled: Boolean,
+  modifier: Modifier = Modifier
 ) {
   val onContentColor = if (isToggled) {
     TwineTheme.colorScheme.onBrand

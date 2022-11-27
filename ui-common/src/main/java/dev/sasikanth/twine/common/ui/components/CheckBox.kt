@@ -53,8 +53,8 @@ internal object CheckBoxDefaults {
  */
 @Composable
 fun CheckBox(
-  modifier: Modifier = Modifier,
   checked: Boolean,
+  modifier: Modifier = Modifier,
   enabled: Boolean = true,
   label: String? = null,
   onValueChange: (Boolean) -> Unit
@@ -84,8 +84,8 @@ fun CheckBox(
 
 @Composable
 private fun Label(
-  modifier: Modifier = Modifier,
-  label: String
+  label: String,
+  modifier: Modifier = Modifier
 ) {
   Row(
     modifier = modifier.testTag("CheckBox:Label")
@@ -103,9 +103,9 @@ private fun Label(
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 private fun CheckBoxBackgroundAndIcon(
-  modifier: Modifier = Modifier,
   checked: Boolean,
-  enabled: Boolean
+  enabled: Boolean,
+  modifier: Modifier = Modifier
 ) {
   val boxColor by boxColor(
     checked = checked,

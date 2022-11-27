@@ -72,17 +72,19 @@ import dev.sasikanth.twine.common.ui.utils.keyboardVisibilityAsState
  */
 @Composable
 fun InputField(
-  modifier: Modifier = Modifier,
   text: String,
   hint: String,
+  onClearTextClick: () -> Unit,
+  modifier: Modifier = Modifier,
   singleLine: Boolean = true,
   focusRequester: FocusRequester = FocusRequester(),
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
-  startSlot: @Composable() (BoxScope.() -> Unit)? = null,
-  endSlot: @Composable() (BoxScope.() -> Unit)? = null,
-  onValueChange: (String) -> Unit,
-  onClearTextClick: () -> Unit
+  startSlot: @Composable()
+  (BoxScope.() -> Unit)? = null,
+  endSlot: @Composable()
+  (BoxScope.() -> Unit)? = null,
+  onValueChange: (String) -> Unit
 ) {
   val interactionSource = remember { MutableInteractionSource() }
   val isFocused by interactionSource.collectIsFocusedAsState()

@@ -30,16 +30,18 @@ import dev.sasikanth.twine.common.ui.components.InputField
 import dev.sasikanth.twine.common.ui.components.SubHeader
 import dev.sasikanth.twine.common.ui.components.TwineButton
 import dev.sasikanth.twine.common.ui.theme.TwineTheme
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 internal fun HeroInput(
-  modifier: Modifier = Modifier,
   text: String,
-  inputErrors: List<InputError> = emptyList(),
   onPasteClick: () -> Unit,
   onGoClick: () -> Unit,
-  onTextChange: (String) -> Unit,
-  onClearTextClick: () -> Unit
+  onClearTextClick: () -> Unit,
+  modifier: Modifier = Modifier,
+  inputErrors: ImmutableList<InputError> = persistentListOf(),
+  onTextChange: (String) -> Unit
 ) {
   val hasInputErrors = inputErrors.any {
     it == InvalidUrl
@@ -94,8 +96,8 @@ internal fun HeroInput(
 
 @Composable
 private fun Tooltip(
-  modifier: Modifier = Modifier,
-  hasInputErrors: Boolean
+  hasInputErrors: Boolean,
+  modifier: Modifier = Modifier
 ) {
   Box(
     modifier = modifier
@@ -210,7 +212,7 @@ private fun HeroInputWithInvalidTextPreview() {
     Surface {
       HeroInput(
         text = "https://twitter.com/",
-        inputErrors = listOf(InvalidUrl),
+        inputErrors = persistentListOf(InvalidUrl),
         onPasteClick = {},
         onTextChange = {},
         onClearTextClick = {},

@@ -35,8 +35,8 @@ import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 
 @Composable
 fun ConversationSyncingListItem(
-  modifier: Modifier = Modifier,
   item: ConversationSyncQueueItem,
+  modifier: Modifier = Modifier,
   onCancelClick: (item: ConversationSyncQueueItem) -> Unit
 ) {
   val backgroundColor = TwineTheme
