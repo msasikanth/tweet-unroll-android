@@ -11,7 +11,9 @@ data class User(
   val name: String,
   val username: String,
   @ColumnInfo(name = "profile_image_url")
-  val profileImage: String
+  val profileImage: String,
+  @ColumnInfo(name = "conversation_id")
+  val conversationId: String
 ) {
   companion object
 }

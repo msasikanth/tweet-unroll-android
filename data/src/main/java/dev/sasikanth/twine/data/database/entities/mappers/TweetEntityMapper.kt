@@ -5,11 +5,13 @@ import dev.sasikanth.twine.data.database.entities.TweetEntity
 
 fun TweetEntity.Companion.from(
   tweetId: String,
+  conversationId: String,
   payload: TweetEntityPayload
 ) = TweetEntity(
   tweetId = tweetId,
   start = payload.start,
   end = payload.end,
   displayUrl = payload.displayUrl,
-  expandedUrl = payload.expandedUrl
+  expandedUrl = payload.expandedUrl,
+  conversationId = conversationId
 )

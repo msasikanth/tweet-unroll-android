@@ -78,7 +78,10 @@ class ConversationSync @Inject constructor(
 
     val tweetsInConversation = conversationTweets.orEmpty() + conversationHeadTweetPayload
 
-    val referencedTweets = referencedTweetsInConversation(tweetsInConversation)
+    val referencedTweets = referencedTweetsInConversation(
+      conversationId = conversationId,
+      tweetsInConversation = tweetsInConversation
+    )
     // We are fetching referenced tweets contents as the Twitter API doesn't include
     // nested includes content (depth = 1).
     val (referencedTweetsInConversation, referencedTweetsIncludes) = fetchReferencedTweets(
@@ -93,28 +96,30 @@ class ConversationSync @Inject constructor(
     val polls = includes.flatMap { it.polls.orEmpty() }
 
     syncTweets(tweets = tweets)
-    syncMedia(tweets = tweets, mediaPayloads = media)
-    syncTweetEntities(tweets = tweets)
-    syncPolls(tweets = tweets, pollsPayloads = polls)
+    syncMedia(conversationId = conversationId, tweets = tweets, mediaPayloads = media)
+    syncTweetEntities(conversationId = conversationId, tweets = tweets)
+    syncPolls(conversationId = conversationId, tweets = tweets, pollsPayloads = polls)
     syncReferencedTweets(referencedTweets = referencedTweets)
-    syncUsers(users = users)
+    syncUsers(conversationId = conversationId, users = users)
   }
 
-  private fun referencedTweetsInConversation(tweetsInConversation: List<TweetPayload>) =
-    tweetsInConversation
-      .flatMap { payload ->
-        payload
-          .referencedTweets
-          ?.filter { rt -> isReferencedTweetInConversation(tweetsInConversation, rt.id) }
-          ?.map { referencedTweetPayload ->
-            ReferencedTweet.from(
-              tweetId = payload.id,
-              payload = referencedTweetPayload,
-              conversationId = payload.conversationId
-            )
-          }
-          .orEmpty()
-      }
+  private fun referencedTweetsInConversation(
+    conversationId: String,
+    tweetsInConversation: List<TweetPayload>
+  ) = tweetsInConversation
+    .flatMap { payload ->
+      payload
+        .referencedTweets
+        ?.filter { rt -> isReferencedTweetInConversation(tweetsInConversation, rt.id) }
+        ?.map { referencedTweetPayload ->
+          ReferencedTweet.from(
+            tweetId = payload.id,
+            conversationId = conversationId,
+            payload = referencedTweetPayload
+          )
+        }
+        .orEmpty()
+    }
 
   private fun isReferencedTweetInConversation(
     tweetsInConversation: List<TweetPayload>,
@@ -126,6 +131,7 @@ class ConversationSync @Inject constructor(
   }
 
   private suspend fun syncPolls(
+    conversationId: String,
     tweets: List<TweetPayload>,
     pollsPayloads: List<PollPayload>
   ) {
@@ -140,6 +146,7 @@ class ConversationSync @Inject constructor(
             .map { pollOptionPayload ->
               Poll.from(
                 tweetId = payload.id,
+                conversationId = conversationId,
                 option = pollOptionPayload
               )
             }
@@ -150,7 +157,7 @@ class ConversationSync @Inject constructor(
     tweetsRepository.savePolls(polls)
   }
 
-  private suspend fun syncTweetEntities(tweets: List<TweetPayload>) {
+  private suspend fun syncTweetEntities(conversationId: String, tweets: List<TweetPayload>) {
     val tweetEntities = tweets.flatMap { payload ->
       payload
         .entities
@@ -158,6 +165,7 @@ class ConversationSync @Inject constructor(
         ?.map { tweetEntityPayload ->
           TweetEntity.from(
             tweetId = payload.id,
+            conversationId = conversationId,
             payload = tweetEntityPayload
           )
         }
@@ -168,6 +176,7 @@ class ConversationSync @Inject constructor(
   }
 
   private suspend fun syncMedia(
+    conversationId: String,
     tweets: List<TweetPayload>,
     mediaPayloads: List<MediaPayload>
   ) {
@@ -181,6 +190,7 @@ class ConversationSync @Inject constructor(
             .map { mediaPayload ->
               Media.from(
                 tweetId = payload.id,
+                conversationId = conversationId,
                 payload = mediaPayload
               )
             }
@@ -204,8 +214,13 @@ class ConversationSync @Inject constructor(
     tweetsRepository.saveTweets(tweetsInConversation)
   }
 
-  private suspend fun syncUsers(users: List<UserPayload>) {
-    val usersInConversation = users.map(User::from)
+  private suspend fun syncUsers(users: List<UserPayload>, conversationId: String) {
+    val usersInConversation = users.map {
+      User.from(
+        conversationId = conversationId,
+        payload = it
+      )
+    }
     usersRepository.saveUsers(usersInConversation)
   }
 

@@ -8,13 +8,15 @@ import dev.sasikanth.twine.data.api.models.MediaTypePayload.Video
 
 fun Media.Companion.from(
   tweetId: String,
+  conversationId: String,
   payload: MediaPayload
 ) = Media(
   mediaKey = payload.mediaKey,
   type = MediaType.from(payload.type),
   url = payload.url,
   previewImage = payload.previewImage,
-  tweetId = tweetId
+  tweetId = tweetId,
+  conversationId = conversationId
 )
 
 fun MediaType.Companion.from(

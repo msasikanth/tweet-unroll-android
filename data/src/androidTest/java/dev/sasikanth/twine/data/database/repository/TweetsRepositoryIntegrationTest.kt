@@ -55,22 +55,24 @@ class TweetsRepositoryIntegrationTest {
     val author1Id = "280595048"
     val author2Id = "774149244"
 
+    val conversation1Id = "7258469438729982175"
+    val conversation2Id = "5139342649340358390"
+
     val user1 = User(
       id = author1Id,
       name = "Sasikanth",
       username = "its_sasikanth",
-      profileImage = "https://twitter.com/image/its_sasikanth.png"
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = conversation1Id
     )
 
     val user2 = User(
       id = author2Id,
       name = "Random User",
       username = "its_a_random",
-      profileImage = "https://twitter.com/image/random_user.png"
+      profileImage = "https://twitter.com/image/random_user.png",
+      conversationId = conversation2Id
     )
-
-    val conversation1Id = "7258469438729982175"
-    val conversation2Id = "5139342649340358390"
 
     val tweetsFromConversation1 = listOf(
       Tweet(
@@ -343,14 +345,16 @@ class TweetsRepositoryIntegrationTest {
       id = "621146655",
       name = "Sasikanth",
       username = "its_sasikanth",
-      profileImage = "https://twitter.com/image/its_sasikanth.png"
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182376"
     )
 
     val user2 = User(
       id = "393780059",
       name = "Ramesh",
       username = "ramesh_prasad",
-      profileImage = "https://twitter.com/image/ramesh_prasad.png"
+      profileImage = "https://twitter.com/image/ramesh_prasad.png",
+      conversationId = "5826750211618182376"
     )
 
     tweetsRepository.saveTweets(listOf(tweet1, tweet2, quotedTweet))
@@ -427,14 +431,16 @@ class TweetsRepositoryIntegrationTest {
       type = MediaType.Photo,
       url = "https://twitter.com/img/photo.jpg",
       previewImage = "https://twitter.com/img/photo_preview.jpg",
-      tweetId = "5826750211618182378"
+      tweetId = "5826750211618182378",
+      conversationId = "5826750211618182376"
     )
 
     val user1 = User(
       id = "621146655",
       name = "Sasikanth",
       username = "its_sasikanth",
-      profileImage = "https://twitter.com/image/its_sasikanth.png"
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182376"
     )
 
     tweetsRepository.saveTweets(listOf(tweet1, tweet2))
@@ -529,21 +535,24 @@ class TweetsRepositoryIntegrationTest {
       type = MediaType.Photo,
       url = "https://twitter.com/img/photo.jpg",
       previewImage = "https://twitter.com/img/photo_preview.jpg",
-      tweetId = "5826750211618182378"
+      tweetId = "5826750211618182378",
+      conversationId = "5826750211618182376"
     )
 
     val user1 = User(
       id = "621146655",
       name = "Sasikanth",
       username = "its_sasikanth",
-      profileImage = "https://twitter.com/image/its_sasikanth.png"
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182376"
     )
 
     val referencedTweetUser = User(
       id = "393780059",
       name = "Random User",
       username = "RandomUser",
-      profileImage = "https://twitter.com/image/random_user.png"
+      profileImage = "https://twitter.com/image/random_user.png",
+      conversationId = "5826750211618182376"
     )
 
     val referencedTweet = ReferencedTweet(
