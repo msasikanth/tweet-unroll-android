@@ -31,7 +31,7 @@ class TweetsRepositoryIntegrationTest {
   val hiltRule = HiltAndroidRule(this)
 
   @Inject
-  lateinit var tweetsRepository: TweetsRepository
+  lateinit var tweetsRepository: TweetsRepositoryImpl
 
   @Inject
   lateinit var usersRepository: UsersRepository

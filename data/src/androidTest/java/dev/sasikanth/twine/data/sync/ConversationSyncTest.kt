@@ -27,7 +27,7 @@ import dev.sasikanth.twine.data.database.entities.ReferenceType
 import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetWithContent
-import dev.sasikanth.twine.data.database.repository.TweetsRepository
+import dev.sasikanth.twine.data.database.repository.TweetsRepositoryImpl
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -48,7 +48,7 @@ class ConversationSyncTest {
   lateinit var twitterRemoteSource: TwitterRemoteSource
 
   @Inject
-  lateinit var tweetsRepository: TweetsRepository
+  lateinit var tweetsRepository: TweetsRepositoryImpl
 
   @Inject
   lateinit var conversationSync: ConversationSync

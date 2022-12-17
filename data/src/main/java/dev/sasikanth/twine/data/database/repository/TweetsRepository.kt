@@ -19,7 +19,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TweetsRepository @Inject constructor(
+interface TweetsRepository {
+
+  fun recentConversations(): PagingSource<Int, RecentConversation>
+
+  fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>>
+
+  suspend fun saveTweets(tweets: List<Tweet>)
+
+  suspend fun saveTweetEntities(tweetEntities: List<TweetEntity>)
+
+  suspend fun saveReferencedTweets(referencedTweets: List<ReferencedTweet>)
+
+  suspend fun saveMedia(media: List<Media>)
+
+  suspend fun savePolls(polls: List<Poll>)
+
+  suspend fun deleteConversation(conversationId: String)
+}
+
+class TweetsRepositoryImpl @Inject constructor(
   private val tweetsDao: TweetsDao,
   private val recentConversationDao: RecentConversationsDao,
   private val tweetEntityDao: TweetEntityDao,
@@ -27,47 +46,47 @@ class TweetsRepository @Inject constructor(
   private val mediaDao: MediaDao,
   private val pollDao: PollDao,
   private val dispatchers: CoroutineDispatchers
-) {
+) : TweetsRepository {
 
-  fun recentConversations(): PagingSource<Int, RecentConversation> {
+  override fun recentConversations(): PagingSource<Int, RecentConversation> {
     return recentConversationDao.recentConversations()
   }
 
-  suspend fun saveTweets(tweets: List<Tweet>) {
+  override suspend fun saveTweets(tweets: List<Tweet>) {
     withContext(dispatchers.io) {
       tweetsDao.save(tweets)
     }
   }
 
-  fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>> {
+  override fun tweetsInConversation(conversationId: String): Flow<List<TweetWithContent>> {
     return tweetsDao.tweetsInConversation(conversationId)
   }
 
-  suspend fun saveTweetEntities(tweetEntities: List<TweetEntity>) {
+  override suspend fun saveTweetEntities(tweetEntities: List<TweetEntity>) {
     withContext(dispatchers.io) {
       tweetEntityDao.save(tweetEntities)
     }
   }
 
-  suspend fun saveReferencedTweets(referencedTweets: List<ReferencedTweet>) {
+  override suspend fun saveReferencedTweets(referencedTweets: List<ReferencedTweet>) {
     withContext(dispatchers.io) {
       referencedTweetDao.save(referencedTweets)
     }
   }
 
-  suspend fun saveMedia(media: List<Media>) {
+  override suspend fun saveMedia(media: List<Media>) {
     withContext(dispatchers.io) {
       mediaDao.save(media)
     }
   }
 
-  suspend fun savePolls(polls: List<Poll>) {
+  override suspend fun savePolls(polls: List<Poll>) {
     withContext(dispatchers.io) {
       pollDao.save(polls)
     }
   }
 
-  suspend fun deleteConversation(conversationId: String) {
+  override suspend fun deleteConversation(conversationId: String) {
     withContext(dispatchers.io) {
       tweetsDao.deleteConversation(conversationId)
     }
