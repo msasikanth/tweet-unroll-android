@@ -269,7 +269,8 @@ class ConversationSyncTest {
             ReferencedTweet(
               id = "2387730861057376900",
               type = ReferenceType.Quoted,
-              tweetId = "1550874190793674756"
+              tweetId = "1550874190793674756",
+              conversationId = "1550874190793674753"
             )
           ),
           media = emptyList(),

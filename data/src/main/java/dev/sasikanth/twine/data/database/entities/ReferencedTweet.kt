@@ -32,7 +32,9 @@ data class ReferencedTweet(
   val id: String,
   val type: ReferenceType,
   @ColumnInfo(name = "tweet_id")
-  val tweetId: String
+  val tweetId: String,
+  @ColumnInfo(name = "conversation_id")
+  val conversationId: String
 ) {
   companion object
 }

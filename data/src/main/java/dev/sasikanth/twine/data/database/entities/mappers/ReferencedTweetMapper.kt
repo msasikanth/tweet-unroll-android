@@ -9,11 +9,13 @@ import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 
 fun ReferencedTweet.Companion.from(
   tweetId: String,
+  conversationId: String,
   payload: ReferencedTweetPayload
 ) = ReferencedTweet(
   id = payload.id,
   type = ReferenceType.from(payload.type),
-  tweetId = tweetId
+  tweetId = tweetId,
+  conversationId = conversationId
 )
 
 fun ReferenceType.Companion.from(

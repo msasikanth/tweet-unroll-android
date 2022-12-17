@@ -109,7 +109,8 @@ class ConversationSync @Inject constructor(
           ?.map { referencedTweetPayload ->
             ReferencedTweet.from(
               tweetId = payload.id,
-              payload = referencedTweetPayload
+              payload = referencedTweetPayload,
+              conversationId = payload.conversationId
             )
           }
           .orEmpty()

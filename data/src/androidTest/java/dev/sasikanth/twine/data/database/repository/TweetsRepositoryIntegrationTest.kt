@@ -335,7 +335,8 @@ class TweetsRepositoryIntegrationTest {
     val referencedTweet = ReferencedTweet(
       id = "2384818331972948098",
       type = ReferenceType.Quoted,
-      tweetId = "5826750211618182376"
+      tweetId = "5826750211618182376",
+      conversationId = "5826750211618182376"
     )
 
     val user1 = User(
@@ -548,7 +549,8 @@ class TweetsRepositoryIntegrationTest {
     val referencedTweet = ReferencedTweet(
       id = "5826750211618182377",
       type = ReferenceType.Quoted,
-      tweetId = "5826750211618182376"
+      tweetId = "5826750211618182376",
+      conversationId = "5826750211618182376"
     )
 
     tweetsRepository.saveTweets(listOf(quotedTweet, tweet1, tweet2))
