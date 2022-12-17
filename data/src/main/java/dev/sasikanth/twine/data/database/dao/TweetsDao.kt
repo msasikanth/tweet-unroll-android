@@ -38,10 +38,7 @@ interface TweetsDao {
       DELETE FROM Tweet
       WHERE id IN (
         SELECT id FROM ReferencedTweet RT
-        WHERE RT.tweet_id IN (
-          SELECT id FROM Tweet
-          WHERE conversation_id = :conversationId
-        )
+        WHERE RT.conversation_id = :conversationId
       )
     """
   )
