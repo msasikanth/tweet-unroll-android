@@ -31,6 +31,25 @@ interface TweetsDao {
       WHERE conversation_id = :conversationId
     """
   )
+  suspend fun deleteTweetsInConversation(conversationId: String)
+
+  @Query(
+    """
+      DELETE FROM Tweet
+      WHERE id IN (
+        SELECT id FROM ReferencedTweet RT
+        WHERE RT.tweet_id IN (
+          SELECT id FROM Tweet
+          WHERE conversation_id = :conversationId
+        )
+      )
+    """
+  )
+  suspend fun deleteReferencedTweetsInConversation(conversationId: String)
+
   @Transaction
-  suspend fun deleteConversation(conversationId: String)
+  suspend fun deleteConversation(conversationId: String) {
+    deleteReferencedTweetsInConversation(conversationId)
+    deleteTweetsInConversation(conversationId)
+  }
 }

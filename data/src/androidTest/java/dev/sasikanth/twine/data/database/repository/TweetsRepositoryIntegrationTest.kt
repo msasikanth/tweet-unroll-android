@@ -394,7 +394,7 @@ class TweetsRepositoryIntegrationTest {
       authorId = "621146655",
       conversationId = "5826750211618182376",
       inReplyToUserId = null,
-      text = "Tweet 1 in thread, with quoted tweet",
+      text = "Tweet 1 in thread",
       createdAt = Instant.parse("2022-01-07T00:00:00Z"),
       deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
       publicMetrics = PublicMetrics(
@@ -470,5 +470,155 @@ class TweetsRepositoryIntegrationTest {
       conversationId = "5826750211618182376"
     ).first()
     assertThat(tweetsInConversationAfterDelete).isEmpty()
+  }
+
+  @Test
+  fun deleting_conversation_should_delete_referenced_tweets_in_the_conversation() = runTest {
+    // given
+    val tweet1 = Tweet(
+      id = "5826750211618182376",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread, with quoted tweet",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweet2 = Tweet(
+      id = "5826750211618182378",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 2 in the thread",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val quotedTweet = Tweet(
+      id = "5826750211618182377",
+      authorId = "393780059",
+      conversationId = "5826750211618182377",
+      inReplyToUserId = null,
+      text = "Quoted tweet",
+      createdAt = Instant.parse("2018-01-01T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2018-01-01T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweet2Media = Media(
+      mediaKey = "3_7291856149861120695",
+      type = MediaType.Photo,
+      url = "https://twitter.com/img/photo.jpg",
+      previewImage = "https://twitter.com/img/photo_preview.jpg",
+      tweetId = "5826750211618182378"
+    )
+
+    val user1 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png"
+    )
+
+    val referencedTweetUser = User(
+      id = "393780059",
+      name = "Random User",
+      username = "RandomUser",
+      profileImage = "https://twitter.com/image/random_user.png"
+    )
+
+    val referencedTweet = ReferencedTweet(
+      id = "5826750211618182377",
+      type = ReferenceType.Quoted,
+      tweetId = "5826750211618182376"
+    )
+
+    tweetsRepository.saveTweets(listOf(quotedTweet, tweet1, tweet2))
+    tweetsRepository.saveMedia(listOf(tweet2Media))
+    tweetsRepository.saveReferencedTweets(listOf(referencedTweet))
+    usersRepository.saveUsers(listOf(user1, referencedTweetUser))
+
+    val tweetsInConversationBeforeDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182376"
+    ).first()
+    assertThat(tweetsInConversationBeforeDelete).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = tweet1,
+          entities = emptyList(),
+          referencedTweets = listOf(referencedTweet),
+          media = emptyList(),
+          polls = emptyList()
+        ),
+        TweetWithContent(
+          tweet = tweet2,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = listOf(tweet2Media),
+          polls = emptyList()
+        )
+      )
+    )
+
+    val referencedTweetsInConversationBeforeDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182377"
+    ).first()
+    assertThat(referencedTweetsInConversationBeforeDelete).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = quotedTweet,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        )
+      )
+    )
+
+    // when
+    tweetsRepository.deleteConversation(conversationId = "5826750211618182376")
+
+    // then
+    val tweetsInConversationAfterDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182376"
+    ).first()
+    assertThat(tweetsInConversationAfterDelete).isEmpty()
+
+    val referencedTweetsInConversationAfterDelete = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182377"
+    ).first()
+    assertThat(referencedTweetsInConversationAfterDelete).isEmpty()
+
+    // We are also verifying that the referenced tweet is not showing up in the recent conversations
+    // after deleting.
+    val recentConversations = tweetsRepository
+      .recentConversations()
+      .load(
+        Refresh(
+          key = null,
+          loadSize = 10,
+          placeholdersEnabled = false
+        )
+      ) as Page<Int, RecentConversation>
+
+    assertThat(recentConversations.data).isEmpty()
   }
 }
