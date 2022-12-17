@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9e216cfb4cfad82f21526b059870b20b",
+    "identityHash": "80202f364e6c933d9bdfd75e87bafbeb",
     "entities": [
       {
         "tableName": "Tweet",
@@ -96,7 +96,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `username` TEXT NOT NULL, `profile_image_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `username` TEXT NOT NULL, `profile_image_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`id`, `conversation_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -131,7 +131,8 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "id",
+            "conversation_id"
           ],
           "autoGenerate": false
         },
@@ -140,7 +141,7 @@
       },
       {
         "tableName": "Media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`media_key`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`media_key`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mediaKey",
@@ -181,7 +182,8 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "media_key"
+            "media_key",
+            "conversation_id"
           ],
           "autoGenerate": false
         },
@@ -212,14 +214,8 @@
       },
       {
         "tableName": "Poll",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`poll_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `label` TEXT NOT NULL, `votes` INTEGER NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `label` TEXT NOT NULL, `votes` INTEGER NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`position`, `tweet_id`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "pollId",
-            "columnName": "poll_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "position",
             "columnName": "position",
@@ -253,9 +249,11 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "poll_id"
+            "position",
+            "tweet_id",
+            "conversation_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -284,7 +282,7 @@
       },
       {
         "tableName": "ReferencedTweet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`id`, `tweet_id`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -313,7 +311,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "id",
+            "tweet_id",
+            "conversation_id"
           ],
           "autoGenerate": false
         },
@@ -344,7 +344,7 @@
       },
       {
         "tableName": "TweetEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tweetId",
@@ -387,7 +387,8 @@
           "columnNames": [
             "tweet_id",
             "start",
-            "end"
+            "end",
+            "conversation_id"
           ],
           "autoGenerate": false
         },
@@ -472,7 +473,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9e216cfb4cfad82f21526b059870b20b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '80202f364e6c933d9bdfd75e87bafbeb')"
     ]
   }
 }

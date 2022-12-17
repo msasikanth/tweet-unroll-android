@@ -18,7 +18,12 @@ import androidx.room.Index
       onDelete = CASCADE
     )
   ],
-  primaryKeys = ["tweet_id", "start", "end"]
+  primaryKeys = [
+    "tweet_id",
+    "start",
+    "end",
+    "conversation_id"
+  ]
 )
 data class TweetEntity(
   @ColumnInfo(name = "tweet_id")

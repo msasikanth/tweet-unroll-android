@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
-import androidx.room.PrimaryKey
 
 @Entity(
   indices = [
@@ -18,12 +17,14 @@ import androidx.room.PrimaryKey
       childColumns = ["tweet_id"],
       onDelete = CASCADE
     )
+  ],
+  primaryKeys = [
+    "position",
+    "tweet_id",
+    "conversation_id"
   ]
 )
 data class Poll(
-  @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "poll_id")
-  val pollId: Int = 0,
   val position: Int,
   val label: String,
   val votes: Int,

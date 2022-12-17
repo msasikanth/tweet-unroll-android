@@ -2,11 +2,14 @@ package dev.sasikanth.twine.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
+@Entity(
+  primaryKeys = [
+    "id",
+    "conversation_id"
+  ]
+)
 data class User(
-  @PrimaryKey
   val id: String,
   val name: String,
   val username: String,
