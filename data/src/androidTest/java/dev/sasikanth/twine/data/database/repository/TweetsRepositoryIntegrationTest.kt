@@ -34,9 +34,6 @@ class TweetsRepositoryIntegrationTest {
   lateinit var tweetsRepository: TweetsRepositoryImpl
 
   @Inject
-  lateinit var usersRepository: UsersRepository
-
-  @Inject
   lateinit var database: TwineDatabase
 
   @Before
@@ -155,7 +152,7 @@ class TweetsRepositoryIntegrationTest {
       )
     )
 
-    usersRepository.saveUsers(listOf(user1, user2))
+    tweetsRepository.saveUsers(listOf(user1, user2))
     tweetsRepository.saveTweets(tweetsFromConversation1 + tweetsFromConversation2)
 
     // when
@@ -359,7 +356,7 @@ class TweetsRepositoryIntegrationTest {
 
     tweetsRepository.saveTweets(listOf(tweet1, tweet2, quotedTweet))
     tweetsRepository.saveReferencedTweets(listOf(referencedTweet))
-    usersRepository.saveUsers(listOf(user1, user2))
+    tweetsRepository.saveUsers(listOf(user1, user2))
 
     // when
     val recentTweetsLoadResult = tweetsRepository
@@ -445,7 +442,7 @@ class TweetsRepositoryIntegrationTest {
 
     tweetsRepository.saveTweets(listOf(tweet1, tweet2))
     tweetsRepository.saveMedia(listOf(tweet2Media))
-    usersRepository.saveUsers(listOf(user1))
+    tweetsRepository.saveUsers(listOf(user1))
 
     val tweetsInConversationBeforeDelete = tweetsRepository.tweetsInConversation(
       conversationId = "5826750211618182376"
@@ -565,7 +562,7 @@ class TweetsRepositoryIntegrationTest {
     tweetsRepository.saveTweets(listOf(quotedTweet, tweet1, tweet2))
     tweetsRepository.saveMedia(listOf(tweet2Media))
     tweetsRepository.saveReferencedTweets(listOf(referencedTweet))
-    usersRepository.saveUsers(listOf(user1, referencedTweetUser))
+    tweetsRepository.saveUsers(listOf(user1, referencedTweetUser))
 
     val tweetsInConversationBeforeDelete = tweetsRepository.tweetsInConversation(
       conversationId = "5826750211618182376"

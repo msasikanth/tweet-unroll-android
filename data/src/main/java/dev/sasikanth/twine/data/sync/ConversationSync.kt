@@ -18,7 +18,6 @@ import dev.sasikanth.twine.data.database.entities.User
 import dev.sasikanth.twine.data.database.entities.from
 import dev.sasikanth.twine.data.database.entities.mappers.from
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
-import dev.sasikanth.twine.data.database.repository.UsersRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -30,7 +29,6 @@ import javax.inject.Inject
 class ConversationSync @Inject constructor(
   private val twitterRemoteSource: TwitterRemoteSource,
   private val tweetsRepository: TweetsRepository,
-  private val usersRepository: UsersRepository,
   private val dispatchers: CoroutineDispatchers,
   private val userClock: UserClock
 ) {
@@ -221,7 +219,7 @@ class ConversationSync @Inject constructor(
         payload = it
       )
     }
-    usersRepository.saveUsers(usersInConversation)
+    tweetsRepository.saveUsers(usersInConversation)
   }
 
   private suspend fun fetchReferencedTweets(

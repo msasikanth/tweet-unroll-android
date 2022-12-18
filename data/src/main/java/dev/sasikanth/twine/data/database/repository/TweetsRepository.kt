@@ -8,6 +8,7 @@ import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
 import dev.sasikanth.twine.data.database.dao.ReferencedTweetDao
 import dev.sasikanth.twine.data.database.dao.TweetEntityDao
 import dev.sasikanth.twine.data.database.dao.TweetsDao
+import dev.sasikanth.twine.data.database.dao.UsersDao
 import dev.sasikanth.twine.data.database.entities.Media
 import dev.sasikanth.twine.data.database.entities.Poll
 import dev.sasikanth.twine.data.database.entities.RecentConversation
@@ -15,6 +16,7 @@ import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetEntity
 import dev.sasikanth.twine.data.database.entities.TweetWithContent
+import dev.sasikanth.twine.data.database.entities.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -35,6 +37,8 @@ interface TweetsRepository {
 
   suspend fun savePolls(polls: List<Poll>)
 
+  suspend fun saveUsers(users: List<User>)
+
   suspend fun deleteConversation(conversationId: String)
 }
 
@@ -45,6 +49,7 @@ class TweetsRepositoryImpl @Inject constructor(
   private val referencedTweetDao: ReferencedTweetDao,
   private val mediaDao: MediaDao,
   private val pollDao: PollDao,
+  private val usersDao: UsersDao,
   private val dispatchers: CoroutineDispatchers
 ) : TweetsRepository {
 
@@ -83,6 +88,12 @@ class TweetsRepositoryImpl @Inject constructor(
   override suspend fun savePolls(polls: List<Poll>) {
     withContext(dispatchers.io) {
       pollDao.save(polls)
+    }
+  }
+
+  override suspend fun saveUsers(users: List<User>) {
+    withContext(dispatchers.io) {
+      usersDao.save(users)
     }
   }
 
