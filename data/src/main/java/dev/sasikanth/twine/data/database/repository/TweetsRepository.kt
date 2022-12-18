@@ -102,7 +102,7 @@ class TweetsRepositoryImpl @Inject constructor(
 
   override suspend fun deleteConversation(conversationId: String) {
     twineDatabase.runInTransaction {
-      tweetsDao.deleteUsersInConversation(conversationId)
+      usersDao.deleteUsersInConversation(conversationId)
       tweetsDao.deleteReferencedTweetsInConversation(conversationId)
 
       // Deleting tweets at end since it has foreign key constraints

@@ -13,6 +13,14 @@ interface UsersDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun save(users: List<User>)
 
+  @Query(
+    """
+      DELETE FROM User
+      WHERE conversation_id = :conversationId
+    """
+  )
+  fun deleteUsersInConversation(conversationId: String)
+
   @VisibleForTesting
   @Query("SELECT * FROM User WHERE conversation_id = :conversationId")
   fun usersInConversation(conversationId: String): List<User>

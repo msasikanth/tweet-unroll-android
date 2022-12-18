@@ -43,13 +43,4 @@ interface TweetsDao {
     """
   )
   fun deleteReferencedTweetsInConversation(conversationId: String)
-
-  // TODO: Move this to [UsersDao]
-  @Query(
-    """
-      DELETE FROM User
-      WHERE conversation_id = :conversationId
-    """
-  )
-  fun deleteUsersInConversation(conversationId: String)
 }
