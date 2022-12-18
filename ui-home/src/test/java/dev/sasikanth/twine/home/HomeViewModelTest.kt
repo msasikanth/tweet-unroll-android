@@ -8,6 +8,7 @@ import dev.sasikanth.twine.common.testing.rules.MainDispatcherRule
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.database.entities.RecentConversation
+import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
 import dev.sasikanth.twine.home.usecase.FakePagedSourceUseCase
@@ -15,7 +16,6 @@ import dev.sasikanth.twine.home.util.collectDataForTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,33 +25,34 @@ import java.util.UUID
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
 
-  private val fakeClipboard = FakeClipboard()
   private val defaultUiState = HomeUiState.DEFAULT
-  private val conversationSyncQueue = FakeConversationSyncQueue(
-    itemFactory = { syncQueueItem ->
-      val id = UUID.randomUUID()
-      Pair(id, syncQueueItem)
-    }
-  )
-  private val fakePagedSourceUseCase = FakePagedSourceUseCase()
+  private val tweetLinkParser = TweetLinkParser()
+
   private lateinit var viewModel: HomeViewModel
+  private lateinit var fakeClipboard: FakeClipboard
+  private lateinit var conversationSyncQueue: ConversationSyncQueue
+  private lateinit var fakePagedSourceUseCase: FakePagedSourceUseCase
 
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
   @Before
   fun setup() {
+    fakeClipboard = FakeClipboard()
+    conversationSyncQueue = FakeConversationSyncQueue(
+      itemFactory = { syncQueueItem ->
+        val id = UUID.randomUUID()
+        Pair(id, syncQueueItem)
+      }
+    )
+    fakePagedSourceUseCase = FakePagedSourceUseCase()
+
     viewModel = HomeViewModel(
       clipboard = fakeClipboard,
-      tweetLinkParser = TweetLinkParser(),
+      tweetLinkParser = tweetLinkParser,
       conversationSyncQueue = conversationSyncQueue,
       pagedRecentConversationsUseCase = fakePagedSourceUseCase
     )
-  }
-
-  @After
-  fun tearDown() {
-    fakePagedSourceUseCase.clear()
   }
 
   @Test
