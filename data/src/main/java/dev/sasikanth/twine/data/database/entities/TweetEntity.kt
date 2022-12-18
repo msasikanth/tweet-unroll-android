@@ -32,9 +32,7 @@ data class TweetEntity(
   @ColumnInfo(name = "display_url")
   val displayUrl: String,
   @ColumnInfo(name = "expanded_url")
-  val expandedUrl: String,
-  @ColumnInfo(name = "conversation_id")
-  val conversationId: String
+  val expandedUrl: String
 ) {
   companion object
 }

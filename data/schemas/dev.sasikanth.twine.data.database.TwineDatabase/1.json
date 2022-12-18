@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d4b4f869d3ec718a9f74ae26709f5c7c",
+    "identityHash": "8c3579f0dffd794ba63103265d796980",
     "entities": [
       {
         "tableName": "Tweet",
@@ -330,7 +330,7 @@
       },
       {
         "tableName": "TweetEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tweetId",
@@ -359,12 +359,6 @@
           {
             "fieldPath": "expandedUrl",
             "columnName": "expanded_url",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "conversationId",
-            "columnName": "conversation_id",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -458,7 +452,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd4b4f869d3ec718a9f74ae26709f5c7c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c3579f0dffd794ba63103265d796980')"
     ]
   }
 }
