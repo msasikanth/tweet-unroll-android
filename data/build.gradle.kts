@@ -84,4 +84,6 @@ dependencies {
   androidTestImplementation(libs.work.testing)
 
   coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+  testImplementation(projects.commonTesting)
 }

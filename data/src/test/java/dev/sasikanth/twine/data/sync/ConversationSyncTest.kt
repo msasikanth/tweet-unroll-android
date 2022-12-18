@@ -3,10 +3,10 @@ package dev.sasikanth.twine.data.sync
 import androidx.paging.PagingSource.LoadParams.Refresh
 import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dev.sasikanth.twine.common.testing.util.TestUserClock
+import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.common.testing.api.FakeTwitterRemoteSource
+import dev.sasikanth.twine.common.testing.data.repository.FakeTweetsRepository
+import dev.sasikanth.twine.common.testing.util.TestUserClock
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.AttachmentsPayload
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
@@ -19,7 +19,6 @@ import dev.sasikanth.twine.data.api.models.ReferencedTweetPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetPayload
 import dev.sasikanth.twine.data.api.models.UserPayload
-import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.entities.Media
 import dev.sasikanth.twine.data.database.entities.MediaType
 import dev.sasikanth.twine.data.database.entities.RecentConversation
@@ -27,52 +26,42 @@ import dev.sasikanth.twine.data.database.entities.ReferenceType
 import dev.sasikanth.twine.data.database.entities.ReferencedTweet
 import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetWithContent
-import dev.sasikanth.twine.data.database.repository.TweetsRepositoryImpl
+import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalDate
-import javax.inject.Inject
 
-@HiltAndroidTest
 class ConversationSyncTest {
 
-  @get:Rule
-  val hiltRule = HiltAndroidRule(this)
+  private lateinit var twitterRemoteSource: TwitterRemoteSource
+  private lateinit var tweetsRepository: TweetsRepository
+  private lateinit var conversationSync: ConversationSync
 
-  @Inject
-  lateinit var twitterRemoteSource: TwitterRemoteSource
-
-  @Inject
-  lateinit var tweetsRepository: TweetsRepositoryImpl
-
-  @Inject
-  lateinit var conversationSync: ConversationSync
-
-  @Inject
-  lateinit var appDatabase: TwineDatabase
-
-  @Inject
-  lateinit var testUserClock: TestUserClock
+  private val testUserClock = TestUserClock()
 
   private val fakeTwitterRemoteSource
     get() = (twitterRemoteSource as FakeTwitterRemoteSource)
 
   @Before
   fun setup() {
-    hiltRule.inject()
+    twitterRemoteSource = FakeTwitterRemoteSource()
+    tweetsRepository = FakeTweetsRepository()
+    conversationSync = ConversationSync(
+      twitterRemoteSource = twitterRemoteSource,
+      tweetsRepository = tweetsRepository,
+      userClock = testUserClock,
+      dispatchers = object : CoroutineDispatchers {
+        override val io = UnconfinedTestDispatcher()
+        override val main = UnconfinedTestDispatcher()
+        override val default = UnconfinedTestDispatcher()
+      }
+    )
 
     testUserClock.setDate(LocalDate.parse("2022-08-01"))
-  }
-
-  @After
-  fun tearDown() {
-    fakeTwitterRemoteSource.clearAll()
-    appDatabase.clearAllTables()
   }
 
   @Test
