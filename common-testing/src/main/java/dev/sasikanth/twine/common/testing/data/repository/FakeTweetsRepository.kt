@@ -65,7 +65,7 @@ class FakeTweetsRepository : TweetsRepository {
     return flowOf(
       tweets
         .filter { it.conversationId == conversationId }
-        .sortedByDescending { it.createdAt }
+        .sortedBy { it.createdAt }
         .map { tweet ->
           TweetWithContent(
             tweet = tweet,
