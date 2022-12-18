@@ -12,7 +12,7 @@ interface RecentConversationsDao {
   @Query(
     """
       SELECT * FROM RecentConversation
-      ORDER BY conversationStartedAt DESC
+      ORDER BY conversationCreatedAt DESC
     """
   )
   @Transaction

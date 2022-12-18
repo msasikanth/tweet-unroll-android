@@ -17,7 +17,6 @@ import java.time.Instant
     INNER JOIN User U ON U.id = T.author_id
     WHERE T.id NOT IN ( SELECT RT.id FROM ReferencedTweet RT )
     GROUP BY T.conversation_id HAVING MIN(T.created_at)
-    ORDER BY T.device_created_at DESC
   """
 )
 data class RecentConversation(
