@@ -3,6 +3,7 @@ package dev.sasikanth.twine.data.database.repository
 import androidx.annotation.VisibleForTesting
 import androidx.paging.PagingSource
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
+import dev.sasikanth.twine.data.database.TwineDatabase
 import dev.sasikanth.twine.data.database.dao.MediaDao
 import dev.sasikanth.twine.data.database.dao.PollDao
 import dev.sasikanth.twine.data.database.dao.RecentConversationsDao
@@ -51,6 +52,7 @@ class TweetsRepositoryImpl @Inject constructor(
   private val mediaDao: MediaDao,
   private val pollDao: PollDao,
   private val usersDao: UsersDao,
+  private val twineDatabase: TwineDatabase,
   private val dispatchers: CoroutineDispatchers
 ) : TweetsRepository {
 
@@ -99,8 +101,12 @@ class TweetsRepositoryImpl @Inject constructor(
   }
 
   override suspend fun deleteConversation(conversationId: String) {
-    withContext(dispatchers.io) {
-      tweetsDao.deleteConversation(conversationId)
+    twineDatabase.runInTransaction {
+      tweetsDao.deleteUsersInConversation(conversationId)
+      tweetsDao.deleteReferencedTweetsInConversation(conversationId)
+
+      // Deleting tweets at end since it has foreign key constraints
+      tweetsDao.deleteTweetsInConversation(conversationId)
     }
   }
 
