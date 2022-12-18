@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.clipboard.Clipboard
 import dev.sasikanth.twine.data.database.entities.RecentConversation
+import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
@@ -23,6 +24,7 @@ class HomeViewModel @Inject constructor(
   private val clipboard: Clipboard,
   private val tweetLinkParser: TweetLinkParser,
   private val conversationSyncQueue: ConversationSyncQueue,
+  private val tweetsRepository: TweetsRepository,
   pagedRecentConversationsUseCase: PagedSourceUseCase<RecentConversation>
 ) : ViewModel() {
 
@@ -32,7 +34,9 @@ class HomeViewModel @Inject constructor(
     get() = _homeUiState.asStateFlow()
 
   val recentConversations = pagedRecentConversationsUseCase
-    .invoke()
+    .invoke(
+      pagingSourceFactory = { tweetsRepository.recentConversations() }
+    )
     .cachedIn(viewModelScope)
 
   init {

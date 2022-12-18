@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dev.sasikanth.twine.common.testing.data.clipboard.FakeClipboard
+import dev.sasikanth.twine.common.testing.data.repository.FakeTweetsRepository
 import dev.sasikanth.twine.common.testing.rules.MainDispatcherRule
 import dev.sasikanth.twine.common.testing.sync.FakeConversationSyncQueue
 import dev.sasikanth.twine.common.utils.TweetLinkParser
@@ -32,6 +33,7 @@ class HomeViewModelTest {
   private lateinit var fakeClipboard: FakeClipboard
   private lateinit var conversationSyncQueue: ConversationSyncQueue
   private lateinit var fakePagedSourceUseCase: FakePagedSourceUseCase
+  private lateinit var tweetsRepository: FakeTweetsRepository
 
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
@@ -46,11 +48,13 @@ class HomeViewModelTest {
       }
     )
     fakePagedSourceUseCase = FakePagedSourceUseCase()
+    tweetsRepository = FakeTweetsRepository()
 
     viewModel = HomeViewModel(
       clipboard = fakeClipboard,
       tweetLinkParser = tweetLinkParser,
       conversationSyncQueue = conversationSyncQueue,
+      tweetsRepository = tweetsRepository,
       pagedRecentConversationsUseCase = fakePagedSourceUseCase
     )
   }
