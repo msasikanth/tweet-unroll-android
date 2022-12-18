@@ -5,9 +5,9 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
 class TestDispatchers : CoroutineDispatchers {
 
-    override val io = UnconfinedTestDispatcher()
+  override val io = UnconfinedTestDispatcher()
 
-    override val main = UnconfinedTestDispatcher()
+  override val main = UnconfinedTestDispatcher()
 
-    override val default = UnconfinedTestDispatcher()
+  override val default = UnconfinedTestDispatcher()
 }

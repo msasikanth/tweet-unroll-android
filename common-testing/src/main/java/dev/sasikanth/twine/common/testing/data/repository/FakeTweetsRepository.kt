@@ -72,7 +72,7 @@ class FakeTweetsRepository : TweetsRepository {
             entities = tweetEntities.filter { it.tweetId == tweet.id },
             referencedTweets = referencedTweets.filter { it.tweetId == tweet.id },
             media = tweetsMedia.filter { it.tweetId == tweet.id },
-            polls = tweetsPoll.filter { it.tweetId == tweet.id },
+            polls = tweetsPoll.filter { it.tweetId == tweet.id }
           )
         }
     )
