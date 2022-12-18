@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
+import dev.sasikanth.twine.common.testing.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import javax.inject.Singleton
 

@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.sasikanth.twine.common.testing.util.TestUserClock
-import dev.sasikanth.twine.data.api.FakeTwitterRemoteSource
+import dev.sasikanth.twine.common.testing.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.AttachmentsPayload
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload

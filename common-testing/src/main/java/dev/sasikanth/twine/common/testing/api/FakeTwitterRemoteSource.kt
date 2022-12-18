@@ -1,5 +1,6 @@
-package dev.sasikanth.twine.data.api
+package dev.sasikanth.twine.common.testing.api
 
+import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.TweetLookupPayload
 import javax.inject.Inject
