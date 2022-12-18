@@ -94,7 +94,7 @@ class ConversationSync @Inject constructor(
     val polls = includes.flatMap { it.polls.orEmpty() }
 
     syncTweets(tweets = tweets)
-    syncMedia(conversationId = conversationId, tweets = tweets, mediaPayloads = media)
+    syncMedia(tweets = tweets, mediaPayloads = media)
     syncTweetEntities(conversationId = conversationId, tweets = tweets)
     syncPolls(conversationId = conversationId, tweets = tweets, pollsPayloads = polls)
     syncReferencedTweets(referencedTweets = referencedTweets)
@@ -174,7 +174,6 @@ class ConversationSync @Inject constructor(
   }
 
   private suspend fun syncMedia(
-    conversationId: String,
     tweets: List<TweetPayload>,
     mediaPayloads: List<MediaPayload>
   ) {
@@ -188,7 +187,6 @@ class ConversationSync @Inject constructor(
             .map { mediaPayload ->
               Media.from(
                 tweetId = payload.id,
-                conversationId = conversationId,
                 payload = mediaPayload
               )
             }

@@ -227,8 +227,7 @@ class ConversationSyncTest {
               type = MediaType.Photo,
               url = "https://twitter.com/img/photo.jpg",
               previewImage = "https://twitter.com/img/photo_preview.jpg",
-              tweetId = "1550874190793674753",
-              conversationId = "1550874190793674753"
+              tweetId = "1550874190793674753"
             )
           ),
           polls = emptyList()

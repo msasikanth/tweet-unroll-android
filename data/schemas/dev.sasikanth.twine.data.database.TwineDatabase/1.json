@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1e9c4389f246c7a7c0ffc427374a0ca4",
+    "identityHash": "9083699f38a734ff94ae60037f2a6e1d",
     "entities": [
       {
         "tableName": "Tweet",
@@ -141,7 +141,7 @@
       },
       {
         "tableName": "Media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`media_key`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, PRIMARY KEY(`media_key`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mediaKey",
@@ -170,12 +170,6 @@
           {
             "fieldPath": "tweetId",
             "columnName": "tweet_id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "conversationId",
-            "columnName": "conversation_id",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -470,7 +464,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e9c4389f246c7a7c0ffc427374a0ca4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9083699f38a734ff94ae60037f2a6e1d')"
     ]
   }
 }

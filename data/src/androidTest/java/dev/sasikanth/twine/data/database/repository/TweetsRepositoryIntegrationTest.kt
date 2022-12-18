@@ -428,8 +428,7 @@ class TweetsRepositoryIntegrationTest {
       type = MediaType.Photo,
       url = "https://twitter.com/img/photo.jpg",
       previewImage = "https://twitter.com/img/photo_preview.jpg",
-      tweetId = "5826750211618182378",
-      conversationId = "5826750211618182376"
+      tweetId = "5826750211618182378"
     )
 
     val user1 = User(
@@ -532,8 +531,7 @@ class TweetsRepositoryIntegrationTest {
       type = MediaType.Photo,
       url = "https://twitter.com/img/photo.jpg",
       previewImage = "https://twitter.com/img/photo_preview.jpg",
-      tweetId = "5826750211618182378",
-      conversationId = "5826750211618182376"
+      tweetId = "5826750211618182378"
     )
 
     val user1 = User(
