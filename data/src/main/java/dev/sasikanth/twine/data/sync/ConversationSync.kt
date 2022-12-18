@@ -96,7 +96,7 @@ class ConversationSync @Inject constructor(
     syncTweets(tweets = tweets)
     syncMedia(tweets = tweets, mediaPayloads = media)
     syncTweetEntities(conversationId = conversationId, tweets = tweets)
-    syncPolls(conversationId = conversationId, tweets = tweets, pollsPayloads = polls)
+    syncPolls(tweets = tweets, pollsPayloads = polls)
     syncReferencedTweets(referencedTweets = referencedTweets)
     syncUsers(conversationId = conversationId, users = users)
   }
@@ -129,7 +129,6 @@ class ConversationSync @Inject constructor(
   }
 
   private suspend fun syncPolls(
-    conversationId: String,
     tweets: List<TweetPayload>,
     pollsPayloads: List<PollPayload>
   ) {
@@ -144,7 +143,6 @@ class ConversationSync @Inject constructor(
             .map { pollOptionPayload ->
               Poll.from(
                 tweetId = payload.id,
-                conversationId = conversationId,
                 option = pollOptionPayload
               )
             }
