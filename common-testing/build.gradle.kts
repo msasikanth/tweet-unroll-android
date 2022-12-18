@@ -54,6 +54,8 @@ dependencies {
 
   implementation(libs.kotlinx.coroutines)
 
+  implementation(libs.paging.common)
+
   api(libs.junit)
   api(libs.androidx.test.junit)
   api(libs.androidx.test.espresso)
