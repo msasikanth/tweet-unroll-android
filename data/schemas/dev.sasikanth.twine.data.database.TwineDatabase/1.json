@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "80202f364e6c933d9bdfd75e87bafbeb",
+    "identityHash": "1e9c4389f246c7a7c0ffc427374a0ca4",
     "entities": [
       {
         "tableName": "Tweet",
@@ -141,7 +141,7 @@
       },
       {
         "tableName": "Media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`media_key`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_key` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT, `preview_image_url` TEXT, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`media_key`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mediaKey",
@@ -182,8 +182,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "media_key",
-            "conversation_id"
+            "media_key"
           ],
           "autoGenerate": false
         },
@@ -214,7 +213,7 @@
       },
       {
         "tableName": "Poll",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `label` TEXT NOT NULL, `votes` INTEGER NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`position`, `tweet_id`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `label` TEXT NOT NULL, `votes` INTEGER NOT NULL, `tweet_id` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`position`, `tweet_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "position",
@@ -250,8 +249,7 @@
         "primaryKey": {
           "columnNames": [
             "position",
-            "tweet_id",
-            "conversation_id"
+            "tweet_id"
           ],
           "autoGenerate": false
         },
@@ -344,7 +342,7 @@
       },
       {
         "tableName": "TweetEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`, `conversation_id`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tweet_id` TEXT NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `display_url` TEXT NOT NULL, `expanded_url` TEXT NOT NULL, `conversation_id` TEXT NOT NULL, PRIMARY KEY(`tweet_id`, `start`, `end`), FOREIGN KEY(`tweet_id`) REFERENCES `Tweet`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tweetId",
@@ -387,8 +385,7 @@
           "columnNames": [
             "tweet_id",
             "start",
-            "end",
-            "conversation_id"
+            "end"
           ],
           "autoGenerate": false
         },
@@ -468,12 +465,12 @@
     "views": [
       {
         "viewName": "RecentConversation",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    WHERE T.id NOT IN ( SELECT RT.id FROM ReferencedTweet RT )\n    GROUP BY T.conversation_id HAVING MIN(T.created_at)\n    ORDER BY T.device_created_at DESC"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n      T.conversation_id conversationId, T.text conversationPreviewText, \n      T.created_at conversationStartedAt, T.device_created_at conversationCreatedAt,\n      \n      U.name userFullName, U.username username,\n      U.profile_image_url userProfileImage,\n      \n      ( SELECT COUNT(*) FROM Tweet WHERE conversation_id = T.conversation_id ) numberOfTweetsInConversation\n    FROM Tweet T\n    INNER JOIN User U ON U.id = T.author_id\n    WHERE T.id NOT IN ( SELECT RT.id FROM ReferencedTweet RT )\n    GROUP BY T.conversation_id HAVING MIN(T.created_at)"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '80202f364e6c933d9bdfd75e87bafbeb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e9c4389f246c7a7c0ffc427374a0ca4')"
     ]
   }
 }

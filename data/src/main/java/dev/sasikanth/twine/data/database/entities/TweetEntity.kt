@@ -21,8 +21,7 @@ import androidx.room.Index
   primaryKeys = [
     "tweet_id",
     "start",
-    "end",
-    "conversation_id"
+    "end"
   ]
 )
 data class TweetEntity(

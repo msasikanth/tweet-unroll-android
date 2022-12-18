@@ -20,8 +20,7 @@ import androidx.room.Index
   ],
   primaryKeys = [
     "position",
-    "tweet_id",
-    "conversation_id"
+    "tweet_id"
   ]
 )
 data class Poll(

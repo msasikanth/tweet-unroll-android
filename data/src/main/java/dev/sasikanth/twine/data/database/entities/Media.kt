@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
+import androidx.room.PrimaryKey
 
 enum class MediaType {
   Photo,
@@ -25,13 +26,10 @@ enum class MediaType {
       childColumns = ["tweet_id"],
       onDelete = CASCADE
     )
-  ],
-  primaryKeys = [
-    "media_key",
-    "conversation_id"
   ]
 )
 data class Media(
+  @PrimaryKey
   @ColumnInfo(name = "media_key")
   val mediaKey: String,
   val type: MediaType,
