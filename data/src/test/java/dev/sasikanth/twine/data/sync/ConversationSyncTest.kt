@@ -3,9 +3,9 @@ package dev.sasikanth.twine.data.sync
 import androidx.paging.PagingSource.LoadParams.Refresh
 import androidx.paging.PagingSource.LoadResult.Page
 import com.google.common.truth.Truth.assertThat
-import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.common.testing.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.common.testing.data.repository.FakeTweetsRepository
+import dev.sasikanth.twine.common.testing.dispatchers.TestDispatchers
 import dev.sasikanth.twine.common.testing.util.TestUserClock
 import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.AttachmentsPayload
@@ -28,7 +28,6 @@ import dev.sasikanth.twine.data.database.entities.Tweet
 import dev.sasikanth.twine.data.database.entities.TweetWithContent
 import dev.sasikanth.twine.data.database.repository.TweetsRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -54,11 +53,7 @@ class ConversationSyncTest {
       twitterRemoteSource = twitterRemoteSource,
       tweetsRepository = tweetsRepository,
       userClock = testUserClock,
-      dispatchers = object : CoroutineDispatchers {
-        override val io = UnconfinedTestDispatcher()
-        override val main = UnconfinedTestDispatcher()
-        override val default = UnconfinedTestDispatcher()
-      }
+      dispatchers = TestDispatchers()
     )
 
     testUserClock.setDate(LocalDate.parse("2022-08-01"))
