@@ -1,5 +1,6 @@
 package dev.sasikanth.twine.data.database.repository
 
+import androidx.annotation.VisibleForTesting
 import androidx.paging.PagingSource
 import dev.sasikanth.twine.common.dispatchers.CoroutineDispatchers
 import dev.sasikanth.twine.data.database.dao.MediaDao
@@ -100,6 +101,13 @@ class TweetsRepositoryImpl @Inject constructor(
   override suspend fun deleteConversation(conversationId: String) {
     withContext(dispatchers.io) {
       tweetsDao.deleteConversation(conversationId)
+    }
+  }
+
+  @VisibleForTesting()
+  suspend fun usersInConversation(conversationId: String): List<User> {
+    return withContext(dispatchers.io) {
+      usersDao.usersInConversation(conversationId)
     }
   }
 }

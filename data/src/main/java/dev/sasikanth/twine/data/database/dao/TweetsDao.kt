@@ -44,8 +44,18 @@ interface TweetsDao {
   )
   suspend fun deleteReferencedTweetsInConversation(conversationId: String)
 
+  // TODO: Move this to [UsersDao]
+  @Query(
+    """
+      DELETE FROM User
+      WHERE conversation_id = :conversationId
+    """
+  )
+  suspend fun deleteUsersInConversation(conversationId: String)
+
   @Transaction
   suspend fun deleteConversation(conversationId: String) {
+    deleteUsersInConversation(conversationId)
     deleteReferencedTweetsInConversation(conversationId)
     deleteTweetsInConversation(conversationId)
   }

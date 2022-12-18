@@ -629,4 +629,77 @@ class TweetsRepositoryIntegrationTest {
 
     assertThat(recentConversations.data).isEmpty()
   }
+
+  @Test
+  fun deleting_a_conversation_should_delete_users_in_the_conversation() = runTest {
+    // given
+    val authorInConversation1 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182376"
+    )
+
+    val authorInConversation2 = User(
+      id = "621146656",
+      name = "Prakash",
+      username = "prakash",
+      profileImage = "https://twitter.com/image/prakash.png",
+      conversationId = "5826750211618182377"
+    )
+
+    val tweetInConversation1 = Tweet(
+      id = "5826750211618182376",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread 1",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweetInConversation2 = Tweet(
+      id = "5826750211618182377",
+      authorId = "621146656",
+      conversationId = "5826750211618182377",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread 2",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    tweetsRepository.saveUsers(listOf(authorInConversation1, authorInConversation2))
+    tweetsRepository.saveTweets(listOf(tweetInConversation1, tweetInConversation2))
+
+    // when
+    tweetsRepository.deleteConversation(conversationId = "5826750211618182376")
+
+    // then
+    val usersInConversation1 = tweetsRepository.usersInConversation(
+      conversationId = "5826750211618182376"
+    )
+    assertThat(usersInConversation1).isEmpty()
+
+    val usersInConversation2 = tweetsRepository.usersInConversation(
+      conversationId = "5826750211618182377"
+    )
+    assertThat(usersInConversation2).isEqualTo(
+      listOf(
+        authorInConversation2
+      )
+    )
+  }
 }
