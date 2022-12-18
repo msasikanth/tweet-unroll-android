@@ -44,10 +44,6 @@ android {
   }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-}
-
 kapt {
   correctErrorTypes = true
 }

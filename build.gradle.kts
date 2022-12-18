@@ -29,6 +29,8 @@ tasks.register("clean") {
 subprojects {
   tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
+      freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+
       if (project.findProperty("twine.enableComposeCompilerReports") == "true") {
         freeCompilerArgs += listOf(
           "-P",
