@@ -28,7 +28,11 @@ interface TweetsDao {
   @Query(
     """
       DELETE FROM Tweet
-      WHERE conversation_id = :conversationId
+      WHERE 
+        conversation_id = :conversationId AND
+        id NOT IN (
+          SELECT RT.id FROM ReferencedTweet RT
+        )
     """
   )
   fun deleteTweetsInConversation(conversationId: String)

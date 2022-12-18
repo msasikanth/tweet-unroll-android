@@ -702,4 +702,100 @@ class TweetsRepositoryIntegrationTest {
       )
     )
   }
+
+  @Test
+  fun deleting_a_conversation_should_not_delete_tweets_referenced_in_another_tweet() = runTest {
+    // given
+    val authorInConversation1 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182376"
+    )
+
+    val authorInConversation2 = User(
+      id = "621146655",
+      name = "Sasikanth",
+      username = "its_sasikanth",
+      profileImage = "https://twitter.com/image/its_sasikanth.png",
+      conversationId = "5826750211618182377"
+    )
+
+    val tweet1InThread1 = Tweet(
+      id = "5826750211618182376",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread 1",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweet2InThread1 = Tweet(
+      id = "5826750211618182386",
+      authorId = "621146655",
+      conversationId = "5826750211618182376",
+      inReplyToUserId = null,
+      text = "Tweet 1 in thread 1",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val tweetInThread2 = Tweet(
+      id = "5826750211618182377",
+      authorId = "621146655",
+      conversationId = "5826750211618182377",
+      inReplyToUserId = null,
+      text = "Tweet 2 in thread 1 quoting tweet 1 in thread 1",
+      createdAt = Instant.parse("2022-01-07T00:00:00Z"),
+      deviceCreatedAt = Instant.parse("2022-01-07T00:00:00Z"),
+      publicMetrics = PublicMetrics(
+        retweetCount = 0,
+        replyCount = 4,
+        likeCount = 15,
+        quoteCount = 2
+      )
+    )
+
+    val referencedTweet = ReferencedTweet(
+      id = "5826750211618182376",
+      type = ReferenceType.Quoted,
+      tweetId = "5826750211618182377",
+      conversationId = "5826750211618182377"
+    )
+
+    tweetsRepository.saveUsers(listOf(authorInConversation1, authorInConversation2))
+    tweetsRepository.saveTweets(listOf(tweet1InThread1, tweet2InThread1, tweetInThread2))
+    tweetsRepository.saveReferencedTweets(listOf(referencedTweet))
+
+    // when
+    tweetsRepository.deleteConversation(conversationId = "5826750211618182376")
+
+    // then
+    val tweetsInConversation1 = tweetsRepository.tweetsInConversation(
+      conversationId = "5826750211618182376"
+    ).first()
+    assertThat(tweetsInConversation1).isEqualTo(listOf(
+      TweetWithContent(
+        tweet = tweet1InThread1,
+        entities = emptyList(),
+        referencedTweets = emptyList(),
+        media = emptyList(),
+        polls = emptyList()
+      ),
+    ))
+  }
 }
