@@ -7,7 +7,6 @@ import dev.sasikanth.twine.common.testing.api.FakeTwitterRemoteSource
 import dev.sasikanth.twine.common.testing.data.repository.FakeTweetsRepository
 import dev.sasikanth.twine.common.testing.dispatchers.TestDispatchers
 import dev.sasikanth.twine.common.testing.util.TestUserClock
-import dev.sasikanth.twine.data.api.TwitterRemoteSource
 import dev.sasikanth.twine.data.api.models.AttachmentsPayload
 import dev.sasikanth.twine.data.api.models.ConversationsLookupPayload
 import dev.sasikanth.twine.data.api.models.IncludesPayload
@@ -36,14 +35,11 @@ import java.time.LocalDate
 
 class ConversationSyncTest {
 
-  private lateinit var twitterRemoteSource: TwitterRemoteSource
+  private lateinit var twitterRemoteSource: FakeTwitterRemoteSource
   private lateinit var tweetsRepository: TweetsRepository
   private lateinit var conversationSync: ConversationSync
 
   private val testUserClock = TestUserClock()
-
-  private val fakeTwitterRemoteSource
-    get() = (twitterRemoteSource as FakeTwitterRemoteSource)
 
   @Before
   fun setup() {
@@ -166,8 +162,8 @@ class ConversationSyncTest {
       meta = null
     )
 
-    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
-    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
+    twitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    twitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
 
     // when
     val result = conversationSync.trySync(tweetId = "1550874190793674753")
@@ -345,8 +341,8 @@ class ConversationSyncTest {
       meta = null
     )
 
-    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
-    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
+    twitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    twitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
 
     // when
     val result = conversationSync.trySync(tweetId = "1550874190793674757")
@@ -414,7 +410,7 @@ class ConversationSyncTest {
       )
     )
 
-    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    twitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
 
     // when
     val result = conversationSync.trySync(tweetId = "7735261120010996230")
@@ -511,8 +507,8 @@ class ConversationSyncTest {
       meta = null
     )
 
-    fakeTwitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
-    fakeTwitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
+    twitterRemoteSource.addTweetLookupPayload(tweetLookupPayload)
+    twitterRemoteSource.addConversationLookupPayload(conversationLookupPayload)
 
     // when
     val result = conversationSync.trySync(tweetId = "1550874190793674753")
