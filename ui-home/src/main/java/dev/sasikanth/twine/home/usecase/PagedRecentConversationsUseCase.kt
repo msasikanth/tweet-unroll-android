@@ -18,7 +18,7 @@ class PagedRecentConversationsUseCase @Inject constructor() : PagedSourceUseCase
   }
 
   override operator fun invoke(
-    pagingSourceFactory: () -> PagingSource<Int, RecentConversation>,
+    pagingSourceFactory: () -> PagingSource<Int, RecentConversation>
   ): Flow<PagingData<RecentConversation>> {
     return Pager(
       config = PAGING_CONFIG,

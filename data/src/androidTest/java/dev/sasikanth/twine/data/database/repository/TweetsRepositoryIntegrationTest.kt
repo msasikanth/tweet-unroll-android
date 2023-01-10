@@ -786,14 +786,16 @@ class TweetsRepositoryIntegrationTest {
     val tweetsInConversation1 = tweetsRepository.tweetsInConversation(
       conversationId = "5826750211618182376"
     ).first()
-    assertThat(tweetsInConversation1).isEqualTo(listOf(
-      TweetWithContent(
-        tweet = tweet1InThread1,
-        entities = emptyList(),
-        referencedTweets = emptyList(),
-        media = emptyList(),
-        polls = emptyList()
-      ),
-    ))
+    assertThat(tweetsInConversation1).isEqualTo(
+      listOf(
+        TweetWithContent(
+          tweet = tweet1InThread1,
+          entities = emptyList(),
+          referencedTweets = emptyList(),
+          media = emptyList(),
+          polls = emptyList()
+        )
+      )
+    )
   }
 }
