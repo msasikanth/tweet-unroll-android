@@ -10,7 +10,7 @@ import dev.sasikanth.twine.common.utils.TweetLinkParser
 import dev.sasikanth.twine.data.sync.ConversationSyncQueue
 import dev.sasikanth.twine.data.sync.ConversationSyncQueueItem
 import dev.sasikanth.twine.data.sync.Status
-import dev.sasikanth.twine.home.usecase.FakePagedSourceUseCase
+import dev.sasikanth.twine.home.usecase.PagedRecentConversationsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -28,7 +28,6 @@ class HomeViewModelTest {
   private lateinit var viewModel: HomeViewModel
   private lateinit var fakeClipboard: FakeClipboard
   private lateinit var conversationSyncQueue: ConversationSyncQueue
-  private lateinit var fakePagedSourceUseCase: FakePagedSourceUseCase
   private lateinit var tweetsRepository: FakeTweetsRepository
 
   @get:Rule
@@ -43,7 +42,6 @@ class HomeViewModelTest {
         Pair(id, syncQueueItem)
       }
     )
-    fakePagedSourceUseCase = FakePagedSourceUseCase()
     tweetsRepository = FakeTweetsRepository()
 
     viewModel = HomeViewModel(
@@ -51,7 +49,7 @@ class HomeViewModelTest {
       tweetLinkParser = tweetLinkParser,
       conversationSyncQueue = conversationSyncQueue,
       tweetsRepository = tweetsRepository,
-      pagedRecentConversationsUseCase = fakePagedSourceUseCase
+      pagedRecentConversationsUseCase = PagedRecentConversationsUseCase()
     )
   }
 
