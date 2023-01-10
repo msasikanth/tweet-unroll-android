@@ -18,6 +18,8 @@ android {
 
     testInstrumentationRunner = "dev.sasikanth.twine.common.testing.di.TwineTestRunner"
     consumerProguardFiles("consumer-rules.pro")
+
+    manifestPlaceholders["appAuthRedirectScheme"] = "empty"
   }
 
   buildTypes {
@@ -75,6 +77,7 @@ dependencies {
   testImplementation(projects.commonTesting)
   testImplementation(libs.paging.common)
 
+  androidTestImplementation(projects.commonTesting)
   androidTestImplementation(libs.androidx.test.junit)
   androidTestImplementation(libs.androidx.test.espresso)
   androidTestImplementation(libs.compose.ui.test)
